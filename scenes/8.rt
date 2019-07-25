@@ -1,0 +1,75 @@
+camera:0,0,-35
+
+rotation:0,0,0
+
+#light
+-intense:10
+-position:4,0,-40
+
+#sphere
+-color:255, 248, 105
+-specular:0
+-radius:4
+-center:0,0,0
+
+#sphere
+-color:196, 255, 154
+-specular:0
+-radius:2
+-center:-4,0,-2
+
+#sphere
+-color:207, 192, 255
+-specular:0
+-radius:4
+-center:6,0,0
+
+#sphere
+-color:169, 237, 255
+-specular:0
+-radius:2
+-center:10,0,-2
+
+#plane
+-color:199, 199, 199
+-specular:0
+-normal:0,0,1
+-center:0,0,20
+
+#plane
+-color:199, 199, 199
+-specular:0
+-normal:0,1,0
+-center:0,15,0
+
+#plane
+-color:199, 199, 199
+-specular:0
+-normal:0,1,0
+-center:0,-15,0
+
+#plane
+-color:199, 199, 199
+-specular:0
+-normal:1,0,0
+-center:-20,0,0
+
+#plane
+-color:199, 199, 199
+-specular:0
+-normal:1,0,0
+-center:20,0,0
+
+#cylinder
+-color:255, 226, 172
+-specular:0
+-radius:1
+-normal:0,1,0
+-center:-8,0,-10
+
+#cylinder
+-color:255, 172, 251
+-specular:0
+-radius:1
+-normal:0,1,0
+-center:4,0,10

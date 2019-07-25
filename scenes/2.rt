@@ -1,0 +1,14 @@
+camera:10,0,-25
+
+rotation:0,-30,0
+
+#light
+-intense:8
+-position:25,0,-30
+
+#cylinder
+-color:4, 153, 0
+-specular:0
+-radius:3
+-normal:0,1,0
+-center:0,0,-6
