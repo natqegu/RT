@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 void			pixel_put_img(t_all *all, int x, int y, int color)
 {
@@ -29,7 +29,6 @@ void	threads1(t_all *all)
 	t_all		new_all[CORES];
 	pthread_t	thread[CORES];
 
-	
 	i = -1;
 	while (++i < CORES)
 	{
@@ -59,6 +58,11 @@ void	threads1(t_all *all)
 		new_all[i].size_line = all->size_line;
 		new_all[i].bpp = all->bpp;
 		new_all[i].endian = all->endian;
+
+		new_all[i].img_2 = all->img_2;
+		new_all[i].color_2 = all->color_2;
+		new_all[i].cam_2 = all->cam_2;
+
 		new_all[i].color = all->color;
 
 		new_all[i].x = all->x;
@@ -79,18 +83,17 @@ void	threads1(t_all *all)
 	while (++i < CORES)
 		pthread_join(thread[i], NULL);
 	mlx_put_image_to_window(MLX_PTR, WIN_PTR, IMG_PTR, 0, 0);
+
+
 }
 
 void			*do_it(void *data_ptr)
 {
-	// double		x;
 	double		y;
 	t_vector	d;
 	t_all		*all;
 
 	all = (t_all *)data_ptr;
-	// x = -WIN_X / 2 - 1;
-	// while (x++ < WIN_X / 2)
 	while (++all->start < all->end)
 	{
 		y = -WIN_Y / 2;
@@ -101,12 +104,11 @@ void			*do_it(void *data_ptr)
 			all->depth_transp = 0;
 			d = rotation(all, canvas_to_viewport(all, all->start, y));
 			all->color = trace_ray(all, all->obj, all->cam, d);
-			// pixel_put_img(all, x + WIN_X / 2, WIN_Y / 2 - y, all->color);
 			pixel_put_img(all, all->start, WIN_Y / 2 - y, all->color);
 		}
 	}
 	pthread_exit(0);
-	// mlx_put_image_to_window(MLX_PTR, WIN_PTR, IMG_PTR, 0, 0);
+	// mlx_put_image_to_window(MLX_PTR, WIN_PTR, all->img_ptr_2, 0, 0);
 }
 
 t_vector		canvas_to_viewport(t_all *all, double x, double y)
@@ -139,6 +141,7 @@ int				trace_ray(t_all *all, t_list *list, t_vector o, t_vector d)
 	color = init_vector(0,0,0,0);
 	if (closer.obj != NULL)
 	{
+		// local_color = int_to_rgb(fig_color(closer.obj));
 		local_color = int_to_rgb(reflected_color(all, closer, &vec));
 		if ((fig_reflect(closer.obj)) > 0)
 			color = plus(color, reflect(all, &vec, closer, local_color));

@@ -34,15 +34,13 @@ SRC_C = calc_vector.c\
 		do.c\
 		event.c\
 		fig_data.c\
-		intersect.c\
+		intersect_basic.c\
 		light.c\
 		main.c\
 		normals.c\
-		read.c\
+		parsing.c\
 		rotation.c\
-		save_fig.c\
-		save.c\
-		save2.c\
+		useful_staff.c
 
 SRC_O = $(addprefix objects/,$(SRC_C:.c=.o))
 

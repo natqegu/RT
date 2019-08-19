@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 double		fig_reflect(t_list *list)
 {
@@ -38,16 +38,16 @@ double		fig_transp(t_list *list)
 	return (0);
 }
 
-double		fig_shadow(t_list *list)
+double		fig_texture(t_list *list)
 {
 	if (list->content_size == CONE)
-		return (((t_cone *)(list->content))->shadow);
+		return (((t_cone *)(list->content))->tex);
 	else if (list->content_size == CYL)
-		return (((t_cylinder *)(list->content))->shadow);
+		return (((t_cylinder *)(list->content))->tex);
 	else if (list->content_size == SPHERE)
-		return (((t_sphere *)(list->content))->shadow);
+		return (((t_sphere *)(list->content))->tex);
 	else if (list->content_size == PLANE)
-		return (((t_plane *)(list->content))->shadow);
+		return (((t_plane *)(list->content))->tex);
 	return (0);
 }
 

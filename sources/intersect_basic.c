@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_vector		intersect_ray(t_list *list, t_vector o, t_vector d)
 {

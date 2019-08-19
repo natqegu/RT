@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
-
-int			event_2(int key, t_all *all)
-{
-	if (key >= 0 && key <= 272)
-	{
-		printf("press any key to continue\n");
-		// mlx_clear_window(MLX_PTR_2, WIN_PTR_2);
-		mlx_destroy_window(MLX_PTR_2, WIN_PTR_2);
-	}
-	return (0);
-}
+// int			event_2(int key, t_all *all)
+// {
+// 	if (key >= 0 && key <= 272)
+// 	{
+// 		printf("press any key to continue\n");
+// 		// mlx_clear_window(MLX_PTR_2, WIN_PTR_2);
+// 		mlx_destroy_window(MLX_PTR_2, WIN_PTR_2);
+// 	}
+// 	return (0);
+// }
 
 int			event(int key, t_all *all)
 {
@@ -67,7 +66,6 @@ int			event(int key, t_all *all)
 	}
 
 	threads1(all);
-	// threads1(all);
 	return (0);
 }
 

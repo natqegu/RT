@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 void			rotate_x(double angle, double *y, double *z)
 {
@@ -79,6 +79,8 @@ int				num(char *str)
 		if (str[i] == '\0')
 			return (0);
 		while (str[i] >= '0' && str[i] <= '9' && str[i] != '\0')
+			i++;
+		if (str[i] == ']' || str[i] == ',')
 			i++;
 		if (str[i] == '\0')
 			return (1);

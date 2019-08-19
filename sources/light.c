@@ -10,33 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
-
-void		shadow_type(t_vector *color, t_vec *vec, t_list *light, t_all *all, t_clos clos)
-{
-	if (fig_shadow(clos.obj) == 0)
-		soft_shadow(color, vec, light, all, clos);
-	// else
-	// 	hard_shadow();
-
-}
-
-void			soft_shadow(t_vector *color, t_vec *vec, t_list *light, t_all *all, t_clos clos)
-{
-	double		shadow_intense;
-
-	shadow_intense = 0.002;
-	vec->r = norm(minus(vec->p, ((t_light *)(light->content))->pos));
-	vec->p = ((t_light *)(light->content))->pos;
-	if (shadow(all->obj, clos.obj, vec->p, vec->l) != 0)
-		*color = times((1 - shadow_intense), *color);
-
-}
-
-// void			hard_shadow(t_vector *color, t_vec *vec, t_list light, t_all *all, t_list *obj)
-// {
-
-// }
+#include "../includes/rt.h"
 
 int				shadow(t_list *list, t_list *obj, t_vector o, t_vector d)
 {
@@ -66,30 +40,29 @@ int				shadow(t_list *list, t_list *obj, t_vector o, t_vector d)
 	return (1);
 }
 
-void		ambient_light(t_all *all)
+void		ambient_light(t_all *all, t_list **l)
 {
-	t_list		*tmp;
+	// t_list		*tmp;
 	t_light		light;
+
 
 	all->is_light = 0;
 	light.intense = 0.2;
 	light.pos = init_vector(0,5,-50,0);
-	tmp = ft_lstnew(&(light), sizeof(t_light));
-	tmp->content_size = LIGHT;
-	ft_lstadd(&(all->light), tmp);
+	*l = ft_lstnew(&(light), sizeof(t_light));
+	(*l)->content_size = LIGHT;
+	ft_lstadd(&(all->light), *l);
 }
 
 int				reflected_color(t_all *all, t_clos clos, t_vec *vec)
 {
 	t_list		*light;
 	t_vector	k;
-	// t_vector	color;
 	int			s;
 	double		spec1;
-	// t_list		*tmp;
 
 	if (all->light == NULL)
-		ambient_light(all);
+		ambient_light(all, &light);
 	light = all->light;
 	while (light)
 	{
@@ -109,12 +82,10 @@ int				reflected_color(t_all *all, t_clos clos, t_vec *vec)
 			if ((spec1) > 0)
 				k.y += spec(spec1,
 					((t_light *)(light->content))->intense, vec, fig_reflect(clos.obj));
-			// shadow_type(&color, vec, light, all, clos);
 		}
 		light = light->next;
 	}
 	return (calc_color(k.x, k.y, int_to_rgb(fig_color(clos.obj))));
-	// return (calc_color(k.x, k.y, color));
 }
 
 t_vector		reflect(t_all *all, t_vec *vec, t_clos closer, t_vector local_color)
@@ -224,6 +195,7 @@ double			spec(double spec, double intense, t_vec *vec, double reflect)
 
 	j = 0;
 	r = minus(times(2 * dot(vec->n, vec->l), vec->n), vec->l);
+	// r = norm(r);
 	rv = dot(r, vec->v);
 	if (rv > 0)
 	{
@@ -243,6 +215,9 @@ double			spec(double spec, double intense, t_vec *vec, double reflect)
 
 int				calc_color(double i, double j, t_vector color)
 {
+	// t_vector	color;
+
+	// color = int_to_rgb(fig_color(clos.obj));
 	color.x += j * 255;
 	color.y += j * 255;
 	color.z += j * 255;
@@ -287,3 +262,27 @@ t_vector		new_color(t_vector local, t_vector ref, double param)
 		color.z = 0;
 	return (color);
 }
+
+// void		shadow_type(t_vector *color, t_vec *vec, t_list *light, t_all *all, t_clos clos)
+// {
+// 	if (fig_shadow(clos.obj) == 0)
+// 		soft_shadow(color, vec, light, all, clos);
+	// else
+	// 	hard_shadow();
+// }
+
+// void			soft_shadow(t_vector *color, t_vec *vec, t_list *light, t_all *all, t_clos clos)
+// {
+// 	double		shadow_intense;
+
+// 	shadow_intense = 0.002;
+// 	vec->r = norm(minus(vec->p, ((t_light *)(light->content))->pos));
+// 	vec->p = ((t_light *)(light->content))->pos;
+// 	if (shadow(all->obj, clos.obj, vec->p, vec->l) != 0)
+// 		*color = times((1 - shadow_intense), *color);
+// }
+
+// void			hard_shadow(t_vector *color, t_vec *vec, t_list light, t_all *all, t_list *obj)
+// {
+
+// }

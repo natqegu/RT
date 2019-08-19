@@ -1,0 +1,47 @@
+{
+  "SHADOW": 1,
+  "CAMERA":[0,5,-50],
+  "ROTATION":[0,0,0],
+
+  "LIGHT":
+  [
+    {
+      "position": [13,20,-50],
+      "intense": 8
+    }
+  ],
+
+  "OBJECTS":
+  [
+    {
+      "type": "PLANE",
+      "color": [255,255,255],
+      "center": [0,0,0],
+      "normal": [0,1,0],
+      "specular": 0,
+      "reflection": 0,
+      "transparency": 0,
+      "texture": 0
+    },
+    {
+      "type": "PLANE",
+      "color": [249,183,255],
+      "center": [0,0,30],
+      "normal": [0,0,1],
+      "specular": 0,
+      "reflection": 0,
+      "transparency": 0,
+      "texture": 0
+    },
+    {
+      "type": "SPHERE",
+      "color": [200,0,0],
+      "center": [20,5,-8],
+      "radius": 5,
+      "specular": 0,
+      "reflection": 0,
+      "transparency": 0,
+      "texture": 0
+    }
+  ]
+}
