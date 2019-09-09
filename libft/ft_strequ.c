@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strequ.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 19:58:27 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/03 13:41:36 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/10/30 16:05:16 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/20 20:47:05 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,20 @@
 
 int		ft_strequ(char const *s1, char const *s2)
 {
-	int		i;
+	int i;
 
-	if (s1 && s2)
+	i = 0;
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	while (*(s1 + i) != '\0' && *(s2 + i) != '\0')
 	{
-		i = 0;
-		while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-			i++;
-		if (s1[i] == '\0' && s2[i] == '\0')
-			return (1);
-		else
+		if (*(s1 + i) != *(s2 + i))
 			return (0);
+		i++;
 	}
-	return (0);
+	if (*(s1 + i) != '\0' && *(s2 + i) == '\0')
+		return (0);
+	else if (*(s1 + i) == '\0' && *(s2 + i) != '\0')
+		return (0);
+	return (1);
 }

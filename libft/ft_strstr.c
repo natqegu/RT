@@ -3,45 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/23 13:50:33 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/19 17:50:04 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/11/09 17:03:20 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/19 23:07:52 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <string.h>
 #include "libft.h"
 
-static char		*ft_find(const char *big, const char *little)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
-	int			i;
-	int			j;
-	int			a;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;
-	while (big[i] != '\0')
+	if (*needle == '\0')
+		return ((char *)(haystack + i));
+	while (*(haystack + i) != '\0')
 	{
-		j = 0;
-		a = i;
-		while (big[i] == little[j] && little[j] != '\0')
+		if (*needle == *(haystack + i))
 		{
-			i++;
-			j++;
+			j = 0;
+			while (*(haystack + i + j) == *(needle + j))
+			{
+				if (*(needle + j + 1) == '\0')
+					return ((char *)(haystack + i));
+				j++;
+			}
 		}
-		if (little[j] == '\0')
-			return ((char *)big + a);
-		else
-			i = a;
 		i++;
 	}
-	return (0);
-}
-
-char			*ft_strstr(const char *big, const char *little)
-{
-	if (little[0] == '\0')
-		return ((char *)big);
-	else
-		return (ft_find(big, little));
+	return (NULL);
 }

@@ -1,47 +1,57 @@
 {
-  "SHADOW": 1,
-  "CAMERA":[0,5,-50],
-  "ROTATION":[0,0,0],
-
-  "LIGHT":
-  [
-    {
-      "position": [13,20,-50],
-      "intense": 8
-    }
-  ],
-
-  "OBJECTS":
-  [
-    {
-      "type": "PLANE",
-      "color": [255,255,255],
-      "center": [0,0,0],
-      "normal": [0,1,0],
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
-    },
-    {
-      "type": "PLANE",
-      "color": [249,183,255],
-      "center": [0,0,30],
-      "normal": [0,0,1],
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
-    },
-    {
-      "type": "SPHERE",
-      "color": [200,0,0],
-      "center": [20,5,-8],
-      "radius": 5,
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
-    }
-  ]
-}
+  "name": "SPHERE",
+  "texture": "./tiles/earth.xpm",
+  "color": [255,0,0],
+  "center": [0,-5,600],
+  "angle": [0,0,0],
+  "radius": 100,
+  "reflection": 20
+},
+{
+  "name": "PLANE",
+  "texture": "./tiles/chess.xpm",
+  "color": [0,255,0],
+  "center": [2,-200,0],
+  "angle": [0,0,0],
+  "radius": 10,
+  "normal": [0,1,0],
+  "reflection": 20
+},
+{
+  "name": "CONE",
+  "texture": "./tiles/blank.xpm",
+  "color": [0,0,255],
+  "center": [0,0,600],
+  "angle": [0,0,0],
+  "radius": 1,
+  "reflection": 20
+},
+{
+  "name": "CYLINDER",
+  "texture": "./tiles/blank.xpm",
+  "color": [0,255,255],
+  "center": [0,0,600],
+  "angle": [0,0,0],
+  "radius": 70,
+  "reflection": 20
+},
+{
+  "name": "TRI",
+  "texture": "./tiles/blank.xpm",
+  "color": [0,155,155],
+  "center": [0,0,600],
+  "angle": [0,0,0],
+  "radius": 70,
+  "point1": [0,0,0],
+  "point2": [200,200,200],
+  "point3": [700,300,500],
+  "reflection": 20
+},
+{
+  "name": "COMPLEX",
+  "color": [155,155,155],
+  "center": [0,0,700],
+  "angle": [0,0,-1],
+  "reflection": 20,
+  "fdf-map": "./maps/42.fdf"
+},

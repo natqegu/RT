@@ -3,28 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/23 18:10:44 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/23 14:31:42 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/11/08 18:27:25 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/20 22:04:49 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned char	*s;
-	unsigned char	*d;
+	size_t i;
 
-	s = (unsigned char *)src;
-	d = (unsigned char *)dst;
-	if (s > d)
-		ft_memcpy(d, s, len);
-	else
+	i = 0;
+	if (dest > src)
 	{
-		while (len--)
-			d[len] = s[len];
+		while (i < n)
+		{
+			*((unsigned char *)dest + n - 1 - i) =
+			*((unsigned char *)src + n - 1 - i);
+			i++;
+		}
+		return (dest);
 	}
-	return (d);
+	else if (src > dest)
+	{
+		while (i < n)
+		{
+			*((unsigned char *)dest + i) = *((unsigned char *)src + i);
+			i++;
+		}
+		return (dest);
+	}
+	return (dest);
 }

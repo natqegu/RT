@@ -1,39 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/29 17:53:30 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/11 13:34:48 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/11/02 22:16:33 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/20 20:48:49 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
 #include "libft.h"
 
-void	ft_putnbr_fd(int n, int fd)
+static void	putdec(int n, int fd)
 {
-	if (fd > 0)
+	char a;
+
+	a = n + '0';
+	write(fd, &a, 1);
+}
+
+void		ft_putnbr_fd(int n, int fd)
+{
+	if (n == -2147483648)
 	{
-		if (n == -2147483648)
-		{
-			n = n % 1000000000;
-			n = -n;
-			ft_putchar_fd('-', fd);
-			ft_putchar_fd('2', fd);
-		}
-		if (n < 0 && n != -2147483648)
-		{
-			n = -n;
-			ft_putchar_fd('-', fd);
-		}
-		if (n < 10)
-			ft_putchar_fd(n + '0', fd);
-		else
-		{
-			ft_putnbr_fd(n / 10, fd);
-			ft_putchar_fd(n % 10 + '0', fd);
-		}
+		write(fd, "-2", 2);
+		ft_putnbr_fd(147483648, fd);
 	}
+	else if (n < 0)
+	{
+		write(fd, "-", 1);
+		ft_putnbr_fd(-n, fd);
+	}
+	if (n > 9)
+	{
+		ft_putnbr_fd(n / 10, fd);
+	}
+	if (n >= 0)
+		putdec(n % 10, fd);
 }

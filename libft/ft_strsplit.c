@@ -3,80 +3,101 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/29 13:23:46 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/11 16:58:36 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/11/01 13:55:05 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/11 20:49:34 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 #include "libft.h"
 
-static int	ft_words(char *s, char c)
+static int		ft_words(char const *s, char c, int n)
 {
-	int		w;
-	int		i;
-
-	w = 0;
-	i = 0;
-	while (s[i] != '\0')
-	{
-		while (s[i] == c)
-			i++;
-		while (s[i] != c && s[i] != '\0')
-			i++;
-		if ((s[i] == c && s[i] != '\0') || (s[i] == '\0' && s[i - 1] != c))
-			w++;
-		if (s[i] == '\0')
-			return (w);
-		i++;
-	}
-	return (w);
-}
-
-static int	ft_letters(char *s, char c)
-{
-	int		l;
-	int		i;
+	int	f;
+	int	i;
 
 	i = 0;
-	l = 0;
-	while (s[i] == c && s[i] != '\0')
-		i++;
-	if (s[i] != '\0')
+	f = 0;
+	while (*(s + i) != '\0')
 	{
-		while (s[i] != c && s[i] != '\0')
+		if (*(s + i) == c)
+			f = 0;
+		else
+			f = 1;
+		if (f == 1)
 		{
-			l++;
-			i++;
+			n++;
+			while (*(s + i) != '\0' && *(s + i) != c)
+				i++;
+		}
+		else
+		{
+			while (*(s + i) == c)
+				i++;
 		}
 	}
-	return (l);
+	return (n);
 }
 
-char		**ft_strsplit(char const *s, char c)
+static int		ft_full(char const *s, char **r, char c)
 {
-	char	**new;
+	int	i;
+	int	k;
+	int	j;
+
+	k = 0;
+	i = 0;
+	j = -1;
+	while (*(s + i) != '\0')
+	{
+		if (*(s + i) == c)
+			i++;
+		else
+		{
+			j++;
+			k = 0;
+			while (*(s + i) != c && *(s + i) != '\0')
+			{
+				*(*(r + j) + k) = *(s + i);
+				i++;
+				k++;
+			}
+			*(*(r + j) + k) = '\0';
+		}
+	}
+	return (j);
+}
+
+char			**ft_strsplit(char const *s, char c)
+{
+	int		i;
+	size_t	l;
+	int		n;
 	int		j;
-	int		k;
+	char	**r;
 
 	j = 0;
-	k = 0;
-	if (!s || c == 0)
-		return (0);
-	new = (char **)malloc(sizeof(char *) * (ft_words((char *)s, c) + 1));
-	if (new == NULL)
+	n = 0;
+	i = 0;
+	if (!s)
 		return (NULL);
-	while (s[k] != '\0')
+	l = ft_strlen(s);
+	n = ft_words(s, c, n);
+	r = (char**)malloc((n + 1) * sizeof(char *));
+	if (r == 0)
+		return (0);
+	while (i <= n - 1)
 	{
-		if (ft_letters(((char *)s + k), c) == 0)
-			break ;
-		while (s[k] == c && s[k] != '\0')
-			k++;
-		new[j] = ft_strsub((s + k), 0, ft_letters((char *)s + k, c));
-		k = k + ft_strlen(new[j]);
-		j++;
+		if (!(*(r + i) = (char *)malloc((1 + l) * sizeof(char))))
+			return (NULL);
+		i++;
 	}
-	new[j] = NULL;
-	return (new);
+	j = ft_full(s, r, c);
+	r[j + 1] = NULL;
+	return (r);
 }

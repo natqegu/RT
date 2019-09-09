@@ -3,37 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/04/12 13:28:58 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/12 17:15:26 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/11/03 16:51:02 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/03 17:28:22 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdlib.h>
 
-t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
+t_list		*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*new;
-	t_list	*func;
+	t_list		*new;
+	t_list		*list;
 
-	if (!lst || !f)
+	if (!lst)
 		return (NULL);
-	func = (t_list *)malloc(sizeof(t_list));
-	if (!func)
-		return (NULL);
-	new = f(lst);
-	func = new;
+	list = f(lst);
+	new = list;
 	while (lst->next)
 	{
 		lst = lst->next;
-		new->next = f(lst);
-		if ((new->next = f(lst)) == NULL)
+		if (!(list->next = f(lst)))
 		{
-			free(new->next);
+			free(list->next);
 			return (NULL);
 		}
-		new = new->next;
+		list = list->next;
 	}
-	return (func);
+	return (new);
 }

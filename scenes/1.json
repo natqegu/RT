@@ -1,69 +1,24 @@
 {
-  "SHADOW": 1,
-  "CAMERA":[-7,5,-50],
   "ROTATION":[0,0,0],
+  "CAMERA":[0,0,0],
+  "AMBIENT":70,
 
   "LIGHT":
   [
     {
-      "position": [13,20,-50],
-      "intense": 8
+      "position":[13,20,-50]
     }
   ],
 
   "OBJECTS":
   [
     {
-      "type": "PLANE",
-      "color": [255,255,255],
-      "center": [0,-5,0],
-      "normal": [0,1,0],
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
-    },
-    {
-      "type": "PLANE",
-      "color": [249,183,255],
-      "center": [0,0,30],
-      "normal": [0,0,1],
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
-    },
-    {
-      "type": "SPHERE",
-      "color": [200,0,0],
-      "center": [0,5,-8],
-      "radius": 5,
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
-    },
-    {
-      "type": "CYLINDER",
-      "color": [119, 243, 0],
-      "center": [-5,0,0],
-      "radius": 3,
-      "normal": [1,1,0],
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
-    },
-    {
-      "type": "CONE",
-      "color": [239, 243, 0],
-      "center": [5,0,0],
-      "normal": [-1,2,0],
-      "angle": 30,
-      "specular": 0,
-      "reflection": 0,
-      "transparency": 0,
-      "texture": 0
+      "name": "COMPLEX",
+      "color": [255,0,0],
+      "center": [0,0,350],
+      "angle": [0,0,-1],
+      "reflection": 70,
+      "fdf-map": "./maps/42.fdf"
     }
   ]
 }

@@ -1,350 +1,237 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rt.h                                               :+:      :+:    :+:   */
+/*   rtv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/23 16:49:55 by vkarpova          #+#    #+#             */
-/*   Updated: 2019/04/23 16:49:56 by vkarpova         ###   ########.fr       */
+/*   Created: 2019/07/03 12:37:33 by tpokalch          #+#    #+#             */
+/*   Updated: 2019/09/09 16:48:05 by nnovikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_RT_H
-# define FT_RT_H
+#include <math.h>
+#include <mlx.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "../libft/libft.h"
+#include <pthread.h>
+#include <fcntl.h>
 
-# define WIN_X 400
-# define WIN_Y 400
-# define MLX_PTR all->mlx_ptr
-# define WIN_PTR all->win_ptr
-# define IMG_PTR all->img_ptr
+#define WIDTH HEIGHT
+#define HEIGHT 400
+#define CORES 8
 
-# define MLX_PTR_2 all->mlx_ptr_2
-# define WIN_PTR_2 all->win_ptr_2
-# define IMG_PTR_2 all->img_ptr_2
-
-# define PLANE 100
-# define SPHERE 101
-# define CYL 102
-# define CONE 103
-# define LIGHT 104
-# define FON 0
-# define INF 600000
-# define CORES 36
+typedef	struct		s_vector t_vector;
 
 
-
-# define KOEF 1e-9
-
-# include <unistd.h>
-# include <stdlib.h>
-# include <fcntl.h>
-# include <pthread.h>
-# include "math.h"
-# include "mlx.h"
-# include "../libft/libft.h"
-
-
-
-
-
-
-// typedef struct	s_cal
-// {
-// 	double		tmp;
-// 	double		dirinv[2][2];
-// 	double		point[2];
-// 	double		det;
-// 	double		p;
-// 	double		q;
-// }			t_cal;
-
-
-
-
-
-
-
-
-
-
-
-
-
-typedef struct	s_clos
+struct 				s_vector
 {
-	t_list		*obj;
-	double		clost;
-	double		y;
-}				t_clos;
+	double 			x;
+	double 			y;
+	double 			z;
+//	int	len;
+};
 
-typedef struct	s_vector
+
+t_vector			shot;
+int					mousex;
+
+
+
+typedef struct		s_global t_global;
+typedef	struct		s_object t_object;
+typedef	struct		s_objecthit t_objecthit;
+typedef struct		s_dstpst	t_dstpst;
+
+typedef	struct		s_colbri
 {
-	double		x;
-	double		y;
-	double		z;
-	double		res;
-	double		t1;
-	double		t2;
-	double		t;
-}				t_vector;
+	t_vector 		col;
+	int				bri;
+}					t_colbri;
 
-typedef struct	s_light
+int					brg(t_vector rgb);
+int					inside_cone(t_vector p, t_object o, t_global *g);
+double				dot(t_vector a, t_vector b);
+t_vector			diff(t_vector a, t_vector b);
+t_vector			sum(t_vector a, t_vector b);
+t_vector			norm(t_vector a);
+int					color(int b, t_vector c);
+t_vector			scale(double a, t_vector b);
+void				ginit(t_global *g);
+void				init_plane(t_vector *ctr, int i, t_global *g);
+void				init_cylinder(t_vector *ctr, int i, t_global *g);
+void				init_sphere(t_vector *ctr, int i, t_global *g);
+void				init_spheror(t_vector *ctr, int i, t_global *g);
+void				init_cone(t_vector *ctr, int i, t_global *g);
+void				init_tri(t_vector *ctr, int i, t_global *g);
+void				init_complex(t_vector *ctr, int i, t_global *g);
+t_object			*create_tris(t_vector **pts, t_object obj, t_global *g);
+t_object			*init_frame(t_object obj, t_global *g);
+
+int					check_arg(char **argv, int argc, t_global *g, t_vector *ctr);
+int					arg_valid(char **argv);
+int					fill_objects(t_vector *ctr, char **argv, t_global *g);
+void				fill_obj(char **argv, int n, t_global *g);
+void				vectorify(void *obj_coord, char **argv);
+int					is_coords(char *argv);
+int					putstr(char *s, int ret);
+void				free_arr(char **arr);
+int					init_objects(t_vector *ctr, char **argv, t_global *g);
+int					obj_traver(char **argv, char *c);
+void				init_rays(t_vector ****ray);
+void				init_hits(t_objecthit ***hits);
+int					key_press(int kk, void *param);
+void				copy_tcps(t_global *g);
+void				copy(t_global *tcps, t_global *g);
+int					move_obj(int kk, t_global *g);
+int					move_phys(int keycode, t_global *g);
+void				move_cam(char s, t_global *g);
+int					free_hits(t_global *g);
+int					start_threads(void *f, t_global *g);
+int					mouse_move(int x, int y, void *param);
+void				debug(t_global *g);
+void				*recalc(void *p);
+void				*move(void *p);
+void				*toimg(void *tcp);
+void				objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc, t_global *g);
+
+t_dstpst			hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_colbri			bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			simple_bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
+
+
+t_colbri			simple_bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g);
+
+t_colbri			bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			simple_bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
+
+t_dstpst			hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_colbri			bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			simple_bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
+
+
+t_dstpst			hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+
+void				alias(int *dst, int *a, int w, int h, int xmax, int ymax);
+
+t_dstpst			*NANI(t_dstpst *t);
+int					obstructed(t_vector hit, t_object obj, t_global *g);
+t_vector			rotate(t_vector ray, t_vector angle);
+void				init_vector(t_vector *i, double x, double y, double z);
+int					con(t_global *g);
+t_vector			rgb(int c);
+t_vector			base(t_vector c);
+int					pinside(t_vector p, t_vector bd1, t_vector bd2, t_vector bd3, t_vector nr, t_global *g);
+void				screen(int *a, int w, int h, t_global *g);
+
+t_vector			cross(t_vector a, t_vector b);
+double				det(t_vector a, t_vector b);
+void				stretch(int *a, int d, int h);
+void				smooth(int *a, int w, int h, int xmax, int ymax, t_global *g);
+void				save_im(int *a, int *b, int w, int h);
+t_vector			base255(t_vector);
+void				white(int *a, int w, int h, int c);
+t_vector			**initialize_points(int height);
+t_vector			**create_points(char *filename, t_vector *ptdim, t_global *g);
+void				free_points(t_vector **pts);
+double				mymod(double x, int m);
+int					myintmod(int x, int m);
+
+
+typedef	struct		s_tile
 {
-	t_vector	pos;
-	t_vector	direction;
-	double		intense;
-}				t_light;
+	int 			bpp;
+	int 			sz_l;
+	int 			e;
+	int 			w;
+	int 			h;
+	int 			w2;
+	int 			h2;
+	int 			mipq;
+	int 			*data_ptr;
+	void			*ptr;
+}					t_tile;
 
-typedef struct	s_plane
+typedef struct		s_object
 {
-	double		r;
-	t_vector	c;
-	t_vector	v;
-	int			color;
-	double		specular;
-	double		reflect;
-	double		transp;
-	double		tex;
-}				t_plane;
+	char			*name;
+	int				id;
+	int				cam_pos;
+	t_dstpst		(*hit)(t_vector, t_vector, t_vector, t_object, t_global *g);
+	t_colbri		(*bright)(t_vector, t_vector, t_object, struct s_global *);
+	t_colbri		(*simple_bright)(t_vector, t_vector, t_object, struct s_global *);
 
-typedef struct	s_cylinder
+	t_vector		bd1;
+	t_vector		bd2;
+	t_vector		bd3;
+	t_vector		base[3];
+	t_tile			tile[15];
+	t_vector		*ctr;
+	t_vector		ang;
+	t_vector		color;
+	int				rd;
+	int				rd2;
+	t_vector		**pts;
+	t_object		*tris;
+	double			re;
+	t_vector		ptdim;
+	t_object		*frame;
+	t_vector		box[8];
+	char			*fdf_map;
+}					t_object;
+
+struct				s_dstpst
 {
-	double		r;
-	t_vector	c;
-	t_vector	v;
-	int			color;
-	double		specular;
-	double		reflect;
-	double		transp;
-	double		tex;
-}				t_cylinder;
+	double			dst;
+	double			pst;
+	t_object 		obj;
+};
 
-typedef struct	s_sphere
+typedef	struct		s_objecthit
 {
-	double		r;
-	t_vector	c;
-	int			color;
-	double		specular;
-	double		reflect;
-	double		transp;
-	double		tex;
-}				t_sphere;
+	t_object 		obj;
+	t_vector 		hit;
+}					t_objecthit;
 
-typedef struct	s_cone
+typedef struct		s_global
 {
-	double		a;
-	t_vector	c;
-	t_vector	v;
-	int			color;
-	double		specular;
-	double		reflect;
-	double		transp;
-	double		tex;
-}				t_cone;
-
-typedef struct	s_obj
-{
-	t_sphere	*sphere;
-	t_cone		*cone;
-	t_plane		*plane;
-	t_cylinder	*cylinder;
-}				t_obj;
-
-typedef struct	s_vec
-{
-	t_vector	d;
-	t_vector	v;
-	t_vector	n;
-	t_vector	p;
-	t_vector	l;
-	t_vector	o;
-	t_vector	r;
-}				t_vec;
-
-
-typedef struct	s_mouse
-{
-	char		press;
-	int			x;
-	int			y;
-}				t_mouse;
-
-typedef struct	s_all
-{
-	t_clos		clos;
-
-	t_vector	cam;
-	t_list		*obj;
-	t_list		*light;
-	int			fd;
-	t_vector	rot;
-	double		closest;
-	double		d;
-	void		*mlx_ptr;
-	void		*win_ptr;
-	void		*img_ptr;
-
-	void		*mlx_ptr_2;
-	void		*win_ptr_2;
-	void		*img_ptr_2;
-
-	char		*img;
-	int			size_line;
-	int			bpp;
-	int			opp;
-	int			endian;
-
-
-	char		*img_2;
-	int			color_2;
-	t_vector	cam_2;
-
-
-
-	int			color;
-
-	int		x;
-	int		x_max;
-	int		depth_refl;
-	int		depth_refl_spec;
-	int		depth_transp;
-	int		depth_max;
-	t_mouse		mouse;
-	int			shadow;
-	int			is_cam;
-	int			is_light;
-	int			loading;
-	int			start;
-	int			end;
-}				t_all;
-
-t_vector		minus(t_vector a, t_vector b);
-t_vector		plus(t_vector a, t_vector b);
-t_vector		times(double n, t_vector a);
-double			dot(t_vector a, t_vector b);
-double			dlinna(t_vector a);
-t_vector		norm(t_vector a);
-// void			do_it(t_all *all);
-void			*do_it(void *data_ptr);
-t_vector		canvas_to_viewport(t_all *all, double x, double y);
-// int				trace_ray(t_all *all, t_list *list, t_vector o, t_vector d);
-t_clos			closer_obj(t_list *list, t_vector o, t_vector d, double min);
-void			fig_normal(t_vec *vec, t_clos *clos);
-double			fig_specular(t_list *list);
-int				fig_color(t_list *list);
-t_vector		fig_center(t_list *list);
-void			plane_normal(t_vec *vec, t_plane *plan);
-void			sphere_normal(t_vec *vec, t_sphere *sphr);
-void			cyl_normal(t_vec *vec, double t, t_cylinder *cyl);
-void			cone_normal(t_vec *vec, double t, t_cone *cone);
-int				rgb_to_int(t_vector c);
-t_vector		int_to_rgb(int rgb);
-int				event(int key, t_all *all);
-t_vector		intersect_ray(t_list *list, t_vector o, t_vector d);
-t_vector		intersect_sphere(t_sphere *sphere, t_vector o, t_vector d);
-t_vector		intersect_cyl(t_cylinder *cyl, t_vector o, t_vector d);
-t_vector		intersect_cone(t_cone *c, t_vector o, t_vector d);
-t_vector		intersect_plane(t_plane *plane, t_vector o, t_vector d);
-int				reflected_color(t_all *all, t_clos clos, t_vec *vec);
-double			diff(double intense, t_vec *vec);
-// double			spec(double spec, double intense, t_vec *vec);
-// int				color(double i, double j, t_clos clos);
-int				x_close(t_all *all);
-int				main(int argc, char **argv);
-void			go(t_all *all);
-void			pixel_put_img(t_all *all, int x, int y, int color);
-void			usage(int o);
-int				open_file(char **argv, t_all *all);
-void			read_file(t_all *all);
-int				save_light(t_all *all);
-int				save_plane(t_all *all);
-int				save_cylinder(t_all *all);
-int				save_sphere(t_all *all);
-int				save_cone(t_all *all);
-double		fig_specular(t_list *list);
-int				save_angle(t_all *all, double *angle);
-int				save_radius(t_all *all, double *radius);
-int				save_pos(t_all *all, t_vector *pos);
-int				save_intense(t_all *all, double *intense);
-int				save_color(t_all *all, int *color);
-int				save_normal(t_all *all, t_vector *norm);
-int				save_center(t_all *all, t_vector *center);
-void			save_cam(char *line, t_all *all);
-t_vector		init_vector(double x, double y, double z, double t);
-void			save_rotation(t_all *all, char *line);
-t_vector		rotation(t_all *all, t_vector canvas);
-void			rotate_x(double angle, double *y, double *z);
-void			rotate_y(double angle, double *x, double *z);
-void			rotate_z(double angle, double *x, double *y);
-int				num(char *str);
-int				shadow(t_list *list, t_list *obj, t_vector o, t_vector d);
-void  threads1(t_all *all);
-void  *threads2(void *v);
-
-
-
-
-
-
-
-
-
-
-
-int		trace_ray(t_all *all, t_list *list, t_vector o, t_vector d);
-int		mouse_press(int button, int x, int y, t_all *all);
-int		mouse_release(int button, int x, int y, t_all *all);
-int		mouse_move(int x, int y, t_all *all);
-void	rotat_x(t_all *all, double angle);
-void	rotat_y(t_all *all, double angle);
-void	rotat_z(t_all *all, double angle);
-
-
-
-
-int			save_transp(t_all *all, double *transp);
-int			save_shadow(t_all *all, double *shadow);
-int			save_reflect(t_all *all, double *reflect);
-int			save_specular(t_all *all, double *specular);
-double		fig_specular(t_list *list);
-double		fig_reflect(t_list *list);
-double		fig_transp(t_list *list);
-void			ambient_light(t_all *all, t_list **l);
-t_vector		reflect(t_all *all, t_vec *vec, t_clos closer, t_vector local_color);
-t_vector		reflect_spec(t_all *all, t_vec *vec, t_clos closer, t_vector local_color);
-t_vector		transp(t_all *all, t_vec *vec, t_clos closer, t_vector local_color);
-t_vector		new_color(t_vector local, t_vector ref, double param);
-t_vector	get_random(t_vector vec1, t_vector vec2, double param);
-
-
-double			spec(double spec, double intense, t_vec *vec, double reflect);
-int				calc_color(double i, double j, t_vector color);
-
-
-void		shadow_type(t_vector *color, t_vec *vec, t_list *light, t_all *all, t_clos clos);
-void		soft_shadow(t_vector *color, t_vec *vec, t_list *light, t_all *all, t_clos clos);
-
-
-int			event_2(int key, t_all *all);
-
-
-void	miss_open_brackets(t_all *all);
-void	miss_closed_brackets(t_all *all);
-void	save_objects(t_all *all);
-int		save_texture(t_all *all, double *texture);
-double		fig_texture(t_list *list);
-
-
-
-
-
-
-void	stereoscopy(t_all *all);
-void		blue_stereo(t_all *all);
-void		red_stereo(t_all *all);
-void		pixel_put_img_2(t_all *all, int x, int y, int color);
-
-
-
-#endif
+	void 			*mlx_ptr;
+	void			*win_ptr;
+	void			*img_ptr;
+	int				*data_ptr;
+	int				bpp;
+	int				sz_l;
+	int				e;
+	int				light_switch;
+	t_dstpst		cone[2];
+	t_vector		_0015;
+	t_vector		base[3];
+	t_vector		*ray;
+	t_vector		*li;
+	t_vector		*cam_pos;
+	double			liz;
+	t_vector		*angle;
+	t_vector		*normal;
+	t_object		*obj;
+	t_object		*all_obj;
+	t_objecthit		***hits;
+	t_vector		***rays;
+	int				objn;
+	int				argc;
+	pthread_t		tid[CORES];
+	int				core;
+	int				prim;
+	int				ambient;
+	t_global		*tcps[CORES];
+	int				id;
+	int				fd;
+}					t_global;

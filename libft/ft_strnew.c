@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 18:08:22 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/03 16:14:44 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/10/28 13:25:11 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/19 20:56:34 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
+#include <strings.h>
 
 char	*ft_strnew(size_t size)
 {
-	char	*s;
+	char	*of_the_king;
 	size_t	i;
 
-	i = 0;
-	s = (char *)malloc(sizeof(char) * (size + 1));
-	if (s == NULL)
+	if (!(of_the_king = (char *)malloc(size + 1)))
 		return (NULL);
-	while (size >= i)
+	i = 0;
+	while (i <= size)
 	{
-		s[i] = '\0';
+		*(of_the_king + i) = '\0';
 		i++;
 	}
-	return (s);
+	return (of_the_king);
 }

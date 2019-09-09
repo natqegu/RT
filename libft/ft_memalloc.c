@@ -3,29 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/27 16:59:11 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/03/30 19:56:34 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/10/28 13:02:24 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/20 20:31:03 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h>
+#include <stdlib.h>
 
 void	*ft_memalloc(size_t size)
 {
-	void	*new;
-	int		i;
+	void	*arr;
+	size_t	i;
 
 	i = 0;
-	new = (void *)malloc(size);
-	if (new == NULL)
+	if (!(arr = (void *)(malloc(size))))
 		return (NULL);
-	while (size > 0)
+	while (i < size)
 	{
-		((unsigned char *)new)[i] = 0;
+		*((int *)(arr + i)) = 0;
 		i++;
-		size--;
 	}
-	return (new);
+	return (arr);
 }

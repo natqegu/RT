@@ -1,31 +1,69 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_strim.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/29 13:06:13 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/11 17:28:41 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/11/01 12:31:21 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/20 20:34:06 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft.h"
 
-char	*ft_strtrim(char const *s)
+static int		first_fill(char const *s)
 {
-	char	*new;
+	int		i;
+	char	*a;
+
+	i = 0;
+	a = (char *)s;
+	while (*(a + i) == ' ' || *(a + i) == '\t' || *(a + i) == '\n')
+	{
+		i++;
+	}
+	return (i);
+}
+
+static int		last_fill(char const *s)
+{
+	int i;
+
+	i = ft_strlen(s) - 1;
+	while (*(s + i) == ' '
+	|| *(s + i) == '\t'
+	|| *(s + i) == '\n')
+		i--;
+	return (i);
+}
+
+char			*ft_strtrim(char const *s)
+{
+	char	*ret;
+	int		i;
 	int		j;
 
-	if (!s)
-		return (0);
-	while ((*s == ' ' || *s == '\n' || *s == '\t') && *s != '\0')
-		s++;
-	if (*s == '\0')
-		return (ft_strsub(s, 0, 0));
-	j = ft_strlen(s) - 1;
-	while ((s[j] == ' ' || s[j] == '\n' || s[j] == '\t') && j > 0)
-		j--;
-	new = ft_strsub(s, 0, j + 1);
-	return (new);
+	if (s == NULL)
+		return (NULL);
+	j = 0;
+	i = first_fill(s);
+	if (*(s + i) == '\0')
+	{
+		if (!(ret = (char *)malloc(sizeof(char))))
+			return (NULL);
+		(*(ret) = '\0');
+		return (ret);
+	}
+	if (!(ret = (char *)malloc(sizeof(char) * (-i + last_fill(s) + 2))))
+		return (NULL);
+	while (i <= last_fill(s))
+	{
+		*(ret + j) = *((char *)s + i);
+		i++;
+		j++;
+	}
+	*(ret + j) = '\0';
+	return (ret);
 }

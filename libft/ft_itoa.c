@@ -3,59 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/29 14:29:36 by vkarpova          #+#    #+#             */
-/*   Updated: 2018/04/10 14:11:13 by vkarpova         ###   ########.fr       */
+/*   Created: 2018/11/02 21:35:28 by tpokalch          #+#    #+#             */
+/*   Updated: 2018/11/20 15:27:41 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "libft.h"
 
-static int	ft_count(int n)
+static int		intlen(int nb)
 {
-	int		len;
-	int		i;
+	int i;
 
 	i = 0;
-	len = 0;
-	if (n < 0)
+	if (nb == -2147483648)
+		return (11);
+	else if (nb == 0)
+		return (1);
+	else if (nb < 0 && nb > -214748368)
+		return (intlen(-nb) + 1);
+	while (nb != 0)
 	{
-		n = -n;
-		i = 1;
+		nb = nb / 10;
+		i++;
 	}
-	while ((n / 10) > 0)
-	{
-		len++;
-		n = n / 10;
-	}
-	return (len + i + 1);
+	return (i);
 }
 
-char		*ft_itoa(int n)
+static char		*max(char *s, int nb)
+{
+	int i;
+	int a;
+
+	i = 1;
+	*s = '8';
+	nb = nb / 10;
+	nb = -nb;
+	a = intlen(nb);
+	while (nb != 0)
+	{
+		*(s + i) = (nb) % 10 + '0';
+		nb = nb / 10;
+		i++;
+	}
+	*(s + i++) = '-';
+	*(s + i) = '\0';
+	ft_strrev(s);
+	return (s);
+}
+
+char			*ft_itoa(int nbr)
 {
 	char	*s;
-	int		len;
+	int		i;
+	int		b;
 
-	len = ft_count(n);
-	s = (char *)malloc(sizeof(char) * (len + 1));
-	if (s == NULL)
+	b = nbr;
+	if (!(s = (char *)malloc(sizeof(char) * (intlen(nbr) + 1))))
 		return (NULL);
-	if (n == -2147483648)
-		return (ft_strdup("-2147483648"));
-	s[len] = '\0';
-	if (n < 0)
-		n = -n;
-	while (--len > 0)
+	i = (nbr == 0);
+	if (nbr == -2147483648)
+		return (max(s, nbr));
+	else if (nbr == 0)
+		*s = '0';
+	if (nbr < 0)
+		nbr = -(nbr);
+	while (nbr != 0)
 	{
-		s[len] = n % 10 + '0';
-		n = n / 10;
+		*(s + i) = (nbr) % 10 + '0';
+		nbr = nbr / 10;
+		i++;
 	}
-	if (n > 0 && n <= 9)
-		s[len] = n + '0';
-	else if (n == 0 && s[1] == '\0')
-		s[len] = '0';
-	else
-		s[len] = '-';
-	return (s);
+	if (b < 0)
+		*(s + i++) = '-';
+	*(s + i) = '\0';
+	return (ft_strrev(s));
 }
