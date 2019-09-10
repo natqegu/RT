@@ -30,7 +30,6 @@ struct 				s_vector
 	double 			x;
 	double 			y;
 	double 			z;
-//	int	len;
 };
 
 

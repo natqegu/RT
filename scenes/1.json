@@ -13,12 +13,12 @@
   "OBJECTS":
   [
     {
-      "name": "COMPLEX",
-      "color": [255,0,0],
-      "center": [0,0,350],
-      "angle": [0,0,-1],
-      "reflection": 70,
-      "fdf-map": "./maps/42.fdf"
-    }
+      "name": "PLANE",
+      "color": [1,0,0],
+      "center": [0,-200,0],
+      "angle": [0,0,0],
+      "reflection": 0,
+   "
+	 }
   ]
 }

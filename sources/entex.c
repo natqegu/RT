@@ -282,7 +282,6 @@ int		start_threads(void *f, t_global *g)
 	int 	i;
 
 	i = -1;
-	printf("creating threads\n");
 	while (++i < CORES)
 	{
 		
@@ -293,7 +292,6 @@ int		start_threads(void *f, t_global *g)
 
 	while (++i < CORES)
 	{
-		printf("thread %d\n", i);
 		if (WIDTH > 751)
 			printf("joining cores\n");
 		pthread_join(g->tid[i], NULL);
