@@ -19,7 +19,7 @@
 #include <fcntl.h>
 
 #define WIDTH HEIGHT
-#define HEIGHT 400
+#define HEIGHT 700
 #define CORES 8
 
 typedef	struct		s_vector t_vector;
@@ -186,7 +186,6 @@ typedef struct		s_object
 	t_vector		ptdim;
 	t_object		*frame;
 	t_vector		box[8];
-	char			*fdf_map;
 }					t_object;
 
 struct				s_dstpst
@@ -233,5 +232,4 @@ typedef struct		s_global
 	int				ambient;
 	t_global		*tcps[CORES];
 	int				id;
-	int				fd;
 }					t_global;

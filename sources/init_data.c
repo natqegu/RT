@@ -33,7 +33,7 @@ void		ginit(t_global *g)
 
 	init_vector(g->normal, 0, 0, 20);
 	// *g->normal = rotate(*g->normal, *g->angle);
-	init_vector(g->cam_pos, 0.135995, 100, 100.919620);
+	// init_vector(g->cam_pos, 0.135995, 100, 100.919620);
 //	init_vector(g->cam_pos, 0, 0, 0);
 
 	g->light_switch = 0;
