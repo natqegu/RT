@@ -7,18 +7,25 @@
   [
     {
       "position":[13,20,-50]
+    },
+    {
+      "position":[0,0,0]
+    },
+    {
+      "position":[54,500,200]
     }
   ],
 
   "OBJECTS":
   [
     {
-      "name": "PLANE",
-      "color": [1,0,0],
-      "center": [0,-200,0],
+      "name": "SPHERE",
+      "texture": "./tiles/earth.xpm",
+      "color": [255,0,0],
+      "center": [0,-5,600],
       "angle": [0,0,0],
-      "reflection": 0,
-   "
-	 }
+      "radius": 100,
+      "reflection": 20
+    }
   ]
 }

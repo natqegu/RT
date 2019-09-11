@@ -523,18 +523,40 @@ void        save_objects(t_global *g, int fd)
     }
 }
 
-void		save_light(t_global *g, int fd)
+void		save_light(char *line, t_vector *light)
 {
-	char	*line;
-	char	*tmp;
+
+	char	**tmp;
 	
-	miss_open_brackets(g, fd);
+	
+
+			tmp = ft_strsplit((ft_strnstr(line, "position", 20)) + 11, ',');
+			printf("light0[]: %s\n", tmp[0]);
+			printf("light1[]: %s\n", tmp[1]);
+			printf("light2[]: %s\n", tmp[2]);
+			printf("light3[]: %s\n", tmp[3]);
+				
+			if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
+			{
+				light->x = (double)ft_atoi(tmp[0]);
+				light->y = (double)ft_atoi(tmp[1]);
+				light->z = (double)ft_atoi(tmp[2]);
+				printf("color.center->x: %d\n", ft_atoi(tmp[0]));
+				printf("color.center->y: %d\n", ft_atoi(tmp[1]));
+				printf("color.center->z: %d\n", ft_atoi(tmp[2]));
+				free(tmp[1]);
+				free(tmp[2]);
+				free(tmp);
+				free(*tmp);
+				printf("position\n");
+			}
 }
 
 void        read_file(t_global *g, int fd)
 {
     char    *line;
     char    *tmp;
+	int i = 0;
 
     while (get_next_line(fd, &line) > 0)
     {
@@ -554,7 +576,15 @@ void        read_file(t_global *g, int fd)
             save_ambient(g, ft_atoi(tmp + 1));
         }
         if (ft_strnstr(line, "LIGHT", 20) > 0)
-            save_light(g, fd);
+		{
+			g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights);
+			
+		}
+		if (ft_strnstr(line, "position", 20) > 0)
+			{
+				save_light(line, &(g->li[i]));
+				i++;
+			}
         if (ft_strnstr(line, "OBJECTS", 20) > 0)
             save_objects(g, fd);
         free(line);
@@ -584,6 +614,8 @@ int    count_objects(t_global *g, int fd)
         return (0);
     while (get_next_line(fd, &line) > 0)
     {
+		if (ft_strnstr(line, "position", 20))
+			g->lights++;
         if (ft_strnstr(line, "PLANE", 25) || ft_strnstr(line, "CONE", 25) ||
             ft_strnstr(line, "CYLINDER", 25) || ft_strnstr(line, "TRI", 25) ||
             ft_strnstr(line, "SPHERE", 25) || ft_strnstr(line, "COMPLEX", 25))

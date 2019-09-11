@@ -231,4 +231,5 @@ typedef struct		s_global
 	int				ambient;
 	t_global		*tcps[CORES];
 	int				id;
+	int				lights;
 }					t_global;
