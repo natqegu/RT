@@ -20,7 +20,7 @@ void		ginit(t_global *g)
 	g->ray->z = lround(WIDTH / (double)3000 * 1600);
 	i = -1;
 	// init_vector(g->li, 102, 0, 150);
-	g->liz = g->li->z;
+	// g->liz = g->li->z;
 	// g->ambient = 70;
 	init_vector(&g->_0015, 0, 0, 15);
 

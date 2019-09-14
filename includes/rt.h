@@ -19,7 +19,7 @@
 #include <fcntl.h>
 
 #define WIDTH HEIGHT
-#define HEIGHT 700
+#define HEIGHT 600
 #define CORES 8
 
 typedef	struct		s_vector t_vector;
@@ -115,7 +115,7 @@ t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global 
 t_colbri			bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
 
-
+void		init_tile(int i, char *tile, t_object *obj, t_global *g);
 t_dstpst			hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
 t_dstpst			hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
 t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
@@ -232,4 +232,5 @@ typedef struct		s_global
 	t_global		*tcps[CORES];
 	int				id;
 	int				lights;
+	char			**data;
 }					t_global;

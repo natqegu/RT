@@ -44,418 +44,364 @@ int		usage(int o)
     return (0);
 }
 
-
-void        save_cam(char *line, t_global *g)
+int		parse_color(char *line, t_vector *vector)
 {
-    char **tmp;
+	char	**name;
+	char	**tmp;
 
-    tmp = ft_strsplit(line, ',');
-    if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
-        init_vector(g->cam_pos, (double)ft_atoi(tmp[0]), (double)ft_atoi(tmp[1]), (double)ft_atoi(tmp[2]));
+	name = ft_strsplit(line, ':');
+	tmp = ft_strsplit(name[1], ',');		
+	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
+	{
+		vector->x = (double)(ft_atoi(tmp[0] + 1) / 255);
+		vector->y = (double)(ft_atoi(tmp[1]) / 255);
+		vector->z = (double)(ft_atoi(tmp[2]) / 255);
+		free(tmp[1]);
+		free(tmp[2]);
+		free(tmp);
+		free(*tmp);
+		return (1);
+	}
+
+	free(name[0]);
+	free(name[1]);
+	free(name);
+	return (0);
+}
+
+int		parse_vector(char *line, t_vector *vector)
+{
+	char	**name;
+	char	**tmp;
+
+	name = ft_strsplit(line, ':');
+	tmp = ft_strsplit(name[1], ',');		
+	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
+	{
+		vector->x = (double)ft_atoi(tmp[0] + 1);
+		vector->y = (double)ft_atoi(tmp[1]);
+		vector->z = (double)ft_atoi(tmp[2]);
+		free(tmp[1]);
+		free(tmp[2]);
+		free(tmp);
+		free(*tmp);
+		return (1);
+	}
+	free(name[0]);
+	free(name[1]);
+	free(name);
+	return (0);
+}
+
+int		parse_int(char *line, int *number, int divisor, int max)
+{
+	char	**name;
+	int		result;
+
+	name = ft_strsplit(line, ':');
+	if (!name[0] || !name[1] || name[2])
+		return (0);
+	result = ft_atoi(name[1]);
+	if (result > max)
+        *number = max * divisor;
+    else if (result < 0)
+        *number = 0;
     else
-    {
-        init_vector(g->cam_pos, 0, 0, 0);
-        ft_putendl("Incorrect info for CAMERA, so I set it to (0,0,0)");
-    }
+        *number = result * divisor;
+	free(name[0]);
+	free(name[1]);
+	free(name);
+	return (1);
 }
 
-void        save_rotation(t_global *g, char *line)
+int		parse_double(char *line, double *number, double divisor, double max)
 {
-    char		**tmp;
+	char	**name;
+	double	result;
 
-	tmp = ft_strsplit(line, ',');
-	if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
-        init_vector(g->angle, (double)ft_atoi(tmp[0]), (double)ft_atoi(tmp[1]), (double)ft_atoi(tmp[2]));
-	else
-	{
-		init_vector(g->angle, 0, 0, 0);
-		ft_putendl("Incorrect info for ROTATION, so I set it to (0,0,0)");
-	}
-}
-
-void        save_ambient(t_global *g, int am)
-{
-    if (am > 255)
-    {  
-        g->ambient = 255;
-        ft_putendl("Ambient ligth should be not bigger than 255, setted to 255");
-    }
-    else if (am < 0)
-    {
-        g->ambient = 0;
-        ft_putendl("Ambient ligth should be bigger than 0, setted to 0");
-    }
+	name = ft_strsplit(line, ':');
+	if (!name[0] || !name[1] || name[2])
+		return (0);
+	result = ft_atoi(name[1]);
+	if (result > max)
+        *number = max / divisor;
+    else if (result < 0)
+        *number = 0.0;
     else
-        g->ambient = am;
+        *number = result / divisor;
+	free(name[0]);
+	free(name[1]);
+	free(name);
+	return (1);
 }
 
-void	miss_open_brackets(t_global *g, int fd)
+int		parse_tile(char *line, t_global *g)
 {
-	char		*line;
+	char	**name;
+	char	*tmp;
 
-	if ((get_next_line(fd, &line) > 0) && (ft_strnstr(line, "[", 10) > 0))
-	{
-		if ((get_next_line(fd, &line) > 0) && (ft_strnstr(line, "{", 10) > 0))
-			free(line);
-	}
-}
-
-int         save_color(t_global *g, t_vector *color, int fd)
-{
-	char		*line;
-	char		**tmp;
-
-	if (get_next_line(fd, &line) > 0 && ft_strnstr(line, "color", 20) > 0)
-	{
-		tmp = ft_strsplit((ft_strnstr(line, "color", 20)) + 9, ',');
-		free(line);
-		if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
-		{
-			color->x = (double)(ft_atoi(tmp[0]) / 255);
-			color->y = (double)(ft_atoi(tmp[1]) / 255);
-			color->z = (double)(ft_atoi(tmp[2]) / 255);
-			color->x > 1 ? color->x = 1 : color->x;
-			color->x < 0 ? color->x = 0 : color->x;
-			color->y > 1 ? color->y = 1 : color->y;
-			color->y < 0 ? color->y = 0 : color->y;
-			color->z > 1 ? color->z = 1 : color->z;
-			color->z < 0 ? color->x = 0 : color->z;
-			free(tmp[1]);
-			free(tmp[2]);
-			free(tmp);
-			free(*tmp);
-			printf("color\n");
-			return (1);
-		}
-	}
-	return (0);
-}
-
-int         save_center(t_global *g, t_vector *center, int fd)
-{
-	char		*line;
-	char		**tmp;
-
-	if (get_next_line(fd, &line) > 0 && ft_strnstr(line, "center", 20) > 0)
-	{
-		tmp = ft_strsplit((ft_strnstr(line, "center", 20)) + 10, ',');
-		free(line);
-		// printf("color.tmp[0]: %s\n", tmp[0]);
-		// printf("color.tmp[1]: %s\n", tmp[1]);
-		// printf("color.tmp[2]: %s\n", tmp[2]);
-		// printf("color.tmp[3]: %s\n", tmp[3]);
-		if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
-		{
-			center->x = (double)ft_atoi(tmp[0]);
-			center->y = (double)ft_atoi(tmp[1]);
-			center->z = (double)ft_atoi(tmp[2]);
-			// printf("color.center->x: %d\n", ft_atoi(tmp[0]));
-			// printf("color.center->y: %d\n", ft_atoi(tmp[1]));
-			// printf("color.center->z: %d\n", ft_atoi(tmp[2]));
-			free(tmp[1]);
-			free(tmp[2]);
-			free(tmp);
-			free(*tmp);
-			printf("center\n");
-			return (1);
-		}
-	}
-	return (0);
-}
-
-int         save_tile(t_global *g, int fd)
-{
-	char    *line;
-    char	*tmp;
-	char 	*tmp1;
-
-	if ((get_next_line(fd, &line) > 0) && ft_strnstr(line, "texture", 20) > 0)
-	{
-		tmp = (char *)malloc(sizeof(char) * 61);
-		tmp1 = (char *)malloc(sizeof(char) * ft_strlen(tmp));
-		if (ft_strchr(line, 58))
-		{
-			tmp = ft_strchr(line, 58) + 2;
-			free(line);
-
-			//needs to check every texture we have to not have segfault
-		
-			tmp1 = ft_strsub(tmp, 1, ft_strlen(tmp) - 3);
-			init_tile(g->id, tmp1, g->obj, g);
-    		// free(g->obj[g->id].tile[0].data_ptr);
-			// g->obj[g->id].tile[0].data_ptr = NULL;
-			// free(tmp);
-			free(tmp1);
-			printf("texture\n");
-			return (1);
-		}
-	}
-	return (0);
-}
-
-int        save_radius(t_global *g, int *rd, int *rd2, int fd)
-{
-    char    *line;
-    int     tmp;
-
-    if (get_next_line(fd, &line) > 0 && ft_strnstr(line, "radius", 20) > 0)
-	{
-		if (num(ft_strchr(line, 58) + 1))
-		{
-			tmp = ft_atoi(ft_strchr(line, 58) + 2);
-			free(line);
-			if (tmp >= 0 && tmp <= 100)
-				*rd = tmp;
-			else if (tmp < 0)
-				return (0);
-			else
-				*rd = 100;
-			*rd2 = tmp * tmp;
-			printf("radius\n");
-			return (1);
-		}
-	}
-	return (0);
-}
-
-int			save_reflection(t_global *g, double *reflection, int fd)
-{
-	char    *line;
-    int     tmp;
-
-    if (get_next_line(fd, &line) > 0 && ft_strnstr(line, "reflection", 20) > 0)
-	{
-		if (num(ft_strchr(line, 58) + 1))
-		{
-			tmp = ft_atoi(ft_strchr(line, 58) + 2);
-			// printf("REFLECTION: %d\n", tmp);
-			free(line);
-			if (tmp >= 0 && tmp <= 100)
-				*reflection = (double)(tmp / 100.0);
-			else if (tmp < 0)
-				*reflection = 0.0;
-			else
-				*reflection = 1.0;
-			printf("REFLECTION: %f\n", *reflection);
-			return (1);
-		}
-	}
+	name = ft_strsplit(line, ':');
+	if (!name[0] || !name[1] || name[2])
+		return (0);
+	tmp = (char *)malloc(sizeof(char) * ft_strlen(name[1]));
+	if (ft_strstr(line, ","))
+		tmp = ft_strsub(ft_strtrim(name[1]), 1, ft_strlen(ft_strtrim(name[1])) - 3);
 	else
-		*reflection = 0.0;
-	return (0);
+		tmp = ft_strsub(ft_strtrim(name[1]), 1, ft_strlen(ft_strtrim(name[1])) - 2);
+	init_tile(g->id, tmp, g->obj, g);
+	free(name[0]);
+	free(name[1]);
+	free(name);
+	return (1);
 }
 
-int			save_angle(t_global *g, t_vector *angle, int fd)
+char         *save_fdf_name(t_global *g, char *line)
 {
-	char		*line;
-	char		**tmp;
-
-	if (get_next_line(fd, &line) > 0 && ft_strnstr(line, "angle", 20) > 0)
-	{
-		tmp = ft_strsplit((ft_strnstr(line, "angle", 20)) + 9, ',');
-		free(line);
-		if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
-		{
-			angle->x = (double)ft_atoi(tmp[0]);
-			angle->y = (double)ft_atoi(tmp[1]);
-			angle->z = (double)ft_atoi(tmp[2]);
-			free(tmp[1]);
-			free(tmp[2]);
-			free(tmp);
-			free(*tmp);
-			printf("angle\n");
-			return (1);
-		}
-	}	
-	return (0);
-}
-
-int			save_point(t_global *g, t_vector *point, char *point_num, int fd)
-{
-	char		*line;
-	char		**tmp;
-
-	if (get_next_line(fd, &line) > 0 && ft_strnstr(line, point_num, 20) > 0)
-	{
-		tmp = ft_strsplit((ft_strnstr(line, point_num, 20)) + 10, ',');
-		free(line);
-		if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
-		{
-			point->x = (double)ft_atoi(tmp[0]);
-			point->y = (double)ft_atoi(tmp[1]);
-			point->z = (double)ft_atoi(tmp[2]);
-			free(tmp[1]);
-			free(tmp[2]);
-			free(tmp);
-			free(*tmp);
-			printf("point, g->id %d\n", g->id);
-			return (1);
-		}
-	}	
-	return (0);
-}
-
-char         *save_fdf_name(t_global *g, int fd)
-{
-	char    *line;
     char	*tmp;
+	char	**name;
 
-	if ((get_next_line(fd, &line) > 0) && ft_strnstr(line, "fdf-map", 20) > 0)
-	{
-		tmp = (char *)malloc(sizeof(char) * 61);
-		
-		if (ft_strchr(line, 58))
-		{
-			tmp = ft_strchr(line, 58) + 2;
-			free(line);
-
-			printf("texture\n");
-			tmp = ft_strsub(tmp, 1, ft_strlen(tmp) - 2);
-		}
-		else
-			tmp = "";
-	}
+	name = ft_strsplit(line, ':');
+	if (!name[0] || !name[1] || name[2])
+		return ("");
+	tmp = (char *)malloc(sizeof(char) * ft_strlen(name[1]));
+	if (ft_strstr(line, ","))
+		tmp = ft_strsub(ft_strtrim(name[1]), 1, ft_strlen(ft_strtrim(name[1])) - 3);
+	else
+		tmp = ft_strsub(ft_strtrim(name[1]), 1, ft_strlen(ft_strtrim(name[1])) - 2);
+	printf("tmp: %s\n", tmp);
+	free(name[0]);
+	free(name[1]);
+	free(name);
 	return (tmp);
 }
 
-int         save_complex(t_global *g, int fd)
+int         parse_complex(t_global *g, char **data, int i)
 {
-	g->obj[g->id].ctr = (t_vector *)malloc(sizeof(t_vector));
+	init_vector(&(g->obj[g->id].color), 1, 0, 0);
+	init_vector(g->obj[g->id].ctr, 0, 0, 0);
+	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
+	g->obj[g->id].re = 0;
+	g->obj[g->id].tile[0].data_ptr = NULL;
 
-	if (save_color(g, &(g->obj[g->id].color), fd) &&
-    	save_center(g, g->obj[g->id].ctr, fd) &&
-		save_angle(g, &(g->obj[g->id].ang), fd) &&
-		save_reflection(g, &(g->obj[g->id].re), fd))
+	while (data[i])
 	{
-		init_vector(&g->obj[g->id].base[0], 1, 0, 0);
-		init_vector(&g->obj[g->id].base[1], 0, 1, 0);
-		init_vector(&g->obj[g->id].base[2], 0, 0, 1);
-		g->obj[g->id].pts = create_points(save_fdf_name(g, fd), &g->obj[g->id].ptdim, g);
-		if (g->obj[g->id].pts)
-		{
-			g->obj[g->id].frame = init_frame(g->obj[g->id], g);
-			g->obj[g->id].tris = create_tris(g->obj[g->id].pts, g->obj[g->id], g);
-			g->obj[g->id].rd = g->obj[g->id].tris->rd - 1;
-			g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
-		}
-		else
-			exit(1);
-		g->obj[g->id].id = g->id;
-   		g->obj[g->id].name = "complex";
-		g->obj[g->id].hit = &hit_complex;
-		g->obj[g->id].bright = &bright_plane;
-		g->obj[g->id].simple_bright = &simple_bright_plane;
-		g->id++;
+		if (ft_strstr(data[i], "}"))
+			break;
+		if (ft_strstr(data[i], "color"))
+			parse_color(data[i], &(g->obj[g->id].color));
+		if (ft_strstr(data[i], "center"))
+			parse_vector(data[i], g->obj[g->id].ctr);
+		if (ft_strstr(data[i], "angle"))
+			parse_vector(data[i], &(g->obj[g->id].ang));
+		if (ft_strstr(data[i], "reflection"))
+			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+		if (ft_strstr(data[i], "fdf-map"))
+			g->obj[g->id].pts = create_points(save_fdf_name(g, data[i]), &g->obj[g->id].ptdim, g);
+		i++;
 	}
+	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
+	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
+	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
+	if (g->obj[g->id].pts)
+	{
+		g->obj[g->id].frame = init_frame(g->obj[g->id], g);
+		g->obj[g->id].tris = create_tris(g->obj[g->id].pts, g->obj[g->id], g);
+		g->obj[g->id].rd = g->obj[g->id].tris->rd - 1;
+		g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
+	}
+	else
+		exit(1);
+	g->obj[g->id].id = g->id;
+   	g->obj[g->id].name = "complex";
+	g->obj[g->id].hit = &hit_complex;
+	g->obj[g->id].bright = &bright_plane;
+	g->obj[g->id].simple_bright = &simple_bright_plane;
+	g->id++;
     return (0);
 }
 
-int         save_tri(t_global *g, int fd)
+int         parse_tri(t_global *g, char **data, int i)
 {
-	g->obj[g->id].ctr = (t_vector *)malloc(sizeof(t_vector));
-
 	g->obj[g->id].id = g->id;
     g->obj[g->id].name = "tri";
 	g->obj[g->id].hit = &hit_tri;
 	g->obj[g->id].bright = &bright_plane;
 	g->obj[g->id].simple_bright = &simple_bright_plane;
+	init_vector(&(g->obj[g->id].color), 1, 0, 0);
+	init_vector(g->obj[g->id].ctr, 0, 0, 0);
+	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
+	init_vector(&(g->obj[g->id].bd1), 0, 0, 0);
+	init_vector(&(g->obj[g->id].bd2), 0, 0, 0);
+	init_vector(&(g->obj[g->id].bd3), 0, 0, 0);
+	g->obj[g->id].rd = 40;
+	g->obj[g->id].re = 0;
+	g->obj[g->id].tile[0].data_ptr = NULL;
 
-    save_tile(g, fd);
-	save_color(g, &(g->obj[g->id].color), fd);
-    save_center(g, g->obj[g->id].ctr, fd);
-	save_angle(g, &(g->obj[g->id].ang), fd);
-	save_radius(g, &(g->obj[g->id].rd), &(g->obj[g->id].rd2), fd);
-	save_point(g, &(g->obj[g->id].bd1), "point1", fd);
-	save_point(g, &(g->obj[g->id].bd2), "point2", fd);
-	save_point(g, &(g->obj[g->id].bd3), "point3", fd);
-	save_reflection(g, &(g->obj[g->id].re), fd);
-    
+	while (data[i])
+	{
+		if (ft_strstr(data[i], "}"))
+			break;
+		if (ft_strstr(data[i], "texture"))
+			parse_tile(data[i], g);
+		if (ft_strstr(data[i], "color"))
+			parse_color(data[i], &(g->obj[g->id].color));
+		if (ft_strstr(data[i], "center"))
+			parse_vector(data[i], g->obj[g->id].ctr);
+		if (ft_strstr(data[i], "angle"))
+			parse_vector(data[i], &(g->obj[g->id].ang));
+		if (ft_strstr(data[i], "radius"))
+			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
+		if (ft_strstr(data[i], "reflection"))
+			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+		if (ft_strstr(data[i], "point1"))
+			parse_vector(data[i], &(g->obj[g->id].bd1));
+		if (ft_strstr(data[i], "point2"))
+			parse_vector(data[i], &(g->obj[g->id].bd2));
+		if (ft_strstr(data[i], "point3"))
+			parse_vector(data[i], &(g->obj[g->id].bd3));
+		i++;
+	}
+	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	g->id++;
     return (0);
 }
 
-int         save_cylinder(t_global *g, int fd)
+int         parse_plane(t_global *g, char **data, int i)
 {
-	g->obj[g->id].ctr = (t_vector *)malloc(sizeof(t_vector));
-
-	g->obj[g->id].id = g->id;
-    g->obj[g->id].name = "cylinder";
-	g->obj[g->id].hit = &hit_cylinder;
-	g->obj[g->id].bright = &bright_cylinder;
-	g->obj[g->id].simple_bright = &simple_bright_cylinder;
-
-	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
-	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
-	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
-
-    save_tile(g, fd);
-	save_color(g, &(g->obj[g->id].color), fd);
-    save_center(g, g->obj[g->id].ctr, fd);
-	save_angle(g, &(g->obj[g->id].ang), fd);
-	save_radius(g, &(g->obj[g->id].rd), &(g->obj[g->id].rd2), fd);
-	save_reflection(g, &(g->obj[g->id].re), fd);
-	g->id++;
-    return (0);
-}
-
-int         save_cone(t_global *g, int fd)
-{
-	g->obj[g->id].ctr = (t_vector *)malloc(sizeof(t_vector));
-
-	g->obj[g->id].id = g->id;
-    g->obj[g->id].name = "cone";
-	g->obj[g->id].hit = &hit_cone;
-	g->obj[g->id].bright = &bright_cone;
-	g->obj[g->id].simple_bright = &simple_bright_cone;
-
-	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
-	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
-	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
-
-    save_tile(g, fd);
-	save_color(g, &(g->obj[g->id].color), fd);
-    save_center(g, g->obj[g->id].ctr, fd);
-	save_angle(g, &(g->obj[g->id].ang), fd);
-	save_radius(g, &(g->obj[g->id].rd), &(g->obj[g->id].rd2), fd);
-	save_reflection(g, &(g->obj[g->id].re), fd);
-
-	g->id++;
-    return (0);
-}
-
-int         save_plane(t_global *g, int fd)
-{
-	g->obj[g->id].ctr = (t_vector *)malloc(sizeof(t_vector));
-
 	g->obj[g->id].id = g->id;
     g->obj[g->id].name = "plane";
 	g->obj[g->id].hit = &hit_plane;
 	g->obj[g->id].bright = &bright_plane;
 	g->obj[g->id].simple_bright = &simple_bright_plane;
+	init_vector(&(g->obj[g->id].color), 1, 0, 0);
+	init_vector(g->obj[g->id].ctr, 0, 0, 0);
+	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
+	g->obj[g->id].rd = 40;
+	g->obj[g->id].re = 0;
+	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
 
-    save_tile(g, fd);
-	save_color(g, &(g->obj[g->id].color), fd);
-    save_center(g, g->obj[g->id].ctr, fd);
-	save_angle(g, &(g->obj[g->id].ang), fd);
-	save_radius(g, &(g->obj[g->id].rd), &(g->obj[g->id].rd2), fd);
-	save_reflection(g, &(g->obj[g->id].re), fd);
-
+	while (data[i])
+	{
+		if (ft_strstr(data[i], "}"))
+			break;
+		if (ft_strstr(data[i], "texture"))
+			parse_tile(data[i], g);
+		if (ft_strstr(data[i], "color"))
+			parse_color(data[i], &(g->obj[g->id].color));
+		if (ft_strstr(data[i], "center"))
+			parse_vector(data[i], g->obj[g->id].ctr);
+		if (ft_strstr(data[i], "angle"))
+			parse_vector(data[i], &(g->obj[g->id].ang));
+		if (ft_strstr(data[i], "radius"))
+			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
+		if (ft_strstr(data[i], "reflection"))
+			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+		i++;
+	}
+	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	g->id++;
     return (0);
 }
 
-int         save_sphere(t_global *g, int fd)
+int         parse_cylinder(t_global *g, char **data, int i)
 {
-	g->obj[g->id].ctr = (t_vector *)malloc(sizeof(t_vector) * g->argc); // memory needs to be freed
-    g->obj[g->id].hit = &hit_sphere;
-	g->obj[g->id].bright = &bright_sphere;
-	g->obj[g->id].simple_bright = &simple_bright_sphere;
+	g->obj[g->id].id = g->id;
+    g->obj[g->id].name = "cylinder";
+	g->obj[g->id].hit = &hit_cylinder;
+	g->obj[g->id].bright = &bright_cylinder;
+	g->obj[g->id].simple_bright = &simple_bright_cylinder;
+	init_vector(&(g->obj[g->id].color), 1, 0, 0);
+	init_vector(g->obj[g->id].ctr, 0, 0, 0);
+	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
+	g->obj[g->id].rd = 40;
+	g->obj[g->id].re = 0;
+	g->obj[g->id].tile[0].data_ptr = NULL;
+
+	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
+	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
+	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
+
+	while (data[i])
+	{
+		if (ft_strstr(data[i], "}"))
+			break;
+		if (ft_strstr(data[i], "texture"))
+			parse_tile(data[i], g);
+		if (ft_strstr(data[i], "color"))
+			parse_color(data[i], &(g->obj[g->id].color));
+		if (ft_strstr(data[i], "center"))
+			parse_vector(data[i], g->obj[g->id].ctr);
+		if (ft_strstr(data[i], "angle"))
+			parse_vector(data[i], &(g->obj[g->id].ang));
+		if (ft_strstr(data[i], "radius"))
+			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
+		if (ft_strstr(data[i], "reflection"))
+			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+		i++;
+	}
+	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
+	g->id++;
+    return (0);
+}
+
+int         parse_cone(t_global *g, char **data, int i)
+{
+	g->obj[g->id].id = g->id;
+    g->obj[g->id].name = "cone";
+	g->obj[g->id].hit = &hit_cone;
+	g->obj[g->id].bright = &bright_cone;
+	g->obj[g->id].simple_bright = &simple_bright_cone;
+	init_vector(&(g->obj[g->id].color), 1, 0, 0);
+	init_vector(g->obj[g->id].ctr, 0, 0, 0);
+	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
+	g->obj[g->id].rd = 40;
+	g->obj[g->id].re = 0;
+	g->obj[g->id].tile[0].data_ptr = NULL;
+
+	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
+	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
+	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
+
+	while (data[i])
+	{
+		if (ft_strstr(data[i], "}"))
+			break;
+		if (ft_strstr(data[i], "texture"))
+			parse_tile(data[i], g);
+		if (ft_strstr(data[i], "color"))
+			parse_color(data[i], &(g->obj[g->id].color));
+		if (ft_strstr(data[i], "center"))
+			parse_vector(data[i], g->obj[g->id].ctr);
+		if (ft_strstr(data[i], "angle"))
+			parse_vector(data[i], &(g->obj[g->id].ang));
+		if (ft_strstr(data[i], "radius"))
+			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
+		if (ft_strstr(data[i], "reflection"))
+			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+		i++;
+	}
+	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
+	g->id++;
+    return (1);
+}
+
+int		parse_sphere(t_global *g, char **data, int i)
+{
 	g->obj[g->id].id = g->id;
     g->obj[g->id].name = "sphere";
+	g->obj[g->id].hit = &hit_sphere;
+	g->obj[g->id].bright = &bright_sphere;
+	g->obj[g->id].simple_bright = &simple_bright_sphere;
+	init_vector(&(g->obj[g->id].color), 1, 0, 0);
+	init_vector(g->obj[g->id].ctr, 0, 0, 0);
+	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
+	g->obj[g->id].rd = 40;
+	g->obj[g->id].re = 0;
+	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
@@ -482,125 +428,200 @@ int         save_sphere(t_global *g, int fd)
 	g->obj[g->id].box[6] = diff(*g->obj[g->id].ctr, dir[6]);
 	g->obj[g->id].box[7] = diff(*g->obj[g->id].ctr, dir[7]);
 
-	save_tile(g, fd);
-	save_color(g, &(g->obj[g->id].color), fd);
-	save_center(g, g->obj[g->id].ctr, fd);
-	save_angle(g, &(g->obj[g->id].ang), fd);
-	save_radius(g, &(g->obj[g->id].rd), &(g->obj[g->id].rd2), fd);
-	save_reflection(g, &(g->obj[g->id].re), fd);
-
+	while (data[i])
+	{
+		if (ft_strstr(data[i], "}"))
+			break;
+		if (ft_strstr(data[i], "texture"))
+			parse_tile(data[i], g);
+		if (ft_strstr(data[i], "color"))
+			parse_color(data[i], &(g->obj[g->id].color));
+		if (ft_strstr(data[i], "center"))
+			parse_vector(data[i], g->obj[g->id].ctr);
+		if (ft_strstr(data[i], "angle"))
+			parse_vector(data[i], &(g->obj[g->id].ang));
+		if (ft_strstr(data[i], "radius"))
+			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
+		if (ft_strstr(data[i], "reflection"))
+			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+		i++;
+	}
+	base255(g->obj[g->id].color);
+	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	g->id++;
-    return (0);
+	return (1);
 }
 
-void        save_objects(t_global *g, int fd)
+int			parse_objects(t_global *g, char **data, int i, int lines)
 {
-    char    *line;
-    char    *tmp;
-    
-    miss_open_brackets(g, fd);
-    g->obj = (t_object *)malloc(sizeof(t_object) * (g->argc + 2));
-    g->id = 1;
-    while (get_next_line(fd, &line) > 0)
-    {
-        if (ft_strnstr(line, "name", 20) > 0)
-        {
-            tmp = ft_strchr(line, 58);
-            if (ft_strncmp(tmp + 3, "PLANE", 5) == 0)
-                save_plane(g, fd);
-            if (ft_strncmp(tmp + 3, "SPHERE", 6) == 0)
-                save_sphere(g, fd);
-            if (ft_strncmp(tmp + 3, "CONE", 4) == 0)
-                save_cone(g, fd);
-            if (ft_strncmp(tmp + 3, "CYLINDER", 8) == 0)
-                save_cylinder(g, fd);
-            if (ft_strncmp(tmp + 3, "TRI", 3) == 0)
-                save_tri(g, fd);
-            if (ft_strncmp(tmp + 3, "COMPLEX", 5) == 0)
-                save_complex(g, fd);
-        }
-        free(line);
-    }
-}
+	int lig;
 
-void		save_light(char *line, t_vector *light)
-{
-
-	char	**tmp;
+	lig = -1;
+	g->id = 1;
+	g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights);
+	g->obj = (t_object *)malloc(sizeof(t_object) * (g->argc + 2));
+	printf("argc: %d", g->argc);
+	while (++lig <= g->argc)
+		g->obj[lig].ctr = (t_vector *)malloc(sizeof(t_vector));
+	lig = 0;
 	
-	
-
-			tmp = ft_strsplit((ft_strnstr(line, "position", 20)) + 11, ',');
-			printf("light0[]: %s\n", tmp[0]);
-			printf("light1[]: %s\n", tmp[1]);
-			printf("light2[]: %s\n", tmp[2]);
-			printf("light3[]: %s\n", tmp[3]);
-				
-			if (num(tmp[0]) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
-			{
-				light->x = (double)ft_atoi(tmp[0]);
-				light->y = (double)ft_atoi(tmp[1]);
-				light->z = (double)ft_atoi(tmp[2]);
-				printf("color.center->x: %d\n", ft_atoi(tmp[0]));
-				printf("color.center->y: %d\n", ft_atoi(tmp[1]));
-				printf("color.center->z: %d\n", ft_atoi(tmp[2]));
-				free(tmp[1]);
-				free(tmp[2]);
-				free(tmp);
-				free(*tmp);
-				printf("position\n");
-			}
+	while (i < lines)
+	{
+		if (ft_strstr(data[i], "LIGHT"))
+		{
+			parse_vector(data[i + 2], &(g->li[lig]));
+			g->liz = g->li[lig].z;
+			lig++;
+		}
+		if (ft_strstr(data[i], "SPHERE"))
+			parse_sphere(g, data, i + 1);
+		if (ft_strstr(data[i], "CONE"))
+			parse_cone(g, data, i + 1);
+		if (ft_strstr(data[i], "CYLINDER"))
+			parse_cylinder(g, data, i + 1);
+		if (ft_strstr(data[i], "COMPLEX"))
+			parse_complex(g, data, i + 1);
+		if (ft_strstr(data[i], "TRI"))
+			parse_tri(g, data, i + 1);
+		if (ft_strstr(data[i], "PLANE"))
+			parse_plane(g, data, i + 1);
+		i++;
+	}
+	return (0);
 }
 
-void        read_file(t_global *g, int fd)
+int        parse_file(t_global *g, char **data, int lines)
 {
-    char    *line;
     char    *tmp;
 	int i = 0;
 
-    while (get_next_line(fd, &line) > 0)
-    {
-        if (ft_strnstr(line, "CAMERA", 20) > 0)
-        {
-            tmp = ft_strchr(line, 58);
-            save_cam(tmp + 2, g);
-        }
-        if (ft_strnstr(line, "ROTATION", 20) > 0)
-        {
-            tmp = ft_strchr(line, 58);
-			save_rotation(g, tmp + 2);
-        }
-        if (ft_strnstr(line, "AMBIENT", 20) > 0)
-        {
-            tmp = ft_strchr(line, 58);
-            save_ambient(g, ft_atoi(tmp + 1));
-        }
-        if (ft_strnstr(line, "LIGHT", 20) > 0)
-		{
-			g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights);
-			
-		}
-		if (ft_strnstr(line, "position", 20) > 0)
-			{
-				save_light(line, &(g->li[i]));
-				i++;
-			}
-        if (ft_strnstr(line, "OBJECTS", 20) > 0)
-            save_objects(g, fd);
-        free(line);
-    }
+	if (ft_strcmp("{", data[0]) && ft_strcmp("}", data[lines - 1]))
+		return (0);
+
+	while (i < lines)
+	{
+		if (ft_strstr(data[i], "ROTATION"))
+			parse_vector(data[i], g->angle);
+		if (ft_strstr(data[i], "CAMERA"))
+			parse_vector(data[i], g->cam_pos);
+		if (ft_strstr(data[i], "AMBIENT"))
+			parse_int(data[i], &(g->ambient), 1, 100);
+		if (ft_strstr(data[i], "OBJECTS"))
+			parse_objects(g, data, i, lines);
+		i++;
+	}
+	printf("color: %f, %f, %f \n", g->obj[0].ctr->x, g->obj[0].ctr->y, g->obj[0].ctr->z);
+	// printf("amb: %d\n", g->ambient);
+    return (1);
+}
+
+static void	ft_strjoin_free(char *s1, char *s2, int type)
+{
+	if (type == 'l')
+		free(s1);
+	else if (type == 'r')
+		free(s2);
+	else if (type == 'b')
+	{
+		free(s1);
+		free(s2);
+	}
+}
+
+char		*ft_strjoin_fake(char *s1, char *s2, char type)
+{
+	char	*n;
+	int		i[2];
+
+	i[0] = 0;
+	while (s1[i[0]])
+		i[0]++;
+	i[1] = 0;
+	while (s2[i[1]])
+		i[1]++;
+	n = (char *)malloc(sizeof(char) * (i[0] + i[1] + 1));
+	i[0] = 0;
+	while (s1[i[0]])
+	{
+		n[i[0]] = s1[i[0]];
+		i[0]++;
+	}
+	i[1] = 0;
+	while (s2[i[1]])
+	{
+		n[i[0] + i[1]] = s2[i[1]];
+		i[1]++;
+	}
+	ft_strjoin_free(s1, s2, type);
+	n[i[0] + i[1]] = '\0';
+	return (n);
+}
+
+int		ft_linelen(char *buf, int k)
+{
+	int	len;
+
+	len = 0;
+	while (buf[k] != '\n' && buf[k] != '\0')
+	{
+		k++;
+		len++;
+	}
+	return (++len);
+}
+
+char		**get_scene(char *buf, int lines)
+{
+	int		i;
+	int		k;
+	int		j;
+	char	**data;
+
+	k = 0;
+	j = 0;
+	if (!buf)
+		return (0);
+	if (!(data = (char **)malloc(sizeof(char *) * (lines + 1))))
+		return (0);
+	while (buf[k] != '\0' && j < lines)
+	{
+		i = 0;
+		if (!(data[j] = ft_strnew(ft_linelen(buf, k))))
+			return (0);
+		while (buf[k] != '\n' && buf[k] != '\0')
+			data[j][i++] = buf[k++];
+		data[j][i] = '\0';
+		k++;
+		j++;
+	}
+	ft_strdel(&buf);
+	return (data);
 }
 
 int			open_file(char **argv, t_global *g)
 {
 	int		fd;
+	char	*line;
+	char	*buf;
+	int		lines;
+	char	**data;
 
     fd = open(argv[1], O_RDONLY);
+	lines = 0;
+	buf = ft_strnew(1);
 	if (argv[0][0] != '.' || argv[0][1] != '/') //saves from segfault when ./RT from another directory executes
 		return (0);
     if (fd == -1)
         return (0);
-    read_file(g, fd);
+	while (get_next_line(fd, &line))
+	{
+		buf = ft_strjoin_fake(buf, ft_strjoin_fake(ft_strtrim(line), "\n", 'l'), 'b');
+		free(line);
+		lines++;
+	}
+	if (!(data = get_scene(buf, lines)))
+		data = NULL;
+    parse_file(g, data, lines);
     close(fd);
 	return (1);
 }
@@ -614,7 +635,7 @@ int    count_objects(t_global *g, int fd)
         return (0);
     while (get_next_line(fd, &line) > 0)
     {
-		if (ft_strnstr(line, "position", 20))
+		if (ft_strnstr(line, "LIGHT", 20))
 			g->lights++;
         if (ft_strnstr(line, "PLANE", 25) || ft_strnstr(line, "CONE", 25) ||
             ft_strnstr(line, "CYLINDER", 25) || ft_strnstr(line, "TRI", 25) ||
@@ -622,13 +643,14 @@ int    count_objects(t_global *g, int fd)
             g->argc++;
         free(line);
     }
+	
     return (g->argc);
 }
 
 int		check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
 {
     int fd;
-
+	
 	if (argc != 2)
 		return (usage(0));
     fd = open(argv[1], O_RDONLY);
@@ -638,6 +660,5 @@ int		check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
     if (!open_file(argv, g))
         return (0);
     printf("%d\n", g->argc);
-
 	return (1);
 }

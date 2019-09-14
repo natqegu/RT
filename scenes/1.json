@@ -1,31 +1,33 @@
 {
   "ROTATION":[0,0,0],
   "CAMERA":[0,0,0],
-  "AMBIENT":70,
-
-  "LIGHT":
-  [
-    {
-      "position":[13,20,-50]
-    },
-    {
-      "position":[0,0,0]
-    },
-    {
-      "position":[54,500,200]
-    }
-  ],
-
+  "AMBIENT":95,
   "OBJECTS":
   [
     {
-      "name": "SPHERE",
-      "texture": "./tiles/earth.xpm",
-      "color": [255,0,0],
-      "center": [0,-5,600],
-      "angle": [0,0,0],
-      "radius": 100,
-      "reflection": 20
+      "LIGHT":
+      {
+        "position":[54,500,200]
+      },
+      "LIGHT1":
+      {
+        "position":[54,500,200]
+      },
+      "LIGHT2":
+      {
+        "position":[54,500,200]
+      }
+    },
+    {
+      "SPHERE":
+      {
+        "texture":"./tiles/earth.xpm",
+        "color":[255,0,0],
+        "center":[0,-5,600],
+        "angle":[0,0,0],
+        "radius":100,
+        "reflection":20
+      }
     }
   ]
 }
