@@ -21,11 +21,11 @@
     {
       "SPHERE":
       {
-        "texture":"./tiles/earth.xpm",
+        "texture":"./tiles/uranus.xpm",
         "color":[255,0,0],
-        "center":[0,-5,600],
-        "angle":[0,0,0],
-        "radius":100,
+        "center":[0,-5,300],
+        "angle":[90,0,0],
+        "radius":60,
         "reflection":20
       }
     }

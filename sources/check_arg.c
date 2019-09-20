@@ -355,10 +355,10 @@ int         parse_cone(t_global *g, char **data, int i)
 	g->obj[g->id].hit = &hit_cone;
 	g->obj[g->id].bright = &bright_cone;
 	g->obj[g->id].simple_bright = &simple_bright_cone;
-	init_vector(&(g->obj[g->id].color), 1, 0, 0);
-	init_vector(g->obj[g->id].ctr, 0, 0, 0);
+	init_vector(&(g->obj[g->id].color), 1, 1, 1);
+	init_vector(g->obj[g->id].ctr, 0, 0, 400);
 	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
-	g->obj[g->id].rd = 40;
+	g->obj[g->id].rd = 1;
 	g->obj[g->id].re = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
 
@@ -379,13 +379,14 @@ int         parse_cone(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "angle"))
 			parse_vector(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "radius"))
-			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
+			parse_int(data[i], &(g->obj[g->id].rd), 1, 100);
 		if (ft_strstr(data[i], "reflection"))
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	g->id++;
+	printf("HERE CONE HELLO\n");
     return (1);
 }
 
@@ -400,7 +401,7 @@ int		parse_sphere(t_global *g, char **data, int i)
 	init_vector(g->obj[g->id].ctr, 0, 0, 0);
 	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
 	g->obj[g->id].rd = 40;
-	g->obj[g->id].re = 0;
+	g->obj[g->id].re = 1;
 	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
@@ -446,7 +447,6 @@ int		parse_sphere(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
 		i++;
 	}
-	base255(g->obj[g->id].color);
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	g->id++;
 	return (1);
@@ -470,7 +470,8 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 		if (ft_strstr(data[i], "LIGHT"))
 		{
 			parse_vector(data[i + 2], &(g->li[lig]));
-			g->liz = g->li[lig].z;
+			g->liz = g->li[lig].z; // have to delete this and use line below
+			g->light_z[lig] = g->li[lig].z; // array of light z. just inizialization. 
 			lig++;
 		}
 		if (ft_strstr(data[i], "SPHERE"))
@@ -510,6 +511,7 @@ int        parse_file(t_global *g, char **data, int lines)
 			parse_objects(g, data, i, lines);
 		i++;
 	}
+	*g->normal = rotate(*g->normal, *g->angle);
 	printf("color: %f, %f, %f \n", g->obj[0].ctr->x, g->obj[0].ctr->y, g->obj[0].ctr->z);
 	// printf("amb: %d\n", g->ambient);
     return (1);
@@ -660,5 +662,6 @@ int		check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
     if (!open_file(argv, g))
         return (0);
     printf("%d\n", g->argc);
+	printf("reflect: %f\n", g->obj[1].re);
 	return (1);
 }

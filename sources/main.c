@@ -105,9 +105,16 @@ int		main(int argc, char **argv)
 	ginit(&g);
 	if (!check_arg(argv, argc, &g, ctr))
 		return (0);
+	
+
 	g.img_ptr = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
+	void *menu = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
+
 	g.data_ptr = (int *)mlx_get_data_addr(g.img_ptr, &g.bpp, &g.sz_l, &g.e);
-	g.win_ptr = mlx_new_window(g.mlx_ptr, WIDTH, HEIGHT, "window1");
+	g.win_ptr = mlx_new_window(g.mlx_ptr, WHOLE_MENU, WHOLE_MENU, "RT");
+
+	menu = mlx_xpm_file_to_image(g.mlx_ptr, "./gui2.XPM", &h, &w);
+	mlx_put_image_to_window(g.mlx_ptr, g.win_ptr, menu, 0, 0);
 //	g.tile_ptr = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
 //	g.tile_ptr = mlx_xpm_file_to_image(g.mlx_ptr, "./tiles/earth.xpm", &w, &h);
 //	printf("%d,%d\n", w, h);

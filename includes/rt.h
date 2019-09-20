@@ -19,7 +19,11 @@
 #include <fcntl.h>
 
 #define WIDTH HEIGHT
-#define HEIGHT 600
+#define HEIGHT 400
+
+#define WHOLE_MENU 1000
+#define WINDOW_START_X 300
+#define WINDOW_START_Y 120
 #define CORES 8
 
 typedef	struct		s_vector t_vector;
@@ -216,7 +220,8 @@ typedef struct		s_global
 	t_vector		*ray;
 	t_vector		*li;
 	t_vector		*cam_pos;
-	double			liz;
+	double			liz; // use *light_z instead 
+	double			*light_z;
 	t_vector		*angle;
 	t_vector		*normal;
 	t_object		*obj;
@@ -232,5 +237,5 @@ typedef struct		s_global
 	t_global		*tcps[CORES];
 	int				id;
 	int				lights;
-	char			**data;
 }					t_global;
+

@@ -306,17 +306,17 @@ int		start_threads(void *f, t_global *g)
 
 //	alias(g->data_ptr, g->data_ptr, WIDTH, HEIGHT, WIDTH, HEIGHT);
 //	printf("doing alias1\n");
-	if (WIDTH > 2500)
-	{
-		alias(g->data_ptr, g->data_ptr, WIDTH, HEIGHT, WIDTH, HEIGHT);
-		printf("doing alias2\n");
-	}
-	if (WIDTH > 750)
-		alias(g->data_ptr, g->data_ptr, WIDTH, HEIGHT, WIDTH, HEIGHT);
+	// if (WIDTH > 2500)
+	// {
+	// 	alias(g->data_ptr, g->data_ptr, WIDTH, HEIGHT, WIDTH, HEIGHT);
+	// 	printf("doing alias2\n");
+	// }
+	// if (WIDTH > 750)
+	// 	alias(g->data_ptr, g->data_ptr, WIDTH, HEIGHT, WIDTH, HEIGHT);
 
 //	printf("putting image to window\n");
 
 
-	mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->img_ptr, 0, 0);
+	mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->img_ptr, WINDOW_START_X, WINDOW_START_Y);
 	return (1);
 }
