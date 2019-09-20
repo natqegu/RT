@@ -460,6 +460,7 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 	g->id = 1;
 	g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights);
 	g->obj = (t_object *)malloc(sizeof(t_object) * (g->argc + 2));
+	g->light_z = (double *)malloc(sizeof(t_vector) * g->lights);
 	printf("argc: %d", g->argc);
 	while (++lig <= g->argc)
 		g->obj[lig].ctr = (t_vector *)malloc(sizeof(t_vector));
