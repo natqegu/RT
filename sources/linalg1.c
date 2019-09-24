@@ -1,5 +1,5 @@
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 void		init_vector(t_vector *i, double x, double y, double z)
 {

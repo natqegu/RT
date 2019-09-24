@@ -10,6 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef FT_RT_H
+# define FT_RT_H
+
+
 #include <math.h>
 #include <mlx.h>
 #include <stdio.h>
@@ -115,7 +119,7 @@ t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global 
 t_colbri			bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
 
-void		init_tile(int i, char *tile, t_object *obj, t_global *g);
+void				init_tile(int i, char *tile, t_object *obj, t_global *g);
 t_dstpst			hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
 t_dstpst			hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
 t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
@@ -145,7 +149,7 @@ void				free_points(t_vector **pts);
 double				mymod(double x, int m);
 int					myintmod(int x, int m);
 int					mouse_press(int button, int x, int y, void *param);
-
+int					x_close(t_global *g);
 
 typedef	struct		s_tile
 {
@@ -237,3 +241,4 @@ typedef struct		s_global
 	int				color_proc;
 }					t_global;
 
+#endif

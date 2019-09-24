@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 int 		hit_quad(t_vector st, t_vector end, t_vector ray, t_vector quad[4], t_global *g)
 {
