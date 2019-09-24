@@ -1,30 +1,9 @@
 
 #include "rt.h"
 
-
 int			con(t_global *g)
 {
 	return (shot.x == g->ray->x && shot.y == g->ray->y);
-}
-
-int		mouse_press(int button, int x, int y, void *param)
-{
-	t_global *g;
-	t_object a;
-
-	g = param;
-//	ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
-	if (button == 1)
-	{
-		shot.x = -WIDTH / 2 + x;
-		shot.y = HEIGHT / 2 - y;
-		printf("\n%f, %f\n", shot.x, shot.y);
-//		a = g->obj[g->objn];
-//		printf("object is %d %s %f, %f, %f\n%f,%f, %f\n", g->objn, a.name, a.ctr->x, a.ctr->y, a.ctr->z, a.nr.x, a.nr.y, a.nr.z);
-		printf("mouse press -> realc\n");
-		start_threads(recalc, g);
-	}
-	return (1);
 }
 
 void		free_arr(char **arr)
@@ -105,7 +84,6 @@ int		main(int argc, char **argv)
 	ginit(&g);
 	if (!check_arg(argv, argc, &g, ctr))
 		return (0);
-	
 
 	g.img_ptr = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
 	void *menu = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
@@ -113,7 +91,7 @@ int		main(int argc, char **argv)
 	g.data_ptr = (int *)mlx_get_data_addr(g.img_ptr, &g.bpp, &g.sz_l, &g.e);
 	g.win_ptr = mlx_new_window(g.mlx_ptr, WHOLE_MENU, WHOLE_MENU, "RT");
 
-	menu = mlx_xpm_file_to_image(g.mlx_ptr, "./gui2.XPM", &h, &w);
+	menu = mlx_xpm_file_to_image(g.mlx_ptr, "./menuu.XPM", &h, &w);
 	mlx_put_image_to_window(g.mlx_ptr, g.win_ptr, menu, 0, 0);
 //	g.tile_ptr = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
 //	g.tile_ptr = mlx_xpm_file_to_image(g.mlx_ptr, "./tiles/earth.xpm", &w, &h);

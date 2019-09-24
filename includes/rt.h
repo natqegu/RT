@@ -28,7 +28,6 @@
 
 typedef	struct		s_vector t_vector;
 
-
 struct 				s_vector
 {
 	double 			x;
@@ -36,11 +35,8 @@ struct 				s_vector
 	double 			z;
 };
 
-
 t_vector			shot;
 int					mousex;
-
-
 
 typedef struct		s_global t_global;
 typedef	struct		s_object t_object;
@@ -148,6 +144,7 @@ t_vector			**create_points(char *filename, t_vector *ptdim, t_global *g);
 void				free_points(t_vector **pts);
 double				mymod(double x, int m);
 int					myintmod(int x, int m);
+int					mouse_press(int button, int x, int y, void *param);
 
 
 typedef	struct		s_tile
@@ -233,9 +230,10 @@ typedef struct		s_global
 	pthread_t		tid[CORES];
 	int				core;
 	int				prim;
-	int				ambient;
+	int				*ambient;
 	t_global		*tcps[CORES];
 	int				id;
 	int				lights;
+	int				color_proc;
 }					t_global;
 

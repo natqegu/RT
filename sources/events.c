@@ -151,17 +151,15 @@ int		mouse_move(int x, int y, void *param)
 		p.y = /*sin*/((-WIDTH / 2 + x )* 0.001);
 		p.x = /*sin*/(0.001 * (y - HEIGHT / 2));
 		p.z = 0;
-
 //		*g->normal = rotate(g->_0015, p);
-
 //		*g->angle = sum(p, *g->angle);
 		*g->angle = p;
-
 		*g->normal = rotate(g->_0015, p);
-
-	
 		start_threads(recalc, g);
 	}
+
+	
+
 	return (1);
 }
 

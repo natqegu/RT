@@ -21,18 +21,18 @@ void		ginit(t_global *g)
 	i = -1;
 	// init_vector(g->li, 102, 0, 150);
 	// g->liz = g->li->z;
-	// g->ambient = 70;
 	init_vector(&g->_0015, 0, 0, 15);
 
 	init_vector(&g->base[0], 1, 0, 0);
 	init_vector(&g->base[1], 0, 1, 0);
 	init_vector(&g->base[2], 0, 0, 1);
+	g->color_proc = 0xffffff;
 
 	// init_vector(g->angle, 0.1, 0.05, 0);
 //	init_vector(g->angle, 0, 0, 0);
 
-	init_vector(g->normal, 0, 0, 20);
-	*g->normal = rotate(*g->normal, *g->angle);
+	// init_vector(g->normal, 0, 0, 20);
+	// *g->normal = rotate(*g->normal, *g->angle);
 	// init_vector(g->cam_pos, 0.135995, 100, 100.919620);
 //	init_vector(g->cam_pos, 0, 0, 0);
 

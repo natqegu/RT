@@ -202,28 +202,32 @@ void		*recalc(void *p)
 	g = (t_global *)p;
 	end = (g->core + 1) * HEIGHT / CORES;
 	j = g->core * HEIGHT / CORES - 1;
+	if (*g->ambient > 100)
+		*g->ambient = 100;
+	if (*g->ambient < 0)
+		*g->ambient = 0;
 //	printf("recalcing\n");
 	while (++j < end && (i = -1))
 	{
-               if (g->core == 0)
-                        printf("core 1 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
-                else if (g->core == 1)
-                        printf("core 2 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
-                else if (g->core == 2)
-                        printf("core 3 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
-                else if (g->core == 3)
-                        printf("core 4 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
-                else if (g->core == 4)
-                        printf("core 5 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
-                else if (g->core == 5)
-			printf("core 6 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
-                else if (g->core == 6)
-                        printf("core 7 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
-                else if (g->core == 7)
-                        printf("core 8 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+		// if (g->core == 0)
+        //     printf("core 1 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+        // else if (g->core == 1)
+        //         printf("core 2 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+        // else if (g->core == 2)
+        //         printf("core 3 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+        // else if (g->core == 3)
+        //         printf("core 4 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+        // else if (g->core == 4)
+        //         printf("core 5 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+        // else if (g->core == 5)
+		// 		printf("core 6 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+        // else if (g->core == 6)
+        //         printf("core 7 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+        // else if (g->core == 7)
+        //         printf("core 8 = %fp\n", j / (double)(HEIGHT / (double)CORES)  - g->core);
+
 		while (++i < WIDTH)
 		{
-
 //for debug
 			init_vector(g->ray, i - WIDTH / 2, HEIGHT / 2 - j, g->ray->z);
 //

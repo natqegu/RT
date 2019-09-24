@@ -261,13 +261,13 @@ t_colbri	simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g
 	ret.bri = 255 * dot(norm(diff(diff(*g->li, *obj.ctr), hit0)), nrm);
 	if (obstructed(hit, obj, g))
 	{
-		retobs = g->ambient;
+		retobs = *g->ambient;
 		ret.bri = fmin(ret.bri, retobs);
 	}
 	ret.col = obj.color;
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		return (ret);
 	}
 	return (ret);
@@ -293,7 +293,7 @@ t_colbri	bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g)
 	{
 		if (!inside_cone(*g->li, obj, g))
 		{
-			ret.bri = g->ambient;
+			ret.bri = *g->ambient;
 			return (ret);
 		}
 		else
@@ -301,7 +301,7 @@ t_colbri	bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g)
 	}
 	else if (inside_cone(*g->li, obj, g))
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		return (ret);
 	}
 	ret.bri = 255 * dot(norm(diff(diff(*g->li, *obj.ctr), hit0)), nrm);
@@ -344,16 +344,16 @@ t_colbri	bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g)
 
 	if (obstructed(hit, obj, g))
 	{
-		retobs = g->ambient;
+		retobs = *g->ambient;
 //		ret.bri = ret.bri;
 		ret.bri = fmin(ret.bri, retobs);
 	}
 	}
 	else
 		ret.col = obj.color;
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		return (ret);
 	}
 	
@@ -391,9 +391,9 @@ t_colbri	simple_bright_cylinder(t_vector st, t_vector hit, t_object obj, t_globa
 		retobs = 70;
 		ret.bri = fmin(ret.bri, retobs);
 	}
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		return (ret);
 	}
 	return (ret);
@@ -467,9 +467,9 @@ t_colbri	bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g)
 		retobs = 70;
 		ret.bri = fmin(ret.bri, retobs);
 	}
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		return (ret);
 	}
 	return (ret);
@@ -501,11 +501,11 @@ t_colbri	simple_bright_sphere(t_vector st, t_vector hit, t_object obj, t_global 
 	ret.bri = (round(255 * dot(norm(diff(*g->li, hit)), nrm)));
 	if (0 && obstructed(hit, obj, g))
 	{
-		retobs = g->ambient;
+		retobs = *g->ambient;
 		ret.bri = fmin(ret.bri, retobs);
 	}
-	if (ret.bri < g->ambient)
-		ret.bri = g->ambient;
+	if (ret.bri < *g->ambient)
+		ret.bri = *g->ambient;
 	ret.col = obj.color;
 	return (ret);
 }
@@ -539,16 +539,16 @@ t_colbri	bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g)
 	ret.bri = (round(255 * dot(norm(diff(*g->li, hit)), nrm)));
 	if (0 && obstructed(hit, obj, g))
 	{
-		retobs = g->ambient;
+		retobs = *g->ambient;
 //		ret.bri = ret.bri / (double)2;
 		ret.bri = fmin(ret.bri, retobs);
 	}	
 //	else
 //		ret = color(ret, obj.color);
 	if (con(g))
-		printf("ambient is %d\n", g->ambient);
-	if (ret.bri < g->ambient)
-		ret.bri = g->ambient;
+		printf("ambient is %d\n", *g->ambient);
+	if (ret.bri < *g->ambient)
+		ret.bri = *g->ambient;
 	if (obj.tile[0].data_ptr)
 	{
 		proj = diff(ctrhit, scale(dot(obj.base[1], ctrhit),obj.base[1]));
@@ -601,8 +601,8 @@ t_colbri		simple_bright_spheror(t_vector st, t_vector hit, t_object obj, t_globa
 	nrm = norm(diff(hit, *obj.ctr));
 
 	retorig = (round(255 * dot(norm(diff(*g->li, hit)), nrm)));
-	if (retorig < g->ambient)
-		retorig = g->ambient;
+	if (retorig < *g->ambient)
+		retorig = *g->ambient;
 	camhit = diff(hit, st);
 	t_vector camhitx = diff(camhit, scale(dot(camhit, nrm), nrm));
 	refl = (diff(scale(2, camhitx), camhit));
@@ -686,8 +686,8 @@ t_colbri		bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g)
 	nrm = norm(diff(hit, *obj.ctr));
 
 	retorig = (round(255 * dot(norm(diff(*g->li, hit)), nrm)));
-	if (retorig < g->ambient)
-		retorig = g->ambient;
+	if (retorig < *g->ambient)
+		retorig = *g->ambient;
 
 	if (obj.tile[0].data_ptr)
 	{
@@ -763,13 +763,13 @@ t_colbri		simple_bright_plane(t_vector st, t_vector hit, t_object obj, t_global 
 	ret.bri = round(255 * dot(norm(diff(*g->li, hit)), obj.base[1]));
 	if (0 && obstructed(hit, obj, g))
 	{
-		retobs = g->ambient;
+		retobs = *g->ambient;
 		tempbri = ret.bri;
 		ret.bri = fmin(tempbri, retobs);
 	}
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		ret.col = obj.color;
 		if (con(g))
 			printf("returning ambient bri\n");
@@ -833,13 +833,13 @@ t_colbri		bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g)
 	}
 	if (obstructed(hit, obj, g))
 	{
-		retobs = g->ambient;
+		retobs = *g->ambient;
 		tempbri = ret.bri;
 		ret.bri = fmin(tempbri, retobs);
 	}
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		if (con(g))
 			printf("returning ambient bri\n");
 		return (ret);
@@ -883,13 +883,13 @@ t_colbri		simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g
 	}
 	if (0 == 1 && obstructed(hit, obj, g))
 	{
-		retobs = g->ambient;
+		retobs = *g->ambient;
 		tempbri = ret.bri;
 		ret.bri = fmin(tempbri, retobs);
 	}
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		if (con(g))
 			printf("returning ambient bri\n");
 		return (ret);
@@ -953,7 +953,7 @@ t_colbri		bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g)
 		if (0 == 1 && obstructed(hit, obj, g))
 		{
 		//	printf("now obstructed\n");
-			retobs = g->ambient;
+			retobs = *g->ambient;
 			if (chess)
 			{
 				if (con(g))
@@ -986,9 +986,9 @@ t_colbri		bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g)
 		ret.bri = retorig;
 		ret.col = obj.color;
 	}
-	if (ret.bri < g->ambient)
+	if (ret.bri < *g->ambient)
 	{
-		ret.bri = g->ambient;
+		ret.bri = *g->ambient;
 		if (con(g))
 			printf("returning ambient bri\n");
 		return (ret);

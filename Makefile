@@ -29,6 +29,7 @@ SRC_C = brights.c\
 		linalg1.c\
 		main.c\
 		memory.c\
+		menu.c\
 
 SRC_O = $(addprefix objects/,$(SRC_C:.c=.o))
 

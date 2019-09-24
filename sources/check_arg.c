@@ -53,9 +53,9 @@ int		parse_color(char *line, t_vector *vector)
 	tmp = ft_strsplit(name[1], ',');		
 	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
 	{
-		vector->x = (double)(ft_atoi(tmp[0] + 1) / 255);
-		vector->y = (double)(ft_atoi(tmp[1]) / 255);
-		vector->z = (double)(ft_atoi(tmp[2]) / 255);
+		vector->x = (double)(ft_atoi(ft_strtrim(tmp[0] + 1)) / 255);
+		vector->y = (double)(ft_atoi(ft_strtrim(tmp[1])) / 255);
+		vector->z = (double)(ft_atoi(ft_strtrim(tmp[2])) / 255);
 		free(tmp[1]);
 		free(tmp[2]);
 		free(tmp);
@@ -75,12 +75,12 @@ int		parse_vector(char *line, t_vector *vector)
 	char	**tmp;
 
 	name = ft_strsplit(line, ':');
-	tmp = ft_strsplit(name[1], ',');		
+	tmp = ft_strsplit(ft_strtrim(name[1]), ',');	
 	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
 	{
-		vector->x = (double)ft_atoi(tmp[0] + 1);
-		vector->y = (double)ft_atoi(tmp[1]);
-		vector->z = (double)ft_atoi(tmp[2]);
+		vector->x = (double)ft_atoi(ft_strtrim(tmp[0] + 1));
+		vector->y = (double)ft_atoi(ft_strtrim(tmp[1]));
+		vector->z = (double)ft_atoi(ft_strtrim(tmp[2]));
 		free(tmp[1]);
 		free(tmp[2]);
 		free(tmp);
@@ -101,7 +101,7 @@ int		parse_int(char *line, int *number, int divisor, int max)
 	name = ft_strsplit(line, ':');
 	if (!name[0] || !name[1] || name[2])
 		return (0);
-	result = ft_atoi(name[1]);
+	result = ft_atoi(ft_strtrim(name[1]));
 	if (result > max)
         *number = max * divisor;
     else if (result < 0)
@@ -122,7 +122,7 @@ int		parse_double(char *line, double *number, double divisor, double max)
 	name = ft_strsplit(line, ':');
 	if (!name[0] || !name[1] || name[2])
 		return (0);
-	result = ft_atoi(name[1]);
+	result = ft_atoi(ft_strtrim(name[1]));
 	if (result > max)
         *number = max / divisor;
     else if (result < 0)
@@ -497,6 +497,7 @@ int        parse_file(t_global *g, char **data, int lines)
     char    *tmp;
 	int i = 0;
 
+	g->ambient = (int *)malloc(sizeof(int));
 	if (ft_strcmp("{", data[0]) && ft_strcmp("}", data[lines - 1]))
 		return (0);
 
@@ -507,14 +508,14 @@ int        parse_file(t_global *g, char **data, int lines)
 		if (ft_strstr(data[i], "CAMERA"))
 			parse_vector(data[i], g->cam_pos);
 		if (ft_strstr(data[i], "AMBIENT"))
-			parse_int(data[i], &(g->ambient), 1, 100);
+			parse_int(data[i], g->ambient, 1, 100);
 		if (ft_strstr(data[i], "OBJECTS"))
 			parse_objects(g, data, i, lines);
 		i++;
 	}
 	*g->normal = rotate(*g->normal, *g->angle);
 	printf("color: %f, %f, %f \n", g->obj[0].ctr->x, g->obj[0].ctr->y, g->obj[0].ctr->z);
-	// printf("amb: %d\n", g->ambient);
+	// printf("amb: %d\n", *g->ambient);
     return (1);
 }
 
