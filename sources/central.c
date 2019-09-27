@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv, t_vector nrm, t_object obj, t_global *g)
 {

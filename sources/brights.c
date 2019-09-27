@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_colbri		trans(t_vector st, t_vector hit, t_vector nrm, t_object obj, t_global *g)
 {

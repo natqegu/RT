@@ -1,5 +1,5 @@
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 void	debug(t_global *g)
 {

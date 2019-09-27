@@ -1,5 +1,5 @@
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 int			con(t_global *g)
 {
@@ -145,3 +145,5 @@ int		main(int argc, char **argv)
 	mlx_hook(g.win_ptr, 17, 1L << 17, x_close, &g);
 	mlx_loop(g.mlx_ptr);
 }
+
+

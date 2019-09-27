@@ -1,5 +1,5 @@
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 int		free_hits(t_global *g)
 {
