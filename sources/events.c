@@ -12,6 +12,26 @@
 
 #include "rt.h"
 
+int		campos(t_global *g)
+{
+	int i;
+
+	i = 1;
+	while (i < g->argc + 1)
+	{
+		if ((ft_strequ("plane", g->obj[i].name) || ft_strequ("tri", g->obj[i].name))  && dot(diff(*g->obj[i].ctr, *g->cam_pos), g->obj[i].base[1]) > 0)
+		{
+//			g->obj[i].base[1] = scale(-1, g->obj[i].base[1]);
+			g->obj[i].cam_pos = 1;
+			printf("we are in %d %s\n", i, g->obj[i].name);
+		}
+		else
+			g->obj[i].cam_pos = 0;
+		i++;
+	}
+	return (1);
+}
+
 int		key_press(int kk, void *param)
 {
 	t_global *g;
@@ -36,11 +56,16 @@ int		key_press(int kk, void *param)
 		copy_tcps(g);
 		return (start_threads(recalc, g));
 	}
-	else if (kk == 17 || kk == 15)
-		g->liz = g->liz + 15 * (2 * (kk == 15) - 1);
+	else if ((kk == 17 || kk == 15) && g->light_switch > 0 && g->light_switch <= g->lights)
+	{
+		g->liz[g->light_switch - 1] = g->liz[g->light_switch - 1] + 15 * (2 * (kk == 15) - 1);
+//		*g->li = sum(*g->li, scale((2 * (kk == 15) - 1), *g->normal));
+//		g->liz = g->li->z;
+//		return (start_threads(recalc, g));	
+	}
 	else if (kk == 49)
 	{
-		g->light_switch = (g->light_switch + 1) % 3;
+		g->light_switch = (g->light_switch + 1) % (2 + g->lights);
 		return (1);
 	}
 	return (start_threads(toimg, g));
@@ -76,9 +101,10 @@ int		move_phys(int keycode, t_global *g)
 		g->obj[g->objn].base[2] = rotate(g->base[2], g->obj[g->objn].ang);
 //		printf("base is %f,%f,%f\n", g->obj[g->objn].base[0].x, g->obj[g->objn].base[1].y, g->obj[g->objn].base[2].z);
 	}
-
+	campos(g);	
 	return (start_threads(move, g));
 }
+
 
 int	move_obj(int kk, t_global *g)
 {
@@ -106,6 +132,7 @@ int	move_obj(int kk, t_global *g)
 		*g->cam_pos = diff(*g->cam_pos, *g->normal);
 	else if (kk == 13)
 		*g->cam_pos = sum(*g->cam_pos, *g->normal);
+	campos(g);
 	return (start_threads(move, g));
 }
 
@@ -134,32 +161,29 @@ int		mouse_move(int x, int y, void *param)
 	i = -1;
 	g = param;
 	mousex = x;
-	if (g->light_switch == 1)
+	if (g->light_switch >= 1 && g->light_switch <= g->lights)
 	{
-			ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
-			block = g->liz / g->ray->z;
-			p.x = (-WIDTH / 2 + x) * block;
-			p.y = (-y + HEIGHT / 2) * block;
-			p.z = g->liz;
-			*g->li = sum(*g->cam_pos, rotate(p, *g->angle));
-			printf("starting threads with toimg\n");
+//			printf("hello\n");
+//			ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
+			block = g->liz[g->light_switch - 1] / g->ray->z;
+			p.x = (-WIDTH_2 + x) * block;
+			p.y = (-y + HEIGHT_2) * block;
+			p.z = g->liz[g->light_switch - 1];
+			g->li[g->light_switch - 1] = sum(*g->cam_pos, rotate(p, *g->angle));
 			start_threads(toimg, g);
 	}
-	else if (g->light_switch == 2)
+	else if (g->light_switch > g->lights)
 	{
-		ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
-		p.y = /*sin*/((-WIDTH / 2 + x )* 0.001);
-		p.x = /*sin*/(0.001 * (y - HEIGHT / 2));
+//		ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
+		p.y = /*sin*/((-WIDTH_2 + x )* 0.0045);
+		p.x = /*sin*/(0.0045 * (y - HEIGHT_2));
 		p.z = 0;
 //		*g->normal = rotate(g->_0015, p);
 //		*g->angle = sum(p, *g->angle);
 		*g->angle = p;
-		*g->normal = rotate(g->_0015, p);
+		*g->normal = rotate(g->_0015, p);	
 		start_threads(recalc, g);
 	}
-
-	
-
 	return (1);
 }
 

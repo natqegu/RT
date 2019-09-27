@@ -1,96 +1,97 @@
 {
     "ROTATION":[0,0,0],
     "CAMERA":[0,0,0],
-    "AMBIENT":90,
+    "AMBIENT":50,
     "OBJECTS":
     [
       {
         "LIGHT":
         {
-          "position":[54,500,200]
+          "position":[-800,-400,300]
         }
       },
       {
         "SPHERE_sun":
         {
-          "texture":"./tiles/sun.xpm",
+          "texture":2,
           "color":[255,0,0],
           "center":[-800,0,300],
           "angle":[0,0,0],
           "radius":300,
-          "reflection":20
+          "reflection":0,
+          "transparency":90
         },
         "SPHERE_mercury":
         {
-          "texture":"./tiles/mercury.xpm",
+          "texture":3,
           "color":[255,0,0],
           "center":[-420,0,300],
           "angle":[0,0,0],
           "radius":30,
-          "reflection":20
+          "reflection":0
         },
         "SPHERE_venus":
         {
-          "texture":"./tiles/venus.xpm",
+          "texture":4,
           "color":[255,0,0],
           "center":[-320,0,300],
           "angle":[0,0,0],
           "radius":60,
-          "reflection":20
+          "reflection":0
         },
         "SPHERE_earth":
         {
-          "texture":"./tiles/earth.xpm",
+          "texture":5,
           "color":[255,0,0],
           "center":[-110,0,300],
           "angle":[0,0,0],
           "radius":80,
-          "reflection":20
+          "reflection":0
         },
         "SPHERE_mars":
         {
-          "texture":"./tiles/mars.xpm",
+          "texture":6,
           "color":[255,0,0],
           "center":[100,0,300],
           "angle":[0,0,0],
           "radius":60,
-          "reflection":20
+          "reflection":0
         },
         "SPHERE_upiter":
         {
-          "texture":"./tiles/jupiter.xpm",
+          "texture":7,
           "color":[255,0,0],
           "center":[350,0,300],
           "angle":[0,0,0],
           "radius":140,
-          "reflection":20
+          "reflection":0
         },
         "SPHERE_saturn":
         {
-          "texture":"./tiles/saturn.xpm",
+          "texture":8,
           "color":[255,0,0],
           "center":[660,0,280],
           "angle":[0,0,0],
           "radius":120,
-          "reflection":20
+          "reflection":10
         },
         "SPHERE_uranus":
         {
-          "texture":"./tiles/uranus.xpm",
+          "texture":9,
           "color":[255,0,0],
           "center":[890,0,260],
           "angle":[0,0,0],
           "radius":60,
-          "reflection":20
+          "reflection":10
         },
         "SPHERE_neptune":
         {
-          "texture":"./tiles/neptune.xpm",
+          "texture":10,
           "color":[255,0,0],
           "center":[1050,0,240],
           "angle":[0,0,0],
           "radius":50,
-          "reflection":20
+          "reflection":10
         }
       }
     ]

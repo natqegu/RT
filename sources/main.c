@@ -59,6 +59,15 @@ void		draw_func(t_global *g)
 	}
 }
 
+
+int			x_close(t_global *g)
+{
+	mlx_clear_window(g->mlx_ptr, g->win_ptr);
+	exit(free_hits(g));;
+	return (0);
+}
+
+
 int		main(int argc, char **argv)
 {
 	t_global g;
@@ -133,5 +142,6 @@ int		main(int argc, char **argv)
 	mlx_hook(g.win_ptr, 4, 4, mouse_press, &g);
 	mlx_hook(g.win_ptr, 2, 2, key_press, &g);
 	mlx_hook(g.win_ptr, 6, 6, mouse_move, &g);
+	mlx_hook(g.win_ptr, 17, 1L << 17, x_close, &g);
 	mlx_loop(g.mlx_ptr);
 }

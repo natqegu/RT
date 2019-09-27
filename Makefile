@@ -19,6 +19,7 @@ SRC_C = brights.c\
 		check_arg.c\
 		color.c\
 		create_points.c\
+		effects.c\
 		entex.c\
 		events.c\
 		free_points.c\

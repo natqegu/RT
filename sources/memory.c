@@ -38,12 +38,16 @@ void		copy(t_global *tcps, t_global *g)
 	tcps->win_ptr = g->win_ptr;
 	tcps->mlx_ptr = g->mlx_ptr;
 	tcps->img_ptr = g->img_ptr;
+	tcps->img_ptr_2 = g->img_ptr_2;
+	tcps->data_ptr_2 = g->data_ptr_2;
 	tcps->data_ptr = g->data_ptr;
 	tcps->bpp = g->bpp;
 	tcps->sz_l = g->sz_l;
 	tcps->e = g->e;
 	tcps->core = g->core;
 	tcps->light_switch = g->light_switch;
+	tcps->filter_switch = g->filter_switch;
+	tcps->music = g->music;
 	tcps->ray = g->ray;
 	tcps->angle = g->angle;
 	tcps->normal = g->normal;
@@ -66,7 +70,19 @@ void		copy(t_global *tcps, t_global *g)
 	tcps->base[0] = g->base[0];
 	tcps->base[1] = g->base[1];
 	tcps->base[2] = g->base[2];
-
+	tcps->line_taken = g->line_taken;
+//	tcps->e1 = g->e1;
+//	tcps->sz_l1 = g->sz_l1;
+//	tcps->bpp1 = g->bpp1;
+//	tcps->tile_data_ptr = g->tile_data_ptr;
+	tcps->mip_map = g->mip_map;
+	tcps->recursion = g->recursion;
+	tcps->lights = g->lights;
+	tcps->white = g->white;
+	tcps->hitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
+	tcps->savehitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
+	tcps->cosa = (double *)malloc(sizeof(double) * g->lights);
+	// tcps->ctrli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
 
 //	tcps->e1 = g->e1;
 //	tcps->sz_l1 = g->sz_l1;
