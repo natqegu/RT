@@ -1,6 +1,6 @@
 {
   "ROTATION":[0,0,0],
-  "CAMERA":[0,0,0],
+  "CAMERA":[0,0,-100],
   "AMBIENT":50,
   "OBJECTS":
   [

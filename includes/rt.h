@@ -194,6 +194,10 @@ void				stereoscopy(t_global *g);
 int					mouse_press(int button, int x, int y, void *param);
 int					x_close(t_global *g);
 
+
+void	make_motion(t_global *g);
+
+
 typedef	struct		s_tile
 {
 	int 			bpp;

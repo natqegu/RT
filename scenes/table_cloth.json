@@ -1,0 +1,26 @@
+{
+    "ROTATION":[0,0,0],
+    "CAMERA":[0,50,0],
+    "AMBIENT":50,
+    "OBJECTS":
+    [
+      {
+        "LIGHT":
+        {
+          "position":[404,400,100]
+        }
+      },
+      {
+        "COMPLEX":
+        {
+            "color": [155,155,155],
+            "center": [0,0,700],
+            "angle": [9,10,-1],
+            "reflection": 0,
+            "specular":0,
+            "fdf-map": "./maps/table_cloth.3ds"
+        }
+      }
+    ]
+  }
+  
