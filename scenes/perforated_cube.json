@@ -1,0 +1,36 @@
+{
+    "ROTATION":[0,0,0],
+    "CAMERA":[0,0,0],
+    "AMBIENT":50,
+    "OBJECTS":
+    [
+      {
+        "LIGHT":
+        {
+          "position":[404,400,100]
+        }
+      },
+      {
+        "SPHERE":
+        {
+          "color":[255,0,0],
+          "center":[0,0,300],
+          "angle":[0,0,0],
+          "radius":100,
+          "reflection":50,
+          "transparency":20,
+          "specular": 5
+        },
+        "PLANE":
+        {
+          "color":[255,255,0],
+          "center":[0,-200,0],
+          "angle":[90,0,0],
+          "radius":10,
+          "reflection":50,
+          "specular":4
+        }
+      }
+    ]
+  }
+  

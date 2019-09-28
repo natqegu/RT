@@ -201,7 +201,8 @@ int         parse_complex(t_global *g, char **data, int i)
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
-	g->obj[g->id].spec = 0;		
+	g->obj[g->id].spec = 0;
+	g->obj[g->id].soft = 1;
 	while (data[i])
 	{
 		if (ft_strstr(data[i], "}"))
@@ -261,6 +262,7 @@ int         parse_tri(t_global *g, char **data, int i)
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].spec = 0;	
 	g->obj[g->id].tile[0].data_ptr = NULL;
+	g->obj[g->id].soft = 1;
 
 	while (data[i])
 	{
@@ -315,6 +317,7 @@ int         parse_plane(t_global *g, char **data, int i)
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
+	g->obj[g->id].soft = 1;
 
 	while (data[i])
 	{
@@ -360,6 +363,7 @@ int         parse_cylinder(t_global *g, char **data, int i)
 	g->obj[g->id].spec = 0;
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
+	g->obj[g->id].soft = 1;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
@@ -411,6 +415,7 @@ int         parse_cone(t_global *g, char **data, int i)
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
+	g->obj[g->id].soft = 1;
 
 	while (data[i])
 	{
@@ -459,6 +464,7 @@ int		parse_sphere(t_global *g, char **data, int i)
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
+	g->obj[g->id].soft = 1;
 
 	while (data[i])
 	{

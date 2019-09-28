@@ -196,17 +196,17 @@ int					x_close(t_global *g);
 
 typedef	struct		s_tile
 {
-	int bpp;
-	int sz_l;
-	int e;
-	int w;
-	int h;
-	int w2;
-	int h2;
-	int mipq;
-	int *data_ptr;
-	void *ptr;
-	t_vector *vectile;
+	int 			bpp;
+	int 			sz_l;
+	int 			e;
+	int 			w;
+	int 			h;
+	int 			w2;
+	int 			h2;
+	int 			mipq;
+	int 			*data_ptr;
+	void 			*ptr;
+	t_vector 		*vectile;
 }			t_tile;
 
 typedef struct		s_object
@@ -215,8 +215,8 @@ typedef struct		s_object
 	int				id;
 	int				cam_pos;
 	t_dstpst		(*hit)(t_vector, t_vector, t_vector, t_object, t_global *g);
-	t_colbri				(*bright)(t_vector, t_vector, t_object, struct s_global *);
-	t_colbri				(*simple_bright)(t_vector, t_vector, t_object, struct s_global *);
+	t_colbri		(*bright)(t_vector, t_vector, t_object, struct s_global *);
+	t_colbri		(*simple_bright)(t_vector, t_vector, t_object, struct s_global *);
 
 	t_vector		bd1;
 	t_vector		bd2;
@@ -237,6 +237,7 @@ typedef struct		s_object
 	t_vector		ptdim;
 	t_object		*frame;
 	t_vector		box[8];
+	int				soft;
 }		t_object;
 
 struct		s_dstpst
@@ -294,13 +295,13 @@ typedef struct		s_global
 	pthread_mutex_t			mutex;
 	int				recursion;
 	int				lights;
-	t_vector			*savehitli;
-	t_vector			prev;
-	double				*cosa;
-	t_vector			*hitli;
-	t_vector			*ctrli;
+	t_vector		*savehitli;
+	t_vector		prev;
+	double			*cosa;
+	t_vector		*hitli;
+	t_vector		*ctrli;
 	t_global		*tcps[CORES];
-}				t_global;
+}					t_global;
 
 
 #endif
