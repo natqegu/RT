@@ -12,10 +12,11 @@
 
 #include "../includes/rt.h"
 
-void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv, t_vector nrm, t_object obj, t_global *g)
+void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv, /*t_vector nrm,*/ t_object obj, t_global *g)
 {
 	int i;
 //	int	objn;
+	t_vector nrm;
 	int	iobjn[2];
 	t_dstpst	t;
 	t_vector ray;
@@ -30,6 +31,7 @@ void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv,
 	init_vector(&tmp.col, 0, 0, 0);
 	obsc = 0;
 	i = 0;
+	obj.nr = nrm;
 	if (con(g))
 	{
 			printf("starting bri is %d col %f,%f,%f\n", cur->bri, cur->col.x, cur->col.y, cur->col.z);
@@ -121,9 +123,10 @@ void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv,
 		if (obj.soft)
 		{
 //			a = round((fmax(*g->ambient, cur->bri * (1 - soft[0])) + fmax(*g->ambient, cur->bri * (1 - soft[1]))) / (g->lights - obsc));
-		}
-//		cur->bri = *g->ambient + ((g->lights - obsc) * (cur->bri - *g->ambient) / (double)g->lights);
 		cur->bri = fmax(*g->ambient, cur->bri * (1 - soft[0])) + ((g->lights - obsc) * (cur->bri - *g->ambient) / (double)g->lights);
+		}
+		else
+			cur->bri = *g->ambient + ((g->lights - obsc) * (cur->bri - *g->ambient) / (double)g->lights);
 	}
 	if (con(g))
 		printf("returning bri is %d\n", cur->bri);
@@ -390,7 +393,6 @@ void		*recalc(void *p)
 	if ((g->my_line = empty_line(0, g->line_taken)) != -1 && (g->line_taken[g->my_line] = 1))
 	{
 //		printf("core %d is executing line %d\n", g->core, g->my_line);
-
 		g->my_line *= TASK;
 //		printf("recalcing\n");
 //		printf("hi there\n");

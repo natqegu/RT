@@ -222,7 +222,7 @@ int         parse_complex(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
-			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
 		i++;
 	}
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
@@ -293,7 +293,7 @@ int         parse_tri(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
-			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -344,7 +344,7 @@ int         parse_plane(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
-			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -395,9 +395,19 @@ int         parse_cylinder(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
+		if (ft_strstr(data[i], "soft"))
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
+	if (g->obj[g->id].tile[0].data_ptr || g->obj[g->id].re || g->obj[g->id].trans || g->obj[g->id].spec)
+		g->obj[g->id].bright = &bright_cylinder;
+	else
+		g->obj[g->id].bright = &simple_bright_cylinder;
+	if (g->obj[g->id].re || g->obj[g->id].trans)
+		g->obj[g->id].simple_bright = &bright_cylinder;
+	else
+		g->obj[g->id].simple_bright = simple_bright_cylinder;
 	g->id++;
     return (0);
 }
@@ -444,10 +454,18 @@ int         parse_cone(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
-			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
+	if (g->obj[g->id].tile[0].data_ptr || g->obj[g->id].re || g->obj[g->id].trans || g->obj[g->id].spec)
+		g->obj[g->id].bright = &bright_cone;
+	else
+		g->obj[g->id].bright = &simple_bright_cone;
+	if (g->obj[g->id].re || g->obj[g->id].trans)
+		g->obj[g->id].simple_bright = &bright_cone;
+	else
+		g->obj[g->id].simple_bright = simple_bright_cone;
 	g->id++;
 	printf("HERE CONE HELLO\n");
     return (1);
@@ -495,7 +513,7 @@ int		parse_sphere(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
-			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
 		i++;
 	}
 	

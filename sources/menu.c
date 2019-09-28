@@ -196,11 +196,12 @@ int		mouse_press(int button, int x, int y, void *param)
 		}
 		if (x > 750 && x < 950 && y > 410 && y < 460)
 		{
-			if (g->filter_switch == 5)
-				return (1);
-			else
-				printf("BRIGHT -> CARTOON\n");
-				make_cartoon(g);
+			// if (g->filter_switch == 5)
+			// 	return (1);
+			// else
+			// 	printf("BRIGHT -> CARTOON\n");
+			// 	make_cartoon(g);
+			*g->ambient = 250;
 		}
 		if (x > 750 && x < 950 && y > 470 && y < 530)
 		{
