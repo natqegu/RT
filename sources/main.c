@@ -83,6 +83,8 @@ void		draw_func(t_global *g)
 
 int			x_close(t_global *g)
 {
+	if (g->music == 1)
+			system("killall afplay");
 	mlx_clear_window(g->mlx_ptr, g->win_ptr);
 	exit(free_hits(g));;
 	return (0);
@@ -111,7 +113,7 @@ int		main(int argc, char **argv)
   //      init_vector(&g.base[1], 0, 1, 0);
 //       init_vector(&g.base[2], 0, 0, 1);
 
-	ginit(&g);
+	// ginit(&g);
 	if (!check_arg(argv, argc, &g, ctr))
 		return (0);
 

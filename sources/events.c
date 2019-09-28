@@ -41,7 +41,9 @@ int		key_press(int kk, void *param)
 	ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
 	if (kk == 53)
 	{//	system("leaks -s rtv1");
-	 //	system("leaks -s rtv1");	
+	 //	system("leaks -s rtv1");
+		if (g->music == 1)
+			system("killall afplay");
 		exit(free_hits(g));
 	}
 	else if (kk == 13 || kk == 1 || kk == 0 || kk == 2 || kk == 3 || kk == 125

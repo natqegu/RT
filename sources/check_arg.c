@@ -737,11 +737,23 @@ int		check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
 	if (argc != 2)
 		return (usage(0));
     fd = open(argv[1], O_RDONLY);
+	if (fd == -1 || (argv[0][0] == '.' && argv[0][1] == '/'))
+	{
+		usage(1);
+		return (0);
+	}
     if (!count_objects(g, fd))
+	{
+		usage(1);
         return (0);
+	}
     close(fd);
     if (!open_file(argv, g))
+	{
+		usage(1);
         return (0);
+	}
+	ginit(g);
     printf("argc: %d\n", g->argc);
 	printf("lights: %d\n", g->lights);
 	printf("reflect: %f\n", g->obj[1].re);
