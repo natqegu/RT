@@ -20,14 +20,14 @@ int		mouse_press(int button, int x, int y, void *param)
 			if (g->objn < 1)
 				g->objn = g->argc + 1;
 			g->objn -= 1;
-			if (g->obj[g->objn].rd == 0)
+			if (g->obj[g->objn].rd == 0 && g->obj[g->objn].trans == 1)
 				g->objn--;
     		//object--
     	}
 		if (x > 500 && x < 700 && y > 520 && y < 555)
     	{
 			g->objn = (g->objn + 1) % (g->argc + 1);
-			if (g->obj[g->objn].rd == 0)
+			if (g->obj[g->objn].rd == 0 && g->obj[g->objn].trans == 1)
 				g->objn++;
     		//object++
     	}

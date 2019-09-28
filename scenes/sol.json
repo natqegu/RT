@@ -11,15 +11,6 @@
         }
       },
       {
-        "SPHERE_sun":
-        {
-          "color":[255,0,0],
-          "center":[-800,0,300],
-          "angle":[0,0,0],
-          "radius":300,
-          "reflection":0,
-          "transparency":90
-        },
         "SPHERE_earth":
         {
           "color":[255,0,0],

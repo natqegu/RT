@@ -201,12 +201,7 @@ int         parse_complex(t_global *g, char **data, int i)
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
-
-
-	g->obj[i].spec = 4;
-	
-	
-	
+	g->obj[g->id].spec = 0;		
 	while (data[i])
 	{
 		if (ft_strstr(data[i], "}"))
@@ -223,6 +218,8 @@ int         parse_complex(t_global *g, char **data, int i)
 			g->obj[g->id].pts = create_points(save_fdf_name(g, data[i]), &g->obj[g->id].ptdim, g);
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+		if (ft_strstr(data[i], "specular"))
+			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		i++;
 	}
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
@@ -262,12 +259,7 @@ int         parse_tri(t_global *g, char **data, int i)
 	g->obj[g->id].rd = 10;
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
-
-
-	g->obj[i].spec = 4;
-	
-	
-	
+	g->obj[g->id].spec = 0;	
 	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	while (data[i])
@@ -294,6 +286,8 @@ int         parse_tri(t_global *g, char **data, int i)
 			parse_vector(data[i], &(g->obj[g->id].bd3));
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+		if (ft_strstr(data[i], "specular"))
+			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -315,12 +309,7 @@ int         parse_plane(t_global *g, char **data, int i)
 	g->obj[g->id].rd = 40;
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
-
-
-	g->obj[g->id].spec = 4;
-	
-	
-	
+	g->obj[g->id].spec = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
@@ -345,6 +334,8 @@ int         parse_plane(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+		if (ft_strstr(data[i], "specular"))
+			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -366,6 +357,7 @@ int         parse_cylinder(t_global *g, char **data, int i)
 	init_vector(&(g->obj[g->id].ang), 0, 0, 0);
 	g->obj[g->id].rd = 40;
 	g->obj[g->id].re = 0;
+	g->obj[g->id].spec = 0;
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
 
@@ -391,6 +383,8 @@ int         parse_cylinder(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+		if (ft_strstr(data[i], "specular"))
+			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -411,12 +405,7 @@ int         parse_cone(t_global *g, char **data, int i)
 	g->obj[g->id].rd = 1;
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
-
-
-	g->obj[g->id].spec = 4;
-	
-	
-	
+	g->obj[g->id].spec = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
@@ -441,6 +430,8 @@ int         parse_cone(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+		if (ft_strstr(data[i], "specular"))
+			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -462,12 +453,7 @@ int		parse_sphere(t_global *g, char **data, int i)
 	g->obj[g->id].rd = 40;
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
-
-
-	g->obj[g->id].spec = 4;
-	
-	
-	
+	g->obj[g->id].spec = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
@@ -492,6 +478,8 @@ int		parse_sphere(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+		if (ft_strstr(data[i], "specular"))
+			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		i++;
 	}
 	
@@ -669,7 +657,7 @@ int			open_file(char **argv, t_global *g)
     fd = open(argv[1], O_RDONLY);
 	lines = 0;
 	buf = ft_strnew(1);
-	if (argv[0][0] != '.' || argv[0][1] != '/') //saves from segfault when ./RT from another directory executes
+	if (argv[0][0] != '.' || argv[0][1] != '/')
 		return (0);
     if (fd == -1)
         return (0);

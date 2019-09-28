@@ -98,6 +98,29 @@ void		stretch(int *a, int d, int h)
 	}
 }
 
+t_vector		*norm_tile(int *tile, int w, int h, t_global *g)
+{
+	int i;
+	int j;
+	t_vector *ret;
+
+	i = 0;
+	j = 0;
+	ret = (t_vector *)malloc(sizeof(t_vector) * h * w);
+	while (j < h)
+	{
+		i = 0;
+		while (i < w)
+		{
+//			printf("copying at %d,%d\n", i, j);
+			*(ret + j * h + i) = base255(rgb(*(tile + j * h + i)));
+			i++;
+		}
+		j++;
+	}
+	return (ret);
+}
+
 void		init_tile(int i, char *tile, t_object *obj, t_global *g)
 {
 //	printf("writing xpm file\n");
@@ -119,6 +142,7 @@ void		init_tile(int i, char *tile, t_object *obj, t_global *g)
 	obj[i].tile[0].h2 = obj[i].tile[0].h / 2;
 //	printf("xpm image dimansions are %d,%d\n", obj[i].tile[0].w, obj[i].tile[0].h);
 	int k = 1;
+	obj[i].tile[0].vectile = norm_tile(obj[i].tile[0].data_ptr, obj[i].tile[0].w, obj[i].tile[0].h, g);
 	while (k < 10)
 	{
 //			printf("i is %d\n", k);
@@ -134,7 +158,8 @@ void		init_tile(int i, char *tile, t_object *obj, t_global *g)
 		obj[i].tile[k].w2 = obj[i].tile[k].w / 2;
 		obj[i].tile[k].h2 = obj[i].tile[k].h / 2;
 //		white(obj[i].tile[k].data_ptr, obj[i].tile[k].w ,obj[i].tile[k].h, k * 100000);
-		k++;
+		obj[i].tile[k].vectile = norm_tile(obj[i].tile[k].data_ptr, obj[i].tile[k].w, obj[i].tile[k].h, g);	
+	k++;
 	}
 	k = 1;
 	int s = 0;
@@ -184,8 +209,8 @@ t_object	*create_tris(t_vector **pts, t_object obj, t_global *g)
 	j = 0;
 	i = 0;
 	retc = 0;
-	init_vector(&smallspace, 0.0001, 0.0001, 0.0001);
-//	init_vector(&smallspace, 0, 0, 0);
+	// init_vector(&smallspace, 0.0001, 0.0001, 0.0001);
+	init_vector(&smallspace, 0, 0, 0);
 	while (*(pts + j + 1))
 	{
 		i = 0;
@@ -247,10 +272,11 @@ t_object	*create_tris(t_vector **pts, t_object obj, t_global *g)
 		ret[retc].color = obj.color;
 		ret[retc + 1].color = obj.color;
 
-
 		ret[retc].re = obj.re;
 		ret[retc + 1].re = obj.re;
 
+		ret[retc].spec = obj.spec;
+		ret[retc + 1].spec = obj.spec;
 
 		i++;
 		retc = retc + 2;
@@ -284,7 +310,7 @@ t_object	*init_frame(t_object obj, t_global *g)
 
 	rc = scale(-0.5, sum(sum(bas[0], bas[1]), bas[2]));
 
-	ret->rd2 = ceil(dot(rc, rc)) - 30000;
+	ret->rd2 = ceil(dot(rc, rc)) - 5000;
 	printf("frame rd2 is %d\n", ret->rd2);
 	ret->rd = sqrt(ret->rd2);
 	return (ret);
@@ -340,25 +366,6 @@ void		init_tri(t_vector *ctr, int i, t_global *g)
 //	free(g->obj[i].tile[0].data_ptr);
 //	g->obj[i].tile[0].data_ptr = NULL;
 
-}
-
-void		norm_tile(int *a, int w, int h)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	while (j < h)
-	{
-		i = 0;
-		while (i < w)
-		{
-			*(a + j * w + i) = brg(base(rgb(*(a + j * w + i))));
-			i++;
-		}
-		j++;
-	}
 }
 
 void		init_spheror(t_vector *ctr, int i, t_global *g)

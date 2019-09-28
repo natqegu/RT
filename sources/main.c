@@ -48,6 +48,27 @@ void		screen(int *a, int x, int y, t_global *g)
 	}
 }
 
+void		draw_vectile(t_vector *t, int w, int h, t_global *g)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (j < h)
+	{
+		i = 0;
+		while (i < w)
+		{
+			printf("we are at %d,%d\n", i, j);
+			mlx_pixel_put(g->mlx_ptr, g->win_ptr, i, j, brg(scale(255, *(t + j * h + i))));
+			i++;
+		}
+		j++;
+	}
+}
+
+
 void		draw_func(t_global *g)
 {
 	int i = -WIDTH / 2;
