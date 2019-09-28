@@ -202,7 +202,7 @@ int         parse_complex(t_global *g, char **data, int i)
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
 	g->obj[g->id].spec = 0;
-	g->obj[g->id].soft = 1;
+	g->obj[g->id].soft = 0;
 	while (data[i])
 	{
 		if (ft_strstr(data[i], "}"))
@@ -221,6 +221,8 @@ int         parse_complex(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
+		if (ft_strstr(data[i], "soft"))
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
 		i++;
 	}
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
@@ -262,7 +264,7 @@ int         parse_tri(t_global *g, char **data, int i)
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].spec = 0;	
 	g->obj[g->id].tile[0].data_ptr = NULL;
-	g->obj[g->id].soft = 1;
+	g->obj[g->id].soft = 0;
 
 	while (data[i])
 	{
@@ -290,6 +292,8 @@ int         parse_tri(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
+		if (ft_strstr(data[i], "soft"))
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -317,7 +321,7 @@ int         parse_plane(t_global *g, char **data, int i)
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
-	g->obj[g->id].soft = 1;
+	g->obj[g->id].soft = 0;
 
 	while (data[i])
 	{
@@ -339,6 +343,8 @@ int         parse_plane(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
+		if (ft_strstr(data[i], "soft"))
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -415,7 +421,7 @@ int         parse_cone(t_global *g, char **data, int i)
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
-	g->obj[g->id].soft = 1;
+	g->obj[g->id].soft = 0;
 
 	while (data[i])
 	{
@@ -437,6 +443,8 @@ int         parse_cone(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
+		if (ft_strstr(data[i], "soft"))
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
@@ -464,7 +472,7 @@ int		parse_sphere(t_global *g, char **data, int i)
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
-	g->obj[g->id].soft = 1;
+	g->obj[g->id].soft = 0;
 
 	while (data[i])
 	{
@@ -486,6 +494,8 @@ int		parse_sphere(t_global *g, char **data, int i)
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
+		if (ft_strstr(data[i], "soft"))
+			parse_int(data[i], &(g->obj[g->id].soft), 1, 1);
 		i++;
 	}
 	

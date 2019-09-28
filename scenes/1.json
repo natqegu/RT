@@ -19,7 +19,8 @@
         "radius":100,
         "reflection":50,
         "transparency":20,
-        "specular": 5
+        "specular": 5,
+        "soft": 0
       },
       "PLANE":
       {
@@ -28,7 +29,8 @@
         "angle":[90,0,0],
         "radius":10,
         "reflection":0,
-        "specular":4
+        "specular":4,
+        "soft": 1
       }
     }
   ]
