@@ -737,7 +737,7 @@ int		check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
 	if (argc != 2)
 		return (usage(0));
     fd = open(argv[1], O_RDONLY);
-	if (fd == -1 || (argv[0][0] == '.' && argv[0][1] == '/'))
+	if (fd == -1 || (argv[1][0] == '.' && argv[1][1] == '/'))
 	{
 		usage(1);
 		return (0);
