@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -11,6 +12,7 @@
 /* ************************************************************************** */
 
 #include "rt.h"
+#include <stdarg.h>
 
 int		num(char *str)
 {
@@ -48,46 +50,60 @@ int		parse_color(char *line, t_vector *vector)
 {
 	char	**name;
 	char	**tmp;
+	char 	*test;
+	char 	*test1;
+	char 	*test2;
 
 	name = ft_strsplit(line, ':');
 	tmp = ft_strsplit(name[1], ',');		
 	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
 	{
-		vector->x = (double)(ft_atoi(ft_strtrim(tmp[0] + 1)) / 255);
-		vector->y = (double)(ft_atoi(ft_strtrim(tmp[1])) / 255);
-		vector->z = (double)(ft_atoi(ft_strtrim(tmp[2])) / 255);
-		free(tmp[1]);
-		free(tmp[2]);
-		free(tmp);
+		vector->x = (double)(ft_atoi(test = ft_strtrim(tmp[0] + 1)) / 255);
+		vector->y = (double)(ft_atoi(test1 = ft_strtrim(tmp[1])) / 255);
+		vector->z = (double)(ft_atoi(test2 = ft_strtrim(tmp[2])) / 255);
+		free_n(12, test, test1, test2, tmp[0], tmp[1], tmp[2], tmp[3], tmp, name[0], name[1], name[2], name);
 		return (1);
 	}
-
-	free(name[0]);
-	free(name[1]);
-	free(name);
+	free_n(9, tmp[0], tmp[1], tmp[2], tmp[3], tmp, name[0], name[1], name[2], name);
 	return (0);
+}
+
+void	free_n(int nbr, ...)
+{
+	int 		i;
+	va_list		list;
+
+	i = 0;
+	va_start(list, nbr);
+	while (i < nbr)
+	{
+		free(va_arg(list, void *));
+		i++;
+	}
+	va_end(list);
 }
 
 int		parse_vector(char *line, t_vector *vector)
 {
 	char	**name;
 	char	**tmp;
+	char 	*test;
+	char 	*test1;
+	char 	*test2;
+	char	*test3;
 
 	name = ft_strsplit(line, ':');
-	tmp = ft_strsplit(ft_strtrim(name[1]), ',');	
+	tmp = ft_strsplit((test3 = ft_strtrim(name[1])), ',');	
 	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
 	{
-		vector->x = (double)ft_atoi(ft_strtrim(tmp[0] + 1));
-		vector->y = (double)ft_atoi(ft_strtrim(tmp[1]));
-		vector->z = (double)ft_atoi(ft_strtrim(tmp[2]));
-		free(tmp[1]);
-		free(tmp[2]);
-		free(tmp);
+		vector->x = (double)ft_atoi(test = ft_strtrim(tmp[0] + 1));
+		vector->y = (double)ft_atoi(test1 = ft_strtrim(tmp[1]));
+		vector->z = (double)ft_atoi(test2 = ft_strtrim(tmp[2]));
+		
+		free_n(13, test, test1, test2, test3, tmp[0], tmp[1], tmp[2], tmp[3], tmp, name[0], name[1], name[2], name);
 		return (1);
 	}
-	free(name[0]);
-	free(name[1]);
-	free(name);
+	free_n(9, tmp[0], tmp[1], tmp[2], tmp[3], tmp, name[0], name[1], name[2], name);
 	return (0);
 }
 
@@ -95,34 +111,41 @@ int		parse_angle(char *line, t_vector *vector)
 {
 	char	**name;
 	char	**tmp;
+	char 	*test;
+	char 	*test1;
+	char 	*test2;
+	char	*test3;
 
 	name = ft_strsplit(line, ':');
-	tmp = ft_strsplit(ft_strtrim(name[1]), ',');
+	tmp = ft_strsplit((test3 = ft_strtrim(name[1])), ',');
 	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
 	{
-		vector->x = (double)ft_atoi(ft_strtrim(tmp[0] + 1)) / 57.2958;
-		vector->y = (double)ft_atoi(ft_strtrim(tmp[1])) / 57.2958;
-		vector->z = (double)ft_atoi(ft_strtrim(tmp[2])) / 57.2958;
-		free(tmp[1]);
-		free(tmp[2]);
-		free(tmp);
+		vector->x = (double)ft_atoi(test = ft_strtrim(tmp[0] + 1)) / 57.2958;
+		vector->y = (double)ft_atoi(test1 = ft_strtrim(tmp[1])) / 57.2958;
+		vector->z = (double)ft_atoi(test2 = ft_strtrim(tmp[2])) / 57.2958;
+		free_n(13, test, test1, test2, test3, tmp[0], tmp[1], tmp[2], tmp[3], tmp, name[0], name[1], name[2], name);
 		return (1);
 	}
-	free(name[0]);
-	free(name[1]);
-	free(name);
+	free_n(9, tmp[0], tmp[1], tmp[2], tmp[3], tmp, name[0], name[1], name[2], name);
 	return (0);
 }
 
 int		parse_int(char *line, int *number, int divisor, int max)
 {
+	char	*test;
 	char	**name;
 	int		result;
 
 	name = ft_strsplit(line, ':');
 	if (!name[0] || !name[1] || name[2])
+	{
+		free(name[0]);
+		free(name[1]);
+		free(name);
 		return (0);
-	result = ft_atoi(ft_strtrim(name[1]));
+	}
+	result = ft_atoi(test = ft_strtrim(name[1]));
+	free(test);
 	if (result > max)
         *number = max * divisor;
     else if (result < 0)
@@ -139,11 +162,13 @@ int		parse_double(char *line, double *number, double divisor, double max)
 {
 	char	**name;
 	double	result;
+	char	*test;
 
 	name = ft_strsplit(line, ':');
 	if (!name[0] || !name[1] || name[2])
 		return (0);
-	result = ft_atoi(ft_strtrim(name[1]));
+	result = ft_atoi(test = ft_strtrim(name[1]));
+	free(test);
 	if (result > max)
         *number = max / divisor;
     else if (result < 0)
@@ -152,6 +177,7 @@ int		parse_double(char *line, double *number, double divisor, double max)
         *number = result / divisor;
 	free(name[0]);
 	free(name[1]);
+	free(name[2]);
 	free(name);
 	return (1);
 }
@@ -275,7 +301,10 @@ int		parse_complex(t_global *g, char **data, int i)
 		g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	}
 	else
+	{
+		system("leask RT");
 		exit(1);
+	}
 	g->obj[g->id].id = g->id;
    	g->obj[g->id].name = "complex";
 	g->obj[g->id].hit = &hit_complex;
@@ -697,12 +726,17 @@ char	**get_scene(char *buf, int lines)
 		if (!(data[j] = ft_strnew(ft_linelen(buf, k))))
 			return (0);
 		while (buf[k] != '\n' && buf[k] != '\0')
+		{
 			data[j][i++] = buf[k++];
+		}
 		data[j][i] = '\0';
 		k++;
 		j++;
 	}
-	ft_strdel(&buf);
+	data[j] = NULL;
+	// system("leask -s RT");
+	// ft_strdel(&buf);
+	free(buf);
 	return (data);
 }
 
@@ -713,7 +747,9 @@ int		open_file(char **argv, t_global *g)
 	char	*buf;
 	int		lines;
 	char	**data;
+	int		kk;
 
+	kk = 0;
     fd = open(argv[1], O_RDONLY);
 	lines = 0;
 	buf = ft_strnew(1);
@@ -728,9 +764,14 @@ int		open_file(char **argv, t_global *g)
 		free(line);
 		lines++;
 	}
+	free(line);
 	if (!(data = get_scene(buf, lines)))
 		data = NULL;
     parse_file(g, data, lines);
+    while (data[kk] != NULL) {
+    	free(data[kk++]);
+    }
+    free(data);
     close(fd);
 	return (1);
 }
@@ -753,6 +794,7 @@ int    count_objects(t_global *g, int fd)
 			g->lights++;
         free(line);
     }
+    free(line);
     return (g->argc);
 }
 

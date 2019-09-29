@@ -65,7 +65,7 @@ typedef	struct		s_colbri
 	int	bri;
 }			t_colbri;
 
-
+void	free_n(int nbr, ...);
 int				brg(t_vector rgb);
 int				inside_cone(t_vector p, t_object o, t_global *g);
 double				dot(t_vector a, t_vector b);
