@@ -25,6 +25,7 @@ SRC_C = brights.c\
 		free_points.c\
 		hits.c\
 		init_data.c\
+		init_data2.c\
 		initialize_points.c\
 		lin_alg.c\
 		linalg1.c\

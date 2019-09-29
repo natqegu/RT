@@ -34,6 +34,24 @@
 #define CORES 16
 #define M_T 6.28318530718
 #define MAX_REC 5
+#define ZZZ (int *)malloc(sizeof(int) * q[i].tile[0].w * q[i].tile[0].h)
+#define X mlx_xpm_file_to_image(g->mlx_ptr, tile, &q[i].tile[0].w,	&q[i].tile[0].h)
+#define D (int *)mlx_get_data_addr(q[i].tile[0].ptr, &q[i].tile[0].bpp,	&q[i].tile[0].sz_l, &q[i].tile[0].e)
+#define NN norm_tile(q[i].tile[0].data_ptr, q[i].tile[0].w, q[i].tile[0].h);
+#define RRR ret[0]
+
+
+#define Q jihul[0]
+#define W jihul[1]
+#define E jihul[2]
+#define Y jihul[3]
+#define T jihul[4]
+#define R ret
+#define R1 sum(rotate(sum(*(*(pts + Q + 1) + W + 1), smallspace), obj.ang), *obj.ctr);
+#define R2 sum(rotate(sum(*(*(pts + Q) + W + 1), smallspace), obj.ang), *obj.ctr);
+#define R3 sum(rotate(sum(*(*(pts + Q + 1) + W), smallspace), obj.ang), *obj.ctr);
+#define R4 norm(cross(diff(R[Y].bd1, R[Y].bd3), diff(R[Y].bd2, R[Y].bd3)))
+#define R5 norm(cross(diff(R[Y + 1].bd1, R[Y + 1].bd3), diff(R[Y + 1].bd2, R[Y + 1].bd3)))
 
 typedef	struct	s_vector t_vector;
 
@@ -43,7 +61,6 @@ struct s_vector
 	double x;
 	double y;
 	double z;
-//	int	len;
 };
 
 
@@ -65,9 +82,9 @@ typedef	struct		s_colbri
 	int	bri;
 }			t_colbri;
 
-void	free_n(int nbr, ...);
-int				brg(t_vector rgb);
-int				inside_cone(t_vector p, t_object o, t_global *g);
+void				free_n(int nbr, ...);
+int					brg(t_vector rgb);
+int					inside_cone(t_vector p, t_object o, t_global *g);
 double				dot(t_vector a, t_vector b);
 t_vector			diff(t_vector a, t_vector b);
 t_vector			sum(t_vector a, t_vector b);
@@ -205,7 +222,7 @@ void				buttons5(int x, int y, t_global *g);
 void				buttons6(int x, int y, t_global *g);
 void				buttons7(int x, int y, t_global *g);
 void				buttons8(int x, int y, t_global *g);
-t_vector			*norm_tile(int *tile, int w, int h, t_global *g);
+t_vector			*norm_tile(int *tile, int w, int h);
 void				init_tile_2(int i, char *tile, t_object *obj, t_global *g);
 void				copy2(t_global *tcps, t_global *g);
 void				menu(t_global	*g);
