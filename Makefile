@@ -2,7 +2,7 @@ NAME = RT
 
 DIR = objects
 
-FLAGS = #-Wextra -Werror -Wall
+FLAGS = -g #-Wextra -Werror -Wall
 
 INCLUDES = -I$(HEADERS_DIRECTORY)
 

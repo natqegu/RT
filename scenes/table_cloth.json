@@ -1,6 +1,6 @@
 {
     "ROTATION":[0,0,0],
-    "CAMERA":[0,50,0],
+    "CAMERA":[0,150,70],
     "AMBIENT":50,
     "OBJECTS":
     [
@@ -13,9 +13,9 @@
       {
         "COMPLEX":
         {
-            "color": [155,155,155],
+            "color": [255,0,0],
             "center": [0,0,700],
-            "angle": [9,10,-1],
+            "angle": [90,-45,0],
             "reflection": 0,
             "specular":0,
             "3ds-map": "./maps/table_cloth.3ds"
