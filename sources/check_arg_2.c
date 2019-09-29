@@ -18,22 +18,22 @@ int			parse_angle(char *line, t_vector *vector)
 	char	**tmp;
 	char	*test;
 	char	*test1;
-	char	*test2;
-	char	*test3;
+	char	*test2[2];
 
 	name = ft_strsplit(line, ':');
-	test3 = ft_strtrim(name[1]);
-	tmp = ft_strsplit((test3), ',');
+	test2[1] = ft_strtrim(name[1]);
+	tmp = ft_strsplit((test2[1]), ',');
 	test = ft_strtrim(tmp[0] + 1);
 	test1 = ft_strtrim(tmp[1]);
-	test2 = ft_strtrim(tmp[2]);
+	test2[0] = ft_strtrim(tmp[2]);
 	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
 	{
 		vector->x = (double)ft_atoi(test) / 57.2958;
 		vector->y = (double)ft_atoi(test1) / 57.2958;
-		vector->z = (double)ft_atoi(test2) / 57.2958;
-		free_n(13, test, test1, test2, test3, tmp[0], tmp[1], tmp[2], tmp[3],
-								tmp, name[0], name[1], name[2], name);
+		vector->z = (double)ft_atoi(test2[0]) / 57.2958;
+		free_n(13, test, test1, test2[0], test2[1],
+			tmp[0], tmp[1], tmp[2], tmp[3],
+							tmp, name[0], name[1], name[2], name);
 		return (1);
 	}
 	free_n(9, tmp[0], tmp[1], tmp[2], tmp[3], tmp, name[0], name[1],

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   entex.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/29 22:16:50 by vkarpova          #+#    #+#             */
+/*   Updated: 2019/09/29 22:16:51 by vkarpova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/rt.h"
 
@@ -44,14 +55,14 @@ void	save_im(int *a, int *c, int w, int h)
 	}
 }
 
-int	co(int x, int y, t_global *g)
+int		co(int x, int y, t_global *g)
 {
 	x = x - WIDTH / 2;
 	y = -y + HEIGHT / 2;
 	return (g->ray->x == x && g->ray->y == y);
 }
 
-int	myintmod(int x, int m)
+int		myintmod(int x, int m)
 {
 	int ret;
 
@@ -74,7 +85,7 @@ double	mymod(double x, int m)
 
 void	rewrite_pix(int *a, int *o, int x, int y, int w, int h, int xmax, int ymax, t_global *g)
 {
-	t_vector mid_col;
+	t_vector	mid_col;
 	int			ran;
 	int			ywx;
 
@@ -149,7 +160,7 @@ void	smooth(int *a, int w, int h, int xmax, int ymax, t_global *g)
 	}
 }
 
-void		white(int *a, int w, int h, int c)
+void	white(int *a, int w, int h, int c)
 {
 	int i;
 	int j;
@@ -200,7 +211,7 @@ int		mid_col(int *a, int w, int h, int x, int y)
 	return (brg(vret));
 }
 
-void		alias(int *dst, int *a, int w, int xmax, int ymax, int h)
+void	alias(int *dst, int *a, int w, int xmax, int ymax, int h)
 {
 	int mid;
 	int i;

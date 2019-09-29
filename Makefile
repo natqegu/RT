@@ -34,6 +34,7 @@ SRC_C = brights.c\
 		entex.c\
 		events.c\
 		events2.c\
+		ta_du_zaebal.c\
 		free_points.c\
 		hits.c\
 		init_data.c\

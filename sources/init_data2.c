@@ -96,3 +96,32 @@ void		init_tile(int i, char *tile, t_object *q, t_global *g)
 	q[i].tile[0].h2 = q[i].tile[0].h / 2;
 	q[i].tile[0].vectile = NN
 }
+
+t_vector		**create_points(char *filename, t_vector *ptdim, t_global *g)
+{
+	t_vector	**ret;
+	char		*line;
+	int			height;
+	int			fd;
+	int			j;
+
+	j = 0;
+	height = file_height(filename);
+	if (height == -1)
+		return (NULL);
+	ret = initialize_points(height + 1);
+	fd = open(filename, O_RDONLY);
+	ptdim->z = 0;
+	while (j < height)
+	{
+		if (get_next_line(fd, &line) == -1)
+			return (NULL);
+		if (!(parse_line(ret, line, j, ptdim)))
+			return (NULL);
+		free(line);
+		j++;
+	}
+	ptdim->y = height * 20;
+	shift_center(ret, ptdim, g);
+	return (ret);
+}

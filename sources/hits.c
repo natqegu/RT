@@ -12,65 +12,6 @@
 
 #include "../includes/rt.h"
 
-int 			hit_quad(t_vector st, t_vector end, t_vector ray, t_vector quad[4], t_global *g)
-{
-	t_vector	tri[2][3];
-	t_object	obj[2];
-	t_dstpst	hit[2];
-
-	tri[0][0] = quad[0];
-	tri[0][1] = quad[1];
-	tri[0][2] = quad[2];
-	tri[1][0] = quad[1];
-	tri[1][1] = quad[2];
-	tri[1][2] = quad[3];
-	obj[0].bd1 = tri[0][0];
-	obj[0].bd2 = tri[0][1];
-	obj[0].bd3 = tri[0][2];
-	obj[1].bd1 = tri[1][0];
-	obj[1].bd2 = tri[1][1];
-	obj[1].bd3 = tri[1][2];
-	hit[0] = hit_tri(st, end, ray, obj[0], g);
-	hit[1] = hit_tri(st, end, ray, obj[1], g);
-	return ((hit[0].dst > 0 || hit[0].dst <= 0) || (hit[1].dst > 0 || hit[1].dst <= 0));
-}
-
-int				hit_box(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
-{
-	t_vector	quad[6][4];
-
-	quad[0][0] = obj.box[0];
-	quad[0][1] = obj.box[1];
-	quad[0][2] = obj.box[2];
-	quad[0][3] = obj.box[3];
-	quad[1][0] = obj.box[0];
-	quad[1][1] = obj.box[1];
-	quad[1][2] = obj.box[4];
-	quad[1][3] = obj.box[5];
-	quad[2][0] = obj.box[1];
-	quad[2][1] = obj.box[2];
-	quad[2][2] = obj.box[5];
-	quad[2][3] = obj.box[6];
-	quad[3][0] = obj.box[3];
-	quad[3][1] = obj.box[7];
-	quad[3][2] = obj.box[6];
-	quad[3][3] = obj.box[2];
-	quad[4][0] = obj.box[4];
-	quad[4][1] = obj.box[5];
-	quad[4][2] = obj.box[6];
-	quad[4][3] = obj.box[7];
-	quad[5][0] = obj.box[0];
-	quad[5][1] = obj.box[4];
-	quad[5][2] = obj.box[7];
-	quad[5][3] = obj.box[3];
-	return (hit_quad(st, end, ray, quad[0], g) ||
-		hit_quad(st, end, ray, quad[1], g) ||
-		hit_quad(st, end, ray, quad[2], g) ||
-		hit_quad(st, end, ray, quad[3], g) ||
-		hit_quad(st, end, ray, quad[4], g) ||
-		hit_quad(st, end, ray, quad[5], g));
-}
-
 t_dstpst		hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
 {
 	t_dstpst	t;

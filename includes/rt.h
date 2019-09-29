@@ -20,10 +20,11 @@
 #include "../libft/libft.h"
 #include <pthread.h>
 #include <fcntl.h>
+#include <stdarg.h>
 
 #define WIDTH HEIGHT
 #define HEIGHT 400
-
+#define LOLKEK (hit_quad(st, end, ray, quad[0], g) || hit_quad(st, end, ray, quad[1], g) || hit_quad(st, end, ray, quad[2], g) || hit_quad(st, end, ray, quad[3], g) || hit_quad(st, end, ray, quad[4], g) || hit_quad(st, end, ray, quad[5], g))
 #define WHOLE_MENU 1000
 #define WINDOW_START_X 300
 #define WINDOW_START_Y 120
@@ -146,7 +147,9 @@ t_colbri			bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
-
+int					file_height(char *filename);
+int					parse_line(t_vector **a, char *s, int j, t_vector *ptdim);
+void				shift_center(t_vector **pts, t_vector *ptdim, t_global *g);
 
 void				init_tile(int i, char *tile, t_object *obj, t_global *g);
 
