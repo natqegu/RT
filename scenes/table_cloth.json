@@ -18,7 +18,7 @@
             "angle": [9,10,-1],
             "reflection": 0,
             "specular":0,
-            "fdf-map": "./maps/table_cloth.3ds"
+            "3ds-map": "./maps/table_cloth.3ds"
         }
       }
     ]

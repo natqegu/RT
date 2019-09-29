@@ -21,7 +21,6 @@ int		campos(t_global *g)
 	{
 		if ((ft_strequ("plane", g->obj[i].name) || ft_strequ("tri", g->obj[i].name))  && dot(diff(*g->obj[i].ctr, *g->cam_pos), g->obj[i].base[1]) > 0)
 		{
-//			g->obj[i].base[1] = scale(-1, g->obj[i].base[1]);
 			g->obj[i].cam_pos = 1;
 			printf("we are in %d %s\n", i, g->obj[i].name);
 		}
@@ -105,7 +104,7 @@ int		move_phys(int keycode, t_global *g)
 		g->obj[g->objn].base[2] = rotate(g->base[2], g->obj[g->objn].ang);
 //		printf("base is %f,%f,%f\n", g->obj[g->objn].base[0].x, g->obj[g->objn].base[1].y, g->obj[g->objn].base[2].z);
 	}
-	campos(g);	
+	// campos(g);
 	return (start_threads(move, g));
 }
 
@@ -167,8 +166,6 @@ int		mouse_move(int x, int y, void *param)
 	mousex = x;
 	if (g->light_switch >= 1 && g->light_switch <= g->lights)
 	{
-//			printf("hello\n");
-//			ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
 			block = g->liz[g->light_switch - 1] / g->ray->z;
 			p.x = (-WIDTH_2 + x) * block;
 			p.y = (-y + HEIGHT_2) * block;
@@ -178,7 +175,6 @@ int		mouse_move(int x, int y, void *param)
 	}
 	else if (g->light_switch > g->lights)
 	{
-//		ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
 		p.y = /*sin*/((-WIDTH_2 + x )* 0.0045);
 		p.x = /*sin*/(0.0045 * (y - HEIGHT_2));
 		p.z = 0;

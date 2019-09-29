@@ -19,7 +19,7 @@
           "reflection": 0,
           "transparency":5,
           "specular":4,
-          "fdf-map": "./maps/cube.3ds"
+          "3ds-map": "./maps/cube.3ds"
       }
     }
   ]

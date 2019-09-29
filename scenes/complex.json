@@ -20,7 +20,7 @@
           "reflection":50,
           "transparency":20,
           "specular": 5,
-          "fdf-map": "./maps/42.3ds"
+          "3ds-map": "./maps/42.3ds"
         },
         "PLANE":
         {

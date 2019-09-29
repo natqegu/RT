@@ -1,10 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_arg.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nnovikov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/29 07:52:24 by nnovikov          #+#    #+#             */
+/*   Updated: 2019/09/29 07:52:36 by nnovikov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "rt.h"
 
-
-
-#include "../includes/rt.h"
-
-int				num(char *str)
+int		num(char *str)
 {
 	int			i;
 
@@ -83,6 +91,29 @@ int		parse_vector(char *line, t_vector *vector)
 	return (0);
 }
 
+int		parse_angle(char *line, t_vector *vector)
+{
+	char	**name;
+	char	**tmp;
+
+	name = ft_strsplit(line, ':');
+	tmp = ft_strsplit(ft_strtrim(name[1]), ',');
+	if (num(tmp[0] + 1) && num(tmp[1]) && num(tmp[2]) && tmp[3] == NULL)
+	{
+		vector->x = (double)ft_atoi(ft_strtrim(tmp[0] + 1)) / 57.2958;
+		vector->y = (double)ft_atoi(ft_strtrim(tmp[1])) / 57.2958;
+		vector->z = (double)ft_atoi(ft_strtrim(tmp[2])) / 57.2958;
+		free(tmp[1]);
+		free(tmp[2]);
+		free(tmp);
+		return (1);
+	}
+	free(name[0]);
+	free(name[1]);
+	free(name);
+	return (0);
+}
+
 int		parse_int(char *line, int *number, int divisor, int max)
 {
 	char	**name;
@@ -125,16 +156,22 @@ int		parse_double(char *line, double *number, double divisor, double max)
 	return (1);
 }
 
-int		parse_tile(char *line, t_global *g)
+void	parse_init_tile_2(t_global *g, int num)
 {
-	char	**name;
-	char	*tmp;
-	int		num;
+	if (num == 11)
+		init_tile(g->id, "./tiles/blank.xpm", g->obj, g);
+	if (num == 12)
+		init_tile(g->id, "./tiles/helper.xpm", g->obj, g);
+	if (num == 13)
+		init_tile(g->id, "./tiles/space.xpm", g->obj, g);
+	if (num == 14)
+		init_tile(g->id, "./tiles/space1.xpm", g->obj, g);
+	if (num == 15)
+		init_tile(g->id, "./tiles/brick.xpm", g->obj, g);
+}
 
-	name = ft_strsplit(line, ':');
-	if (!name[0] || !name[1] || name[2])
-		return (0);
-	num = ft_atoi(name[1]);
+void	parse_init_tile(t_global *g, int num)
+{
 	if (num == 1)
 		init_tile(g->id, "./tiles/moon.xpm", g->obj, g);
 	if (num == 2)
@@ -155,23 +192,27 @@ int		parse_tile(char *line, t_global *g)
 		init_tile(g->id, "./tiles/uranus.xpm", g->obj, g);
 	if (num == 10)
 		init_tile(g->id, "./tiles/neptune.xpm", g->obj, g);
-	if (num == 11)
-		init_tile(g->id, "./tiles/blank.xpm", g->obj, g);
-	if (num == 12)
-		init_tile(g->id, "./tiles/helper.xpm", g->obj, g);
-	if (num == 13)
-		init_tile(g->id, "./tiles/space.xpm", g->obj, g);
-	if (num == 14)
-		init_tile(g->id, "./tiles/space1.xpm", g->obj, g);
-	if (num == 15)
-		init_tile(g->id, "./tiles/brick.xpm", g->obj, g);
+}
+
+int		parse_tile(char *line, t_global *g)
+{
+	char	**name;
+	char	*tmp;
+	int		num;
+
+	name = ft_strsplit(line, ':');
+	if (!name[0] || !name[1] || name[2])
+		return (0);
+	num = ft_atoi(name[1]);
+	parse_init_tile(g, num);
+	parse_init_tile_2(g, num);
 	free(name[0]);
 	free(name[1]);
 	free(name);
 	return (1);
 }
 
-char         *save_fdf_name(t_global *g, char *line)
+char	*save_fdf_name(t_global *g, char *line)
 {
     char	*tmp;
 	char	**name;
@@ -191,7 +232,7 @@ char         *save_fdf_name(t_global *g, char *line)
 	return (tmp);
 }
 
-int         parse_complex(t_global *g, char **data, int i)
+int		parse_complex(t_global *g, char **data, int i)
 {
 	init_vector(&(g->obj[g->id].color), 1, 0, 0);
 	init_vector(g->obj[g->id].ctr, 0, 0, 0);
@@ -210,10 +251,10 @@ int         parse_complex(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "center"))
 			parse_vector(data[i], g->obj[g->id].ctr);
 		if (ft_strstr(data[i], "angle"))
-			parse_vector(data[i], &(g->obj[g->id].ang));
+			parse_angle(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "reflection"))
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
-		if (ft_strstr(data[i], "fdf-map"))
+		if (ft_strstr(data[i], "3ds-map"))
 			g->obj[g->id].pts = create_points(save_fdf_name(g, data[i]), &g->obj[g->id].ptdim, g);
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
@@ -244,7 +285,7 @@ int         parse_complex(t_global *g, char **data, int i)
     return (0);
 }
 
-int         parse_tri(t_global *g, char **data, int i)
+int		parse_tri(t_global *g, char **data, int i)
 {
 	g->obj[g->id].id = g->id;
     g->obj[g->id].name = "tri";
@@ -275,7 +316,7 @@ int         parse_tri(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "center"))
 			parse_vector(data[i], g->obj[g->id].ctr);
 		if (ft_strstr(data[i], "angle"))
-			parse_vector(data[i], &(g->obj[g->id].ang));
+			parse_angle(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
@@ -300,7 +341,7 @@ int         parse_tri(t_global *g, char **data, int i)
     return (0);
 }
 
-int         parse_plane(t_global *g, char **data, int i)
+int		parse_plane(t_global *g, char **data, int i)
 {
 	g->obj[g->id].id = g->id;
     g->obj[g->id].name = "plane";
@@ -315,7 +356,6 @@ int         parse_plane(t_global *g, char **data, int i)
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].spec = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
-
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
@@ -332,7 +372,7 @@ int         parse_plane(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "center"))
 			parse_vector(data[i], g->obj[g->id].ctr);
 		if (ft_strstr(data[i], "angle"))
-			parse_vector(data[i], &(g->obj[g->id].ang));
+			parse_angle(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
@@ -352,7 +392,7 @@ int         parse_plane(t_global *g, char **data, int i)
     return (0);
 }
 
-int         parse_cylinder(t_global *g, char **data, int i)
+int		parse_cylinder(t_global *g, char **data, int i)
 {
 	g->obj[g->id].id = g->id;
     g->obj[g->id].name = "cylinder";
@@ -367,8 +407,7 @@ int         parse_cylinder(t_global *g, char **data, int i)
 	g->obj[g->id].spec = 0;
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
-	g->obj[g->id].soft = 1;
-
+	g->obj[g->id].soft = 0;
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
@@ -384,7 +423,7 @@ int         parse_cylinder(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "center"))
 			parse_vector(data[i], g->obj[g->id].ctr);
 		if (ft_strstr(data[i], "angle"))
-			parse_vector(data[i], &(g->obj[g->id].ang));
+			parse_angle(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
@@ -401,12 +440,11 @@ int         parse_cylinder(t_global *g, char **data, int i)
 	if (g->obj[g->id].trans)
 		g->obj[g->id].simple_bright = bright_cylinder;
 	g->obj[i].simple_bright = simple_bright_cylinder;
-
 	g->id++;
     return (0);
 }
 
-int         parse_cone(t_global *g, char **data, int i)
+int		parse_cone(t_global *g, char **data, int i)
 {
 	g->obj[g->id].id = g->id;
     g->obj[g->id].name = "cone";
@@ -421,7 +459,6 @@ int         parse_cone(t_global *g, char **data, int i)
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].spec = 0;
 	g->obj[g->id].tile[0].data_ptr = NULL;
-
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
@@ -438,7 +475,7 @@ int         parse_cone(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "center"))
 			parse_vector(data[i], g->obj[g->id].ctr);
 		if (ft_strstr(data[i], "angle"))
-			parse_vector(data[i], &(g->obj[g->id].ang));
+			parse_angle(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 100);
 		if (ft_strstr(data[i], "reflection"))
@@ -461,7 +498,6 @@ int         parse_cone(t_global *g, char **data, int i)
 	else
 		g->obj[g->id].simple_bright = simple_bright_cone;
 	g->id++;
-	printf("HERE CONE HELLO\n");
     return (1);
 }
 
@@ -479,23 +515,24 @@ int		parse_sphere(t_global *g, char **data, int i)
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].spec = 0;
-
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
 	init_vector(&g->obj[g->id].base[2], 0, 0, 1);
 	g->obj[g->id].soft = 0;
+	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	while (data[i])
 	{
 		if (ft_strstr(data[i], "}"))
 			break;
-
+		if (ft_strstr(data[i], "texture"))
+			parse_tile(data[i], g);
 		if (ft_strstr(data[i], "color"))
 			parse_color(data[i], &(g->obj[g->id].color));
 		if (ft_strstr(data[i], "center"))
 			parse_vector(data[i], g->obj[g->id].ctr);
 		if (ft_strstr(data[i], "angle"))
-			parse_vector(data[i], &(g->obj[g->id].ang));
+			parse_angle(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
@@ -506,11 +543,8 @@ int		parse_sphere(t_global *g, char **data, int i)
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
 			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
-		if (ft_strstr(data[i], "texture"))
-			parse_tile(data[i], g);
 		i++;
 	}
-	g->obj[g->id].tile[0].data_ptr = NULL;
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	if (g->obj[g->id].trans)
 		g->obj[g->id].simple_bright = bright_sphere;
@@ -520,7 +554,7 @@ int		parse_sphere(t_global *g, char **data, int i)
 	return (1);
 }
 
-int			parse_objects(t_global *g, char **data, int i, int lines)
+int		parse_objects(t_global *g, char **data, int i, int lines)
 {
 	int lig;
 
@@ -529,7 +563,6 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 	g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights + 1);
 	g->obj = (t_object *)malloc(sizeof(t_object) * (g->argc + 2));
 	g->liz = (double *)malloc(sizeof(t_vector) * g->lights);
-	printf("argc: %d\n", g->lights);
 	while (++lig <= g->argc)
 		g->obj[lig].ctr = (t_vector *)malloc(sizeof(t_vector));
 	lig = 0;
@@ -539,8 +572,7 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 		if (ft_strstr(data[i], "LIGHT"))
 		{
 			parse_vector(data[i + 2], &(g->li[lig]));
-			g->liz[lig] = g->li[lig].z; 
-			printf("light: %f\n", g->liz[lig]);
+			g->liz[lig] = g->li[lig].z;
 			lig++;
 		}
 		if (ft_strstr(data[i], "SPHERE"))
@@ -566,7 +598,7 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 	return (0);
 }
 
-int        parse_file(t_global *g, char **data, int lines)
+int		parse_file(t_global *g, char **data, int lines)
 {
     char    *tmp;
 	int i = 0;
@@ -588,11 +620,10 @@ int        parse_file(t_global *g, char **data, int lines)
 		i++;
 	}
 	*g->normal = rotate(*g->normal, *g->angle);
-	printf("color: %f, %f, %f \n", g->obj[0].ctr->x, g->obj[0].ctr->y, g->obj[0].ctr->z + 50);
     return (1);
 }
 
-static void	ft_strjoin_free(char *s1, char *s2, int type)
+void	ft_strjoin_free(char *s1, char *s2, int type)
 {
 	if (type == 'l')
 		free(s1);
@@ -605,7 +636,7 @@ static void	ft_strjoin_free(char *s1, char *s2, int type)
 	}
 }
 
-char		*ft_strjoin_fake(char *s1, char *s2, char type)
+char	*ft_strjoin_fake(char *s1, char *s2, char type)
 {
 	char	*n;
 	int		i[2];
@@ -647,7 +678,7 @@ int		ft_linelen(char *buf, int k)
 	return (++len);
 }
 
-char		**get_scene(char *buf, int lines)
+char	**get_scene(char *buf, int lines)
 {
 	int		i;
 	int		k;
@@ -675,7 +706,7 @@ char		**get_scene(char *buf, int lines)
 	return (data);
 }
 
-int			open_file(char **argv, t_global *g)
+int		open_file(char **argv, t_global *g)
 {
 	int		fd;
 	char	*line;
@@ -692,7 +723,8 @@ int			open_file(char **argv, t_global *g)
         return (0);
 	while (get_next_line(fd, &line))
 	{
-		buf = ft_strjoin_fake(buf, ft_strjoin_fake(ft_strtrim(line), "\n", 'l'), 'b');
+		buf = ft_strjoin_fake(buf, ft_strjoin_fake(
+					ft_strtrim(line), "\n", 'l'), 'b');
 		free(line);
 		lines++;
 	}
@@ -721,7 +753,6 @@ int    count_objects(t_global *g, int fd)
 			g->lights++;
         free(line);
     }
-	
     return (g->argc);
 }
 
@@ -732,15 +763,11 @@ int		check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
 	if (argc != 2)
 		return (usage(0));
     fd = open(argv[1], O_RDONLY);
-	if (fd == -1 || (argv[1][0] == '.' && argv[1][1] == '/'))
+	if (fd == -1 || (argv[1][0] == '.' && argv[1][1] == '/')
+									|| !count_objects(g, fd))
 	{
 		usage(1);
 		return (0);
-	}
-    if (!count_objects(g, fd))
-	{
-		usage(1);
-        return (0);
 	}
     close(fd);
     if (!open_file(argv, g))
@@ -749,8 +776,5 @@ int		check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
         return (0);
 	}
 	ginit(g);
-    printf("argc: %d\n", g->argc);
-	printf("lights: %d\n", g->lights);
-	printf("reflect: %f\n", g->obj[1].re);
 	return (1);
 }

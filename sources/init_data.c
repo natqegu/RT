@@ -19,42 +19,18 @@ void		ginit(t_global *g)
 
 	g->ray->z = lround(WIDTH / (double)2000 * 1600);
 	i = -1;
-	// g->lights = 3;
-	// g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights);
-	// init_vector(&g->li[0], 102, 10, 400);
-	// init_vector(&g->li[1], 102, 10, 400);
-	// init_vector(&g->li[2], 102, 10, 400);
-
-	// g->liz = (double *)malloc(sizeof(double) * g->lights); 
-	// g->liz[0] = g->li[0].z;
-	// g->liz[1] = g->li[1].z;
-	// g->liz[2] = g->li[2].z;
-
-	// g->ambient = 50;
-//	g->step_bri = (255 - g->ambient) / (double)g->lights;
 	g->mip_map = 0;
-//	g->mutex = PTHREAD_MUTEX_INITIALIZER;
 	init_vector(&g->_0015, 0, 0, 15);
 
 	init_vector(&g->base[0], 1, 0, 0);
 	init_vector(&g->base[1], 0, 1, 0);
 	init_vector(&g->base[2], 0, 0, 1);
-
-//	init_vector(g->angle, 0.75, 0, 0);
-	// init_vector(g->angle, 0, 0, 0);
-
-	// init_vector(g->normal, 0, 0, 20);
-	// *g->normal = rotate(*g->normal, *g->angle);
-//	init_vector(g->cam_pos, 0.135995, 100, 100.919620);
-	// init_vector(g->cam_pos, 0, 300, 0);
 	init_vector(&g->white, 1, 1, 1);
-
 	g->light_switch = 0;
 	g->filter_switch = 0;
 	g->music = 0;
 	g->objn = 0;
 	g->prim = 0;
-//	g->obj = (t_object *)malloc(sizeof(t_object) * (g->argc + 1));
 	(hits) = (t_objecthit ***)malloc(sizeof(t_objecthit **) * HEIGHT + 1);
 	init_hits(hits);
 	g->hits = hits;
@@ -62,12 +38,9 @@ void		ginit(t_global *g)
 	g->line_taken = (int *)malloc(sizeof(int) * HEIGHT);
 	ft_bzero(g->line_taken, 4 * WIDTH);
 	g->recursion = 0;
-//	while (++i < WIDTH)
-//		printf("the line taken is %d\n", g->line_taken[i]);
 	i = -1;
 	while (++i < CORES)
 		g->tcps[i] = (t_global *)malloc(sizeof(t_global));
-//	copy_tcps(g);
 	printf("end ginit\n");
 }
 
@@ -78,20 +51,15 @@ void		stretch(int *a, int d, int h)
 
 	i = d / 2 - 1;
 	j = h / 2 - 1;
-//	printf("d is %d\n", d);
-//	printf("at last place is %d\n", *(a + d * 16 + 12));
 	while (j >= 0)
 	{
 		i = d / 2 - 1;
 		while (i >= 0)
 		{
 			*(a + d * 2 * j + 2 * i) = *(a + d * j + i);
-//			if (i > 0)
-				*(a + d * 2 * j + 2 * i + 1) = *(a + d * j + i);
-				*(a + d * (2 * j + 1) + 2 * i) = *(a + d * j + i);
-				*(a + d * (2 * j + 1) + 2 * i + 1) = *(a + d * j + i);
-			if (i == d && j == d)
-				printf("copy to %d, %d\n", 2 * i - 1, 2 * (j - 1));
+			*(a + d * 2 * j + 2 * i + 1) = *(a + d * j + i);
+			*(a + d * (2 * j + 1) + 2 * i) = *(a + d * j + i);
+			*(a + d * (2 * j + 1) + 2 * i + 1) = *(a + d * j + i);
 			i--;
 		}
 		j--;
@@ -112,7 +80,6 @@ t_vector		*norm_tile(int *tile, int w, int h, t_global *g)
 		i = 0;
 		while (i < h)
 		{
-//			printf("copying at %d,%d\n", i, j);
 			*(ret + j * h + i) = base255(rgb(*(tile + j * h + i)));
 			i++;
 		}

@@ -113,17 +113,14 @@ void			shift_center(t_vector **pts, t_vector *ptdim, t_global *g)
 	j = 0;
 
 	init_vector(&g->base[0], 1, 0, 0);
-        init_vector(&g->base[1], 0, 1, 0);
-        init_vector(&g->base[2], 0, 0, 1);
+    init_vector(&g->base[1], 0, 1, 0);
+    init_vector(&g->base[2], 0, 0, 1);
  
-       
-	printf("g base[0] is %f,%f,%f\n", g->base[0].x, g->base[0].y, g->base[0].z);
-		bas[0] = scale(ptdim->x, g->base[0]);
-		bas[1] = scale(ptdim->y, g->base[1]);
-        bas[2] = scale(ptdim->z, g->base[2]);
+	bas[0] = scale(ptdim->x, g->base[0]);
+	bas[1] = scale(ptdim->y, g->base[1]);
+    bas[2] = scale(ptdim->z, g->base[2]);
 	imax = ptdim->x / 20;
 	rc = scale(-0.5, sum(sum(bas[0], bas[1]), bas[2]));
-	printf("shift is %f,%f,%f\n%f,%f,%f\n%f,%f,%f\n", bas[0].x, bas[0].y, bas[0].z, bas[1].x, bas[1].y, bas[1].z, bas[2].x, bas[2].y, bas[2].z);
 	while (*(pts + j))
 	{
 		i = 0;
@@ -146,12 +143,8 @@ t_vector		**create_points(char *filename, t_vector *ptdim, t_global *g)
 
 	j = 0;
 	height = file_height(filename);
-	printf("creating points\n");
 	if (height == -1)
-	{
-		ft_putstr("Invalid file or buffer\n");
 		return (NULL);
-	}
 	ret = initialize_points(height + 1);
 	fd = open(filename, O_RDONLY);
 	ptdim->z = 0;
@@ -164,9 +157,7 @@ t_vector		**create_points(char *filename, t_vector *ptdim, t_global *g)
 		free(line);
 		j++;
 	}
-//	printf("line len int create is %d\n", (**ret).len);
 	ptdim->y = height * 20;
-	printf("frame dimensions are %f,%f,%f\n", ptdim->x, ptdim->y, ptdim->z);
 	shift_center(ret, ptdim, g);
 	return (ret);
 }
