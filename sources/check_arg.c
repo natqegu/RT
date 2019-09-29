@@ -253,11 +253,11 @@ int		parse_complex(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "angle"))
 			parse_angle(data[i], &(g->obj[g->id].ang));
 		if (ft_strstr(data[i], "reflection"))
-			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].re), 80.0, 100.0);
 		if (ft_strstr(data[i], "3ds-map"))
 			g->obj[g->id].pts = create_points(save_fdf_name(g, data[i]), &g->obj[g->id].ptdim, g);
 		if (ft_strstr(data[i], "transparency"))
-			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].trans), 80.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
@@ -320,7 +320,7 @@ int		parse_tri(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
-			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].re), 80.0, 100.0);
 		if (ft_strstr(data[i], "point1"))
 			parse_vector(data[i], &(g->obj[g->id].bd1));
 		if (ft_strstr(data[i], "point2"))
@@ -328,7 +328,7 @@ int		parse_tri(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "point3"))
 			parse_vector(data[i], &(g->obj[g->id].bd3));
 		if (ft_strstr(data[i], "transparency"))
-			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].trans), 80.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
@@ -376,9 +376,9 @@ int		parse_plane(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
-			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].re), 80.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
-			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].trans), 80.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
@@ -386,7 +386,7 @@ int		parse_plane(t_global *g, char **data, int i)
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
-	if (g->obj[g->id].re || g->obj[g->id].trans)
+	if (g->obj[g->id].trans)
 		g->obj[g->id].simple_bright = bright_plane;
 	g->id++;
     return (0);
@@ -427,9 +427,9 @@ int		parse_cylinder(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
-			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].re), 80.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
-			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].trans), 80.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
@@ -479,9 +479,9 @@ int		parse_cone(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 100);
 		if (ft_strstr(data[i], "reflection"))
-			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].re), 80.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
-			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].trans), 80.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
@@ -489,14 +489,9 @@ int		parse_cone(t_global *g, char **data, int i)
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
-	if (g->obj[g->id].tile[0].data_ptr || g->obj[g->id].re || g->obj[g->id].trans || g->obj[g->id].spec)
-		g->obj[g->id].bright = &bright_cone;
-	else
-		g->obj[g->id].bright = &simple_bright_cone;
-	if (g->obj[g->id].re || g->obj[g->id].trans)
+	if (g->obj[g->id].trans)
 		g->obj[g->id].simple_bright = &bright_cone;
-	else
-		g->obj[g->id].simple_bright = simple_bright_cone;
+	g->obj[g->id].simple_bright = simple_bright_cone;
 	g->id++;
     return (1);
 }
@@ -536,9 +531,9 @@ int		parse_sphere(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "radius"))
 			parse_int(data[i], &(g->obj[g->id].rd), 1, 1000);
 		if (ft_strstr(data[i], "reflection"))
-			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].re), 80.0, 100.0);
 		if (ft_strstr(data[i], "transparency"))
-			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);
+			parse_double(data[i], &(g->obj[g->id].trans), 80.0, 100.0);
 		if (ft_strstr(data[i], "specular"))
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
@@ -549,7 +544,6 @@ int		parse_sphere(t_global *g, char **data, int i)
 	if (g->obj[g->id].trans)
 		g->obj[g->id].simple_bright = bright_sphere;
 	g->obj[g->id].simple_bright = simple_bright_sphere;
-	g->obj[g->id].color = base(g->obj[g->id].color);
 	g->id++;
 	return (1);
 }

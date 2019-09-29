@@ -39,23 +39,6 @@ int		mouse_press(int button, int x, int y, void *param)
     	}
     	if (x > 50 && x < 250 && y > 262 && y < 336)
     	{
-			
-			int i = 0;
-			while (i < 100)
-			{
-				ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
-				int j = 0;
-				while (j < 2)
-				{
-					g->obj[g->objn].ctr->y++;
-					start_threads(recalc, g);
-					
-					printf("ctr->x: %f", g->obj[g->objn].ctr->x);
-					j++;
-				}
-				i++;
-			}
-    		//animation
     	}
     	if (x > 50 && x < 250 && y > 354 && y < 428)
     	{
@@ -74,10 +57,10 @@ int		mouse_press(int button, int x, int y, void *param)
 			if (g->music == 0)
 			{
 				g->music = 1;
-				system("afplay ./music_1.mp3 &");//toto-africa
+				// system("afplay ./music_1.mp3 &");//toto-africa
 				// system("afplay ./music_2.mp3 &"); //star wars
 				// system("afplay ./music_3.mp3 &"); //деревня дураков
-				// system("afplay ./music_4.mp3 &");//птицы
+				system("afplay ./music_4.mp3 &");//птицы
 			}
 			else
 			{
@@ -102,8 +85,8 @@ int		mouse_press(int button, int x, int y, void *param)
     	if (x > 360 && x < 400 && y > 720 && y < 750)
     	{
 			g->obj[g->objn].re += 0.05;
-			if (g->obj[g->objn].re > 0.95)
-				g->obj[g->objn].re = 0.99;
+			if (g->obj[g->objn].re > 0.75)
+				g->obj[g->objn].re = 0.8;
 			printf("REFLECTION %f\n", g->obj[g->objn].re);
     		//reflection++
     	}
@@ -132,8 +115,8 @@ int		mouse_press(int button, int x, int y, void *param)
     	if (x > 360 && x < 400 && y > 848 && y < 878)
     	{
 			g->obj[g->objn].trans += 0.05;
-			if (g->obj[g->objn].trans > 0.95)
-				g->obj[g->objn].trans = 1;
+			if (g->obj[g->objn].trans > 0.75)
+				g->obj[g->objn].trans = 0.8;
 			printf("TRANS %f\n", g->obj[g->objn].trans);
     		//transparency++
     	}
@@ -200,17 +183,6 @@ int		mouse_press(int button, int x, int y, void *param)
 				g->obj[g->objn].trans = 0;
 				g->obj[g->objn].re = 0;
 		}
-		if (x > 750 && x < 950 && y > 470 && y < 530)
-		{
-			if (g->filter_switch == 6)
-				return (1);
-			else
-				printf("CARTOON -> SMOOTH\n");
-				make_smooth(g);
-		}
-
-
-
 
     	if (x > 550 && x < 650 && y > 650 && y < 750)
     	{

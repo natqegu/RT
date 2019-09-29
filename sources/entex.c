@@ -223,9 +223,7 @@ void		alias(int *dst, int *a, int w, int xmax, int ymax, int h)
 int		start_threads(void *f, t_global *g)
 {
 	int 	i;
-	clock_t t[2];
 
-	t[0] = clock();
 	i = -1;
 	while (++i < CORES)
 		pthread_create(&g->tid[i], NULL, f, g->tcps[i]);
@@ -234,6 +232,5 @@ int		start_threads(void *f, t_global *g)
 		pthread_join(g->tid[i], NULL);
 	i = -1;
 	mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, g->img_ptr, WINDOW_START_X, WINDOW_START_Y);
-	t[1] = clock();
 	return (1);
 }

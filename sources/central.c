@@ -155,7 +155,7 @@ void		*toimg(void *tcp)
 			}
 		}
 	}
-	return (NULL);
+	pthread_exit(0);
 }
 
 void		*move(void *p)
@@ -193,7 +193,7 @@ void		*move(void *p)
 				g->data_ptr[jheight + i] = 0;			
 		}
 	}
-	return (NULL);
+	pthread_exit(0);
 }
 
 void		*recalc(void *p)
@@ -211,7 +211,6 @@ void		*recalc(void *p)
 
 	end = (g->core + 1) * HEIGHT / CORES;
 	j = g->core * HEIGHT / CORES - 1;
-
 	jheight = j * HEIGHT;
 	while (++j < end && (i = -1))
 	{
@@ -239,5 +238,5 @@ void		*recalc(void *p)
 				g->data_ptr[jheight + i] = 0;
 		}
 	}
-	return (NULL);
+	pthread_exit(0);
 }

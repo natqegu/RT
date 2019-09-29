@@ -18,6 +18,7 @@ t_colbri		refl(t_vector refl, t_vector hit, t_vector nrm, t_object obj, t_global
 	t_objecthit reflobj;
 	t_colbri ret;
 
+
 	objecthit(&temp, hit, sum(refl, hit), g->obj, g->argc + 1, g);
 	reflobj.hit = sum(scale(temp.dst, refl), hit);
 	reflobj.obj = temp.obj;
@@ -249,6 +250,7 @@ t_colbri	bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g)
 	t_vector	 hitli[g->lights];
 	t_vector	reflrayv;
 
+		g->recursion++;
 	hit0 = diff(hit, *obj.ctr);
 	ax = scale(dot(hit0, obj.base[1]) * (1 + obj.rd2), obj.base[1]);
 	nrm = norm(diff(hit0, ax));
@@ -293,6 +295,7 @@ t_colbri	bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g)
 	if (obj.trans)
 		do_trans(st, hit, &ret, ret, nrm, obj, g);
 	obstructed(&ret, hit, hitli, reflrayv, obj, g);
+	g->recursion = 0;
 	return (ret);
 }
 
@@ -335,6 +338,7 @@ t_colbri	bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g)
 	int		i;
 	t_vector	reflrayv;
 
+		g->recursion++;
 	hit0 = diff(hit, *obj.ctr);
 	vrt = obj.base[1];
 	vrt = scale(dot(hit0, vrt), vrt);
@@ -394,6 +398,7 @@ t_colbri	bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g)
 
 	if (ret.bri < *g->ambient)
 		ret.bri = *g->ambient;
+	g->recursion = 0;
 	return (ret);
 }
 
@@ -608,6 +613,7 @@ t_colbri		bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g)
 	t_vector	ctrhit;
 	t_vector	hitli = diff(*g->li, hit);
 
+		g->recursion++;
 	nrm = norm(diff(hit, *obj.ctr));
 	retorig = (round(255 * dot(norm(diff(*g->li, hit)), nrm)));
 	if (retorig < *g->ambient)
@@ -625,6 +631,7 @@ t_colbri		bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g)
 	ret = refl(st, hit, nrm, obj, g);
 	ret.bri = ((1 - obj.re) * retorig + obj.re * ret.bri);
 	ret.col = sum(scale(1 - obj.re, obj.color), scale(obj.re, ret.col));
+		g->recursion = 0;
 	return (ret);
 }
 
@@ -686,6 +693,7 @@ t_colbri		bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g)
 	t_vector	hitli[g->lights];
 	t_vector	colself;
 	
+		g->recursion++;
 	init_hitli(hitli, hit, g);
 	if (obj.cam_pos)
 	{
@@ -720,6 +728,7 @@ t_colbri		bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g)
 		ret.col = retorig.col;
 	ret.bri = retorig.bri;
 	obstructed(&ret, hit, hitli, reflrayv, obj, g);
+	g->recursion = 0;
 	return (ret);
 }
 
@@ -779,7 +788,7 @@ t_colbri		bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g)
 	t_vector	hitli[g->lights];
 		t_vector reflrayv;
 
-
+		g->recursion++;
 	init_hitli(hitli, hit, g);	
 	if (dot(diff(hit, *g->cam_pos), obj.base[1]) > 0)
 	{
@@ -810,5 +819,6 @@ t_colbri		bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g)
 	ret.bri = retorig.bri;
 	if (obj.spec)
 		do_spec(&ret, hit, obj.base[1], reflrayv, obj, g);
+	g->recursion = 0;
 	return (ret);
 }

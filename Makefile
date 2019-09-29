@@ -44,7 +44,7 @@ $(DIR):
 
 $(NAME): $(DIR) $(SRC_O)
 	make -C libft/
-	$(CC) -o $(NAME) $(SRC_O) -lm -L libft/ -lft -lmlx -framework OpenGL -framework AppKit
+	$(CC) -o $(NAME) $(SRC_O) -lm -L libft/ -lft -lmlx -framework OpenGL -framework AppKit -lpthread
 
 clean:
 	make -C libft/ clean
