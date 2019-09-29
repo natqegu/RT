@@ -55,12 +55,23 @@
 
 typedef	struct	s_vector t_vector;
 
-
-struct s_vector
+struct			s_vector
 {
+	double		x;
+	double		y;
+	double		z;
+};
+
+struct			s_2_vec
+{
+<<<<<<< HEAD
 	double x;
 	double y;
 	double z;
+=======
+	t_vector	one;
+	t_vector	two;
+>>>>>>> 21e2184310c349190dba787699151b9d61464713
 };
 
 
@@ -211,8 +222,13 @@ void				stereoscopy(t_global *g);
 int					mouse_press(int button, int x, int y, void *param);
 int					x_close(t_global *g);
 
-
-
+t_vector		reflray(t_vector st, t_vector end, t_vector nrm, t_global *g);
+void		init_hitli(t_vector *hitli, t_vector hit, t_global *g);
+void		init_bri(int *bri, t_vector *hitli, t_vector nrm, t_global *g);
+void		do_re(t_vector reflrayv, t_vector *reocol, t_vector tileocol, t_vector hit, t_vector nrm, t_object obj, t_global *g);
+void	make_motion(t_global *g);
+void		do_trans(t_vector st, t_vector hit, t_colbri *ret, t_colbri reo, t_vector nrm, t_object obj, t_global *g);
+t_vector		mip_col(double x, double y, double dst2, t_object obj, t_global *g);
 
 void				buttons1(int x, int y, t_global *g);
 void				buttons2(int x, int y, t_global *g);
@@ -226,7 +242,6 @@ t_vector			*norm_tile(int *tile, int w, int h);
 void				init_tile_2(int i, char *tile, t_object *obj, t_global *g);
 void				copy2(t_global *tcps, t_global *g);
 void				menu(t_global	*g);
-
 
 
 
