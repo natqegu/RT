@@ -12,23 +12,28 @@
 
 #include "../includes/rt.h"
 
-int				next_num(char *s)
+void			make_sepia(t_global *g)
 {
-	int			i;
+	t_vector	c;
+	int			color;
+	int			j;
 
-	i = 0;
-	while (*(s + i) == ' ')
-		i++;
-	while (*(s + i) != ' ' && *(s + i) != '\0')
+	g->filter_switch = 1;
+	j = g->objn;
+	if (j == 0)
+		j = 1;
+	while (j < g->argc + 1)
 	{
-		if ((*(s + i) < '0' || *(s + i) > '9') && *(s + i) != ' '
-				&& *(s + i) != '-' && *(s + i) != '+')
-			return (-1);
-		i++;
+		printf("color sepia\n");
+		c = g->obj[j].color;
+		g->obj[j].color.x = (((c.x * 0.393f) + (c.y * 0.769f)
+												+ (c.z * 0.189f))) / 2;
+		g->obj[j].color.y = (((c.x * 0.349f) + (c.y * 0.686f)
+												+ (c.z * 0.168f))) / 2;
+		g->obj[j].color.z = (((c.x * 0.272f) + (c.y * 0.534f)
+												+ (c.z * 0.131f))) / 2;
+		j++;
 	}
-	while (*(s + i) == ' ')
-		i++;
-	return (i);
 }
 
 int				file_height(char *filename)
