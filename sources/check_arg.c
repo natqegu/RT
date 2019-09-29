@@ -439,7 +439,7 @@ int		parse_cylinder(t_global *g, char **data, int i)
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
 	if (g->obj[g->id].trans)
 		g->obj[g->id].simple_bright = bright_cylinder;
-	g->obj[i].simple_bright = simple_bright_cylinder;
+	g->obj[g->id].simple_bright = simple_bright_cylinder;
 	g->id++;
     return (0);
 }
@@ -560,9 +560,9 @@ int		parse_objects(t_global *g, char **data, int i, int lines)
 
 	lig = -1;
 	g->id = 1;
-	g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights + 1);
+	g->li = (t_vector *)malloc(sizeof(t_vector) * (g->lights + 1));
 	g->obj = (t_object *)malloc(sizeof(t_object) * (g->argc + 2));
-	g->liz = (double *)malloc(sizeof(t_vector) * g->lights);
+	g->liz = (double *)malloc(sizeof(t_vector) * (g->lights + 1));
 	while (++lig <= g->argc)
 		g->obj[lig].ctr = (t_vector *)malloc(sizeof(t_vector));
 	lig = 0;
