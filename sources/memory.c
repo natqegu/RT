@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   memory.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/29 20:28:00 by vkarpova          #+#    #+#             */
+/*   Updated: 2019/09/29 20:28:00 by vkarpova         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/rt.h"
 
-int		free_hits(t_global *g)
+int				free_hits(t_global *g)
 {
-	int i;
-	int j;
+	int			i;
+	int			j;
 
 	i = -1;
 	while (++i < HEIGHT && (j = -1))
-		while(++j < WIDTH)
+		while (++j < WIDTH)
 			free(*(*(g->hits + i) + j));
 	i = -1;
 	while (++i < HEIGHT)
@@ -16,7 +27,7 @@ int		free_hits(t_global *g)
 	free(g->hits);
 	i = -1;
 	while (++i < HEIGHT && (j = -1))
-		while(++j < WIDTH)
+		while (++j < WIDTH)
 			free(*(*(g->rays + i) + j));
 	i = -1;
 	while (++i < HEIGHT)
@@ -27,13 +38,36 @@ int		free_hits(t_global *g)
 		free(g->tcps[i]);
 	return (1);
 }
-void		copy_obj(t_object *t, t_object *g)
+
+void			copy_obj(t_object *t, t_object *g)
 {
 	t = g;
-//	t->tile = g->tile;
 }
-	
-void		copy(t_global *tcps, t_global *g)
+
+void			copy2(t_global *tcps, t_global *g)
+{
+	tcps->argc = g->argc;
+	tcps->core = g->core;
+	tcps->hits = g->hits;
+	tcps->rays = g->rays;
+	tcps->prim = g->prim;
+	tcps->cone[0] = g->cone[0];
+	tcps->cone[1] = g->cone[1];
+	tcps->ambient = g->ambient;
+	tcps->base[0] = g->base[0];
+	tcps->base[1] = g->base[1];
+	tcps->base[2] = g->base[2];
+	tcps->line_taken = g->line_taken;
+	tcps->mip_map = g->mip_map;
+	tcps->recursion = g->recursion;
+	tcps->lights = g->lights;
+	tcps->white = g->white;
+	tcps->hitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
+	tcps->savehitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
+	tcps->cosa = (double *)malloc(sizeof(double) * g->lights);
+}
+
+void			copy(t_global *tcps, t_global *g)
 {
 	tcps->win_ptr = g->win_ptr;
 	tcps->mlx_ptr = g->mlx_ptr;
@@ -53,49 +87,14 @@ void		copy(t_global *tcps, t_global *g)
 	tcps->normal = g->normal;
 	tcps->li = g->li;
 	tcps->cam_pos = g->cam_pos;
-
-//	copy_obj(tcps->obj, g->obj);
-
 	tcps->obj = g->obj;
-
 	tcps->objn = g->objn;
-	tcps->argc = g->argc;
-	tcps->core = g->core;
-	tcps->hits = g->hits;
-	tcps->rays = g->rays;
-	tcps->prim = g->prim;
-	tcps->cone[0] = g->cone[0];
-	tcps->cone[1] = g->cone[1];
-	tcps->ambient = g->ambient;
-	tcps->base[0] = g->base[0];
-	tcps->base[1] = g->base[1];
-	tcps->base[2] = g->base[2];
-	tcps->line_taken = g->line_taken;
-//	tcps->e1 = g->e1;
-//	tcps->sz_l1 = g->sz_l1;
-//	tcps->bpp1 = g->bpp1;
-//	tcps->tile_data_ptr = g->tile_data_ptr;
-	tcps->mip_map = g->mip_map;
-	tcps->recursion = g->recursion;
-	tcps->lights = g->lights;
-	tcps->white = g->white;
-	tcps->hitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
-	tcps->savehitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
-	tcps->cosa = (double *)malloc(sizeof(double) * g->lights);
-	// tcps->ctrli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
-
-//	tcps->e1 = g->e1;
-//	tcps->sz_l1 = g->sz_l1;
-//	tcps->bpp1 = g->bpp1;
-//	tcps->tile_data_ptr = g->tile_data_ptr;
-
+	copy2(tcps, g);
 }
 
-
-
-void		copy_tcps(t_global *g)
+void			copy_tcps(t_global *g)
 {
-	int i;
+	int			i;
 
 	i = -1;
 	while (++i < CORES)
@@ -105,10 +104,10 @@ void		copy_tcps(t_global *g)
 	}
 }
 
-void		init_hits(t_objecthit ***hits)
+void			init_hits(t_objecthit ***hits)
 {
-	int i;
-	int j;
+	int			i;
+	int			j;
 
 	i = -1;
 	while (++i < HEIGHT)
@@ -117,15 +116,15 @@ void		init_hits(t_objecthit ***hits)
 	while (++i < HEIGHT)
 	{
 		j = -1;
-		while(++j < WIDTH)
-			*(*(hits + i) + j)= (t_objecthit *)malloc(sizeof(t_objecthit));
+		while (++j < WIDTH)
+			*(*(hits + i) + j) = (t_objecthit *)malloc(sizeof(t_objecthit));
 	}
 }
 
-void		init_rays(t_vector ****ray)
+void			init_rays(t_vector ****ray)
 {
-	int i;
-	int j;
+	int			i;
+	int			j;
 
 	(*ray) = (t_vector ***)malloc(sizeof(t_vector **) * HEIGHT + 1);
 	i = -1;
@@ -135,7 +134,7 @@ void		init_rays(t_vector ****ray)
 	while (++i < HEIGHT)
 	{
 		j = -1;
-		while(++j < WIDTH)
-			*(*(*ray + i) + j)= (t_vector *)malloc(sizeof(t_vector));
+		while (++j < WIDTH)
+			*(*(*ray + i) + j) = (t_vector *)malloc(sizeof(t_vector));
 	}
 }

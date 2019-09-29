@@ -1,7 +1,7 @@
 {
   "ROTATION":[0,0,0],
-  "CAMERA":[0,0,0],
-  "AMBIENT":95,
+  "CAMERA":[0,0,-100],
+  "AMBIENT":50,
   "OBJECTS":
   [
     
@@ -9,7 +9,7 @@
       "SPHERE":
       {
         "color":[255,255,255],
-        "center":[-150,-50,500],
+        "center":[-250,-50,500],
         "angle":[0,0,0],
         "radius":100
       },
@@ -23,7 +23,7 @@
       "SPHERE2":
       {
         "color":[255,0,255],
-        "center":[150,-50,500],
+        "center":[250,-50,500],
         "angle":[0,0,0],
         "radius":100
       }

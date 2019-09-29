@@ -141,14 +141,15 @@ t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_
 
 void				alias(int *dst, int *a, int w, int h, int xmax, int ymax);
 
-t_dstpst			*NANI(t_dstpst *t);
+t_dstpst			*nani(t_dstpst *t);
 void				obstructed(t_colbri *i, t_vector hit, t_vector *hitli, t_vector reflrayv, t_object obj, t_global *g);
 t_vector			rotate(t_vector ray, t_vector angle);
 void				init_vector(t_vector *current, double x, double y, double z);
 int					con(t_global *g);
 t_vector			rgb(int c);
 t_vector			base(t_vector c);
-int					pinside(t_vector p, t_vector bd1, t_vector bd2, t_vector bd3, t_vector nr, t_global *g);
+int					pinside(t_vector p, t_object object, t_vector nr, t_global *g);
+// int					pinside(t_vector p, t_vector bd1, t_vector bd2, t_vector bd3, t_vector nr, t_global *g);
 void				screen(int *a, int w, int h, t_global *g);
 
 t_vector			cross(t_vector a, t_vector b);
@@ -192,6 +193,7 @@ void				blue_stereo(t_global *g);
 void				stereoscopy(t_global *g);
 int					mouse_press(int button, int x, int y, void *param);
 int					x_close(t_global *g);
+
 t_vector		reflray(t_vector st, t_vector end, t_vector nrm, t_global *g);
 void		init_hitli(t_vector *hitli, t_vector hit, t_global *g);
 void		init_bri(int *bri, t_vector *hitli, t_vector nrm, t_global *g);
@@ -199,6 +201,21 @@ void		do_re(t_vector reflrayv, t_vector *reocol, t_vector tileocol, t_vector hit
 void	make_motion(t_global *g);
 void		do_trans(t_vector st, t_vector hit, t_colbri *ret, t_colbri reo, t_vector nrm, t_object obj, t_global *g);
 t_vector		mip_col(double x, double y, double dst2, t_object obj, t_global *g);
+
+void				buttons1(int x, int y, t_global *g);
+void				buttons2(int x, int y, t_global *g);
+void				buttons3(int x, int y, t_global *g);
+void				buttons4(int x, int y, t_global *g);
+void				buttons5(int x, int y, t_global *g);
+void				buttons6(int x, int y, t_global *g);
+void				buttons7(int x, int y, t_global *g);
+void				buttons8(int x, int y, t_global *g);
+t_vector			*norm_tile(int *tile, int w, int h, t_global *g);
+void				init_tile_2(int i, char *tile, t_object *obj, t_global *g);
+void				copy2(t_global *tcps, t_global *g);
+void				menu(t_global	*g);
+
+
 
 typedef	struct		s_tile
 {

@@ -15,7 +15,7 @@
         "center":[-200,0,300],
         "angle":[0,0,0],
         "radius":100,
-        "reflection":80,
+        "reflection":10,
         "transparency":0,
         "specular": 0,
         "soft": 0
@@ -27,7 +27,7 @@
         "center":[300,0,300],
         "angle":[0,0,0],
         "radius":100,
-        "reflection":80,
+        "reflection":0,
         "transparency":0,
         "specular": 0,
         "soft": 0
@@ -39,7 +39,7 @@
         "center":[60,-100,300],
         "angle":[0,0,0],
         "radius":1,
-        "reflection":80,
+        "reflection":10,
         "transparency":0,
         "specular": 0,
         "soft": 0

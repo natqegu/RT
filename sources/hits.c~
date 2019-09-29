@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hits.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
+/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/29 21:12:58 by vkarpova          #+#    #+#             */
-/*   Updated: 2019/09/29 21:12:59 by vkarpova         ###   ########.fr       */
+/*   Created: 2019/07/03 20:35:53 by tpokalch          #+#    #+#             */
+/*   Updated: 2019/07/03 20:53:22 by tpokalch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,30 @@ int 		hit_quad(t_vector st, t_vector end, t_vector ray, t_vector quad[4], t_glob
 	t_vector tri[2][3];
 	t_object obj[2];
 
+
 	tri[0][0] = quad[0];
 	tri[0][1] = quad[1];
 	tri[0][2] = quad[2];
+
 	tri[1][0] = quad[1];
 	tri[1][1] = quad[2];
 	tri[1][2] = quad[3];
+
+//	obj[0].nr = norm(cross(diff(tri[0][0], tri[0][2]), diff(tri[0][1], tri[0][2])));
+//	obj[1].nr = norm(cross(diff(tri[1][0], tri[1][2]), diff(tri[1][1], tri[1][2])));
+
 	obj[0].bd1 = tri[0][0];
 	obj[0].bd2 = tri[0][1];
 	obj[0].bd3 = tri[0][2];
+
 	obj[1].bd1 = tri[1][0];
 	obj[1].bd2 = tri[1][1];
 	obj[1].bd3 = tri[1][2];
 	t_dstpst hit[2];
+
 	hit[0] = hit_tri(st, end, ray, obj[0], g);
 	hit[1] = hit_tri(st, end, ray, obj[1], g) ;
+
 	return ((hit[0].dst > 0 || hit[0].dst <= 0) || (hit[1].dst > 0 || hit[1].dst <= 0));
 }
 
