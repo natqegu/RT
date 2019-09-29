@@ -5,6 +5,11 @@ t_colbri	simple_bright_sphere(t_vector st, t_vector hit, t_object obj, t_global 
 	t_colbri    ret;
 	t_vector    nrm;
 	t_vector    ctrli;
+	t_colbri ret2;
+	int		retobs;
+	t_vector	proj;
+	t_vector ctrhit;
+	int i;
 	t_colbri retorig;
 	t_vector reflrayv;
 	t_vector hitli[g->lights];
@@ -38,7 +43,7 @@ t_colbri	simple_bright_sphere(t_vector st, t_vector hit, t_object obj, t_global 
 }
 
 
-t_vector		do_tile_sphere(t_vector *tileocol, t_vector hit, t_vector nrm, t_object obj, t_global *g)
+t_vector		do_tile_sphere(t_vector *tileocol, t_vector st, t_vector hit, t_vector nrm, t_object obj, t_global *g)
 {
 	t_vector ctrhit;
 	t_vector proj;
@@ -64,10 +69,20 @@ t_colbri	bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g)
 	t_colbri	ret;
 	t_vector	nrm;
 	t_vector	ctrli;
+	int			retobs;
+	t_vector	proj;
+	t_vector	ctrhit;
+	t_colbri	retorig;
+	t_colbri	transo;
 	t_colbri	reo;
+	t_colbri	tileo;
+	t_colbri	speco;
+	int			i;
 	t_vector	reflrayv;
 	t_vector	hitli[g->lights];
+	static int rec = 0;
 
+	rec++;
 	g->recursion++;
 	init_hitli(hitli, hit, g);
 	nrm = scale(1 / (double)obj.rd, diff(hit, *obj.ctr));
@@ -85,7 +100,7 @@ t_colbri	bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g)
 	obj.nr = nrm;
 	init_bri(&reo.bri, hitli, nrm, g);
 	if (obj.tile[0].data_ptr)
-		ret.colself = do_tile_sphere(&reo.col, hit, nrm, obj, g);
+		ret.colself = do_tile_sphere(&reo.col, st, hit, nrm, obj, g);
 	else
 	{
 		ret.colself = obj.color;

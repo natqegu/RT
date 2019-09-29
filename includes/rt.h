@@ -37,13 +37,17 @@
 
 typedef	struct	s_vector t_vector;
 
-
-struct s_vector
+struct			s_vector
 {
-	double x;
-	double y;
-	double z;
-//	int	len;
+	double		x;
+	double		y;
+	double		z;
+};
+
+struct			s_2_vec
+{
+	t_vector	one;
+	t_vector	two;
 };
 
 

@@ -24,6 +24,7 @@ SRC_C = brights.c\
 		effects.c\
 		entex.c\
 		events.c\
+		events2.c\
 		free_points.c\
 		hits.c\
 		init_data.c\
