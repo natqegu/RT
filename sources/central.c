@@ -157,11 +157,13 @@ void	objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc
 	{
 		if (con(g))
 		{
-//			printf("i is %d\n", i);
-//			printf("calling on %d %s hit\n", obj[i].id, obj[i].name);
+			printf("i is %d\n", i);
+			printf("calling on %d %s hit\n", obj[i].id, obj[i].name);
 		}
 //		printf("searching obj %d\n", i);
 		t_crt = obj[i].hit(st, end, ray, obj[i], g);
+		if (con(g))
+			printf("this was distance %f\n", t_crt.dst);
 //		printf("hit got \n");
 		if ((t_crt.dst >= 0.0000001) && (!legal_hit || t_crt.dst < closest_tmp))
 		{
@@ -242,6 +244,11 @@ void		*toimg(void *tcp)
 	{
 		jheight += HEIGHT; 
 		while (++i < WIDTH)
+		{
+//for debug
+			init_vector(g->ray, i - WIDTH_2, HEIGHT_2 - j, g->ray->z);
+//
+	
 			if (g->hits[j][i]->obj.name != NULL)
 			{
 //				printf("now object %d %s\n", g->hits[j][i]->obj.id, g->hits[j][i]->obj.name);
@@ -250,6 +257,7 @@ void		*toimg(void *tcp)
 				simple_bright(*g->cam_pos, (g->hits[j][i])->hit, (g->hits)[j][i]->obj, g);
 				g->data_ptr[jheight + i] = color(bright.bri, bright.col);
 			}
+		}
 	}
 	return (NULL);
 }

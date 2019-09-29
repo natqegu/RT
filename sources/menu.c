@@ -217,78 +217,75 @@ int		mouse_press(int button, int x, int y, void *param)
 
     	if (x > 550 && x < 650 && y > 650 && y < 750)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+
 			init_tile(g->objn, "./tiles/space.xpm", g->obj, g);
     		//texture 1
     	}
     	if (x > 650 && x < 750 && y > 650 && y < 750)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
 			init_tile(g->objn, "./tiles/moon.xpm", g->obj, g);
     		//texture 2
     	}
     	if (x > 750 && x < 850 && y > 650 && y < 750)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/saturn.xpm", g->obj, g);
     		//texture 3
     	}
     	if (x > 850 && x < 950 && y > 650 && y < 750)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/space1.xpm", g->obj, g);
     		//texture 4
     	}
     	if (x > 550 && x < 650 && y > 750 && y < 850)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/uranus.xpm", g->obj, g);
     		//texture 5
     	}
     	if (x > 650 && x < 750 && y > 750 && y < 850)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/venus.xpm", g->obj, g);
     		//texture 6
     	}
     	if (x > 750 && x < 850 && y > 750 && y < 850)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/jupiter.xpm", g->obj, g);
     		//texture 7
     	}
     	if (x > 850 && x < 950 && y > 750 && y < 850)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/helper.xpm", g->obj, g);
     		//texture 8
     	}
     	if (x > 550 && x < 650 && y > 850 && y < 950)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/earth.xpm", g->obj, g);
     		//texture 9
     	}
     	if (x > 650 && x < 750 && y > 850 && y < 950)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/brick.xpm", g->obj, g);
     		//texture 10
     	}
     	if (x > 750 && x < 850 && y > 850 && y < 950)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/blank.xpm", g->obj, g);
     		//texture 11
     	}
     	if (x > 850 && x < 950 && y > 850 && y < 950)
     	{
-			g->obj[g->objn].tile[0].data_ptr = NULL;
+			
 			init_tile(g->objn, "./tiles/sun.xpm", g->obj, g);
     		//texture 12
     	}
-		start_threads(move, g);
 	}
-	
 	return (start_threads(recalc, g));
 }

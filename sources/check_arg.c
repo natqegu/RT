@@ -51,7 +51,6 @@ int		parse_color(char *line, t_vector *vector)
 		free(tmp[1]);
 		free(tmp[2]);
 		free(tmp);
-		free(*tmp);
 		return (1);
 	}
 
@@ -76,7 +75,6 @@ int		parse_vector(char *line, t_vector *vector)
 		free(tmp[1]);
 		free(tmp[2]);
 		free(tmp);
-		free(*tmp);
 		return (1);
 	}
 	free(name[0]);
@@ -400,14 +398,10 @@ int         parse_cylinder(t_global *g, char **data, int i)
 		i++;
 	}
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
-	if (g->obj[g->id].tile[0].data_ptr || g->obj[g->id].re || g->obj[g->id].trans || g->obj[g->id].spec)
-		g->obj[g->id].bright = &bright_cylinder;
-	else
-		g->obj[g->id].bright = &simple_bright_cylinder;
-	if (g->obj[g->id].re || g->obj[g->id].trans)
-		g->obj[g->id].simple_bright = &bright_cylinder;
-	else
-		g->obj[g->id].simple_bright = simple_bright_cylinder;
+	if (g->obj[g->id].trans)
+		g->obj[g->id].simple_bright = bright_cylinder;
+	g->obj[i].simple_bright = simple_bright_cylinder;
+
 	g->id++;
     return (0);
 }
@@ -485,7 +479,6 @@ int		parse_sphere(t_global *g, char **data, int i)
 	g->obj[g->id].re = 0;
 	g->obj[g->id].trans = 0;
 	g->obj[g->id].spec = 0;
-	g->obj[g->id].tile[0].data_ptr = NULL;
 
 	init_vector(&g->obj[g->id].base[0], 1, 0, 0);
 	init_vector(&g->obj[g->id].base[1], 0, 1, 0);
@@ -496,8 +489,7 @@ int		parse_sphere(t_global *g, char **data, int i)
 	{
 		if (ft_strstr(data[i], "}"))
 			break;
-		if (ft_strstr(data[i], "texture"))
-			parse_tile(data[i], g);
+
 		if (ft_strstr(data[i], "color"))
 			parse_color(data[i], &(g->obj[g->id].color));
 		if (ft_strstr(data[i], "center"))
@@ -514,18 +506,15 @@ int		parse_sphere(t_global *g, char **data, int i)
 			parse_int(data[i], &(g->obj[g->id].spec), 1, 10);
 		if (ft_strstr(data[i], "soft"))
 			parse_int(data[i], &(g->obj[g->id].soft), 1, 10);
+		if (ft_strstr(data[i], "texture"))
+			parse_tile(data[i], g);
 		i++;
 	}
-	
+	g->obj[g->id].tile[0].data_ptr = NULL;
 	g->obj[g->id].rd2 = g->obj[g->id].rd * g->obj[g->id].rd;
-	if (g->obj[g->id].tile[0].data_ptr || g->obj[g->id].re || g->obj[g->id].trans || g->obj[g->id].spec)
-		g->obj[g->id].bright = &bright_sphere;
-	else
-		g->obj[g->id].bright = &simple_bright_sphere;
-	if (g->obj[g->id].re || g->obj[g->id].trans)
-		g->obj[g->id].simple_bright = &bright_sphere;
-	else
-		g->obj[g->id].simple_bright = simple_bright_sphere;
+	if (g->obj[g->id].trans)
+		g->obj[g->id].simple_bright = bright_sphere;
+	g->obj[g->id].simple_bright = simple_bright_sphere;
 	g->obj[g->id].color = base(g->obj[g->id].color);
 	g->id++;
 	return (1);
@@ -537,7 +526,7 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 
 	lig = -1;
 	g->id = 1;
-	g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights);
+	g->li = (t_vector *)malloc(sizeof(t_vector) * g->lights + 1);
 	g->obj = (t_object *)malloc(sizeof(t_object) * (g->argc + 2));
 	g->liz = (double *)malloc(sizeof(t_vector) * g->lights);
 	printf("argc: %d\n", g->lights);
@@ -568,6 +557,12 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 			parse_plane(g, data, i + 1);
 		i++;
 	}
+	if (!g->lights)
+	{
+		init_vector(&(g->li[lig]), g->cam_pos->x, g->cam_pos->y, g->cam_pos->z);
+		g->liz[lig] = g->li[lig].z;
+		g->lights = 1;
+	}
 	return (0);
 }
 
@@ -593,7 +588,7 @@ int        parse_file(t_global *g, char **data, int lines)
 		i++;
 	}
 	*g->normal = rotate(*g->normal, *g->angle);
-	printf("color: %f, %f, %f \n", g->obj[0].ctr->x, g->obj[0].ctr->y, g->obj[0].ctr->z);
+	printf("color: %f, %f, %f \n", g->obj[0].ctr->x, g->obj[0].ctr->y, g->obj[0].ctr->z + 50);
     return (1);
 }
 

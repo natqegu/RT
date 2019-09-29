@@ -107,10 +107,10 @@ t_vector		*norm_tile(int *tile, int w, int h, t_global *g)
 	i = 0;
 	j = 0;
 	ret = (t_vector *)malloc(sizeof(t_vector) * h * w);
-	while (j < h)
+	while (j < w)
 	{
 		i = 0;
-		while (i < w)
+		while (i < h)
 		{
 //			printf("copying at %d,%d\n", i, j);
 			*(ret + j * h + i) = base255(rgb(*(tile + j * h + i)));
@@ -140,9 +140,11 @@ void		init_tile(int i, char *tile, t_object *obj, t_global *g)
 		);
 	obj[i].tile[0].w2 = obj[i].tile[0].w / 2;
 	obj[i].tile[0].h2 = obj[i].tile[0].h / 2;
-	printf("xpm image dimansions are %d,%d\n", obj[i].tile[0].w, obj[i].tile[0].h);
+	
 	int k = 1;
 	obj[i].tile[0].vectile = norm_tile(obj[i].tile[0].data_ptr, obj[i].tile[0].w, obj[i].tile[0].h, g);
+	if (g->mip_map)
+	{
 	while (k < 10)
 	{
 //			printf("i is %d\n", k);
@@ -172,12 +174,14 @@ void		init_tile(int i, char *tile, t_object *obj, t_global *g)
 		while (s++ < k)
 			stretch(obj[i].tile[k].data_ptr, obj[i].tile[k].w , obj[i].tile[k].h);
 		printf("obj i is %d tilek is %d\n", i, k);
-		obj[i].tile[k].vectile = norm_tile(obj[i].tile[k].data_ptr, obj[i].tile[k].w, obj[i].tile[k].h, g);	
+		obj[i].tile[k].vectile = norm_tile(obj[i].tile[k].data_ptr, obj[i].tile[k].w, obj[i].tile[k].h, g);
 	k++;
 	}
 	k = 0;
 	obj[i].tile[0].mipq = fmin(log2(obj[i].tile[0].h), log2(obj[i].tile[0].w));
 	printf("tile quant is %d\n", obj[i].tile[0].mipq);
+	}
+	printf("xpm image dimansions are %d,%d\n", obj[i].tile[0].w, obj[i].tile[0].h);
 }
 
 void		init_plane(t_vector *ctr, int i, t_global *g)
@@ -202,9 +206,9 @@ void		init_plane(t_vector *ctr, int i, t_global *g)
 	g->obj[i].ang.x = 0;
 	g->obj[i].ang.y = 0;
 	g->obj[i].ang.z = 0;
-	g->obj[i].re = 0;
-	g->obj[i].spec = 0;
-	g->obj[i].soft = 1;
+	g->obj[i].re = 0.7;
+	g->obj[i].spec = 4;
+	g->obj[i].soft = 0;
 	init_vector(&g->obj[i].base[0], 1, 0, 0);
 	init_vector(&g->obj[i].base[1], 0, 1, 0);
 	init_vector(&g->obj[i].base[2], 0, 0, 1);
@@ -213,7 +217,7 @@ void		init_plane(t_vector *ctr, int i, t_global *g)
 //	free(g->obj[i].tile[0].data_ptr);
 	g->obj[i].tile[0].data_ptr = NULL;
 
-	if (g->obj[i].re || g->obj[i].trans)
+	if (g->obj[i].trans)
 		g->obj[i].simple_bright = bright_plane;
 }
 
@@ -468,6 +472,9 @@ void		init_cylinder(t_vector *ctr, int i, t_global *g)
 	init_vector(&g->obj[i].base[0], 1, 0, 0);
 	init_vector(&g->obj[i].base[1], 0, 1, 0);
 	init_vector(&g->obj[i].base[2], 0, 0, 1);	
+	g->obj[i].spec = 4;
+	g->obj[i].re = 0.5;
+/*
 	g->obj[i].tile[0].ptr = mlx_xpm_file_to_image
 		(g->mlx_ptr,
 		"./tiles/blank.xpm",
@@ -483,11 +490,21 @@ void		init_cylinder(t_vector *ctr, int i, t_global *g)
 		&g->obj[i].tile[0].sz_l,
 		&g->obj[i].tile[0].e
 		);
+*/
 //	g->obj[i].tile[0].data_ptr = NULL;
-
+	init_tile(i,"./tiles/blank.xpm", g->obj, g);
 	g->obj[i].tile[0].w2 = g->obj[i].tile[0].w / 2;
 	g->obj[i].tile[0].h2 = g->obj[i].tile[0].h / 2;
-	
+
+	if (g->obj[i].tile[0].data_ptr || g->obj[i].re || g->obj[i].trans || g->obj[i].spec)
+		g->obj[i].bright = &bright_cylinder;
+	else
+		g->obj[i].bright = &simple_bright_cylinder;
+	if (g->obj[i].re || g->obj[i].trans)
+		g->obj[i].simple_bright = &bright_cylinder;
+	else
+		g->obj[i].simple_bright = simple_bright_cylinder;
+
 }
 
 void		init_sphere(t_vector *ctr, int i, t_global *g)
@@ -499,9 +516,9 @@ void		init_sphere(t_vector *ctr, int i, t_global *g)
 	g->obj[i].simple_bright = &simple_bright_sphere;
 	g->obj[i].ctr = &ctr[i];
 	printf("center %p\n", g->obj[i].ctr);
-	g->obj[i].trans = 0.0;
-	g->obj[i].re = 0;
-	g->obj[i].spec = 0;
+	g->obj[i].trans = 0;
+	g->obj[i].re = 0.5;
+	g->obj[i].spec = 4;
 	init_vector(g->obj[i].ctr, 0, 0, 300);
 	printf("center is %f\n", g->obj[i].ctr->z);
 	g->obj[i].rd = 100;
@@ -513,16 +530,10 @@ void		init_sphere(t_vector *ctr, int i, t_global *g)
 	init_vector(&g->obj[i].base[2], 0, 0, 1);
 	printf("hello\n");
 	init_tile(i,"./tiles/blank.xpm", g->obj, g);
+
 //	g->obj[i].tile[0].data_ptr = NULL;
-	if (g->obj[i].tile[0].data_ptr || g->obj[i].re || g->obj[i].trans || g->obj[i].spec)
-		g->obj[i].bright = &bright_sphere;
-	else
-		g->obj[i].bright = &simple_bright_sphere;
-	if (g->obj[i].re || g->obj[i].trans)
-		g->obj[i].simple_bright = &bright_sphere;
-	else
-		g->obj[i].simple_bright = simple_bright_sphere;
-//	norm_tile(g->obj[i].tile[0].data_ptr, g->obj[i].tile[0].w, g->obj[i].tile[0].h);
+	if (g->obj[i].trans)
+		g->obj[i].simple_bright = bright_sphere;
 }
 
 void		init_spheror(t_vector *ctr, int i, t_global *g)
@@ -582,6 +593,12 @@ void		init_cone(t_vector *ctr, int i, t_global *g)
 	init_vector(&g->obj[i].base[0], 1, 0, 0);
 	init_vector(&g->obj[i].base[1], 0, 1, 0);
 	init_vector(&g->obj[i].base[2], 0, 0, 1);	
+	g->obj[i].re = 0.5;
+	g->obj[i].spec = 0;
+	g->obj[i].soft = 0;
+	init_tile(i,"./tiles/blank.xpm", g->obj, g);
+
+/*
 	g->obj[i].tile[0].ptr = mlx_xpm_file_to_image
 		(g->mlx_ptr,
 		"./tiles/blank.xpm",
@@ -599,6 +616,9 @@ void		init_cone(t_vector *ctr, int i, t_global *g)
 	printf("finished getting addr\n");
 	g->obj[i].tile[0].w2 = g->obj[i].tile[0].w / 2;
 	g->obj[i].tile[0].h2 = g->obj[i].tile[0].h / 2;
+*/
 
-
+	if (g->obj[i].trans)
+		g->obj[i].simple_bright = &bright_cone;
+	g->obj[i].simple_bright = simple_bright_cone;
 }

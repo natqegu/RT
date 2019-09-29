@@ -1,13 +1,13 @@
 {
     "ROTATION":[0,0,0],
-    "CAMERA":[0,0,0],
+    "CAMERA":[0,0,-30],
     "AMBIENT":50,
     "OBJECTS":
     [
       {
         "LIGHT":
         {
-          "position":[-800,-400,300]
+          "position":[-80,-40,-30]
         }
       },
       {
@@ -15,83 +15,73 @@
         {
           "texture":2,
           "color":[255,0,0],
-          "center":[-800,0,300],
+          "center":[-80,0,30],
           "angle":[0,0,0],
-          "radius":300,
-          "reflection":0,
-          "transparency":90
+          "radius":30
         },
         "SPHERE_mercury":
         {
           "texture":3,
           "color":[255,0,0],
-          "center":[-420,0,300],
+          "center":[-42,0,30],
           "angle":[0,0,0],
-          "radius":30,
-          "reflection":0
+          "radius":3
         },
         "SPHERE_venus":
         {
           "texture":4,
           "color":[255,0,0],
-          "center":[-320,0,300],
+          "center":[-32,0,30],
           "angle":[0,0,0],
-          "radius":60,
-          "reflection":0
+          "radius":6
         },
         "SPHERE_earth":
         {
           "texture":5,
           "color":[255,0,0],
-          "center":[-110,0,300],
+          "center":[-11,0,30],
           "angle":[0,0,0],
-          "radius":80,
-          "reflection":0
+          "radius":8
         },
         "SPHERE_mars":
         {
           "texture":6,
           "color":[255,0,0],
-          "center":[100,0,300],
+          "center":[10,0,30],
           "angle":[0,0,0],
-          "radius":60,
-          "reflection":0
+          "radius":6
         },
         "SPHERE_upiter":
         {
           "texture":7,
           "color":[255,0,0],
-          "center":[350,0,300],
+          "center":[35,0,30],
           "angle":[0,0,0],
-          "radius":140,
-          "reflection":0
+          "radius":14
         },
         "SPHERE_saturn":
         {
           "texture":8,
           "color":[255,0,0],
-          "center":[660,0,280],
+          "center":[66,0,28],
           "angle":[0,0,0],
-          "radius":120,
-          "reflection":10
+          "radius":12
         },
         "SPHERE_uranus":
         {
           "texture":9,
           "color":[255,0,0],
-          "center":[890,0,260],
+          "center":[89,0,26],
           "angle":[0,0,0],
-          "radius":60,
-          "reflection":10
+          "radius":6
         },
         "SPHERE_neptune":
         {
           "texture":10,
           "color":[255,0,0],
-          "center":[1050,0,240],
+          "center":[105,0,24],
           "angle":[0,0,0],
-          "radius":50,
-          "reflection":10
+          "radius":5
         }
       }
     ]

@@ -13,7 +13,6 @@
 #ifndef FT_RT_H
 # define FT_RT_H
 
-
 #include <math.h>
 #include <mlx.h>
 #include <stdio.h>
@@ -32,7 +31,7 @@
 #define HEIGHT_2 WIDTH_2
 #define TASK 20
 #define STRIPS HEIGHT / TASK
-#define CORES 8
+#define CORES 1
 #define M_T 6.28318530718
 #define MAX_REC 5
 

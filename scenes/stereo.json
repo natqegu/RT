@@ -1,37 +1,32 @@
 {
-    "ROTATION":[0,0,0],
-    "CAMERA":[0,0,-20],
-    "AMBIENT":95,
-    "OBJECTS":
-    [
+  "ROTATION":[0,0,0],
+  "CAMERA":[0,0,0],
+  "AMBIENT":95,
+  "OBJECTS":
+  [
+    
+    {
+      "SPHERE":
       {
-        "LIGHT":
-        {
-          "position":[0,0,0]
-        }
+        "color":[255,255,255],
+        "center":[-150,-50,500],
+        "angle":[0,0,0],
+        "radius":100
       },
+      "SPHERE1":
       {
-        "SPHERE3":
-        {
-          "texture": "./tiles/chess.xpm",
-          "color":[0,0,0],
-          "center":[0,90,200],
-          "angle":[90,0,0],
-          "radius":50,
-          "transparency":20,
-          "reflection":20
-        },
-        "SPHERE4":
-        {
-          "texture": "./tiles/moon.xpm",
-          "color":[0,0,0],
-          "center":[0,-90,200],
-          "angle":[90,0,0],
-          "radius":50,
-          "transparency":20,
-          "reflection":20
-        }
+        "color":[255,255,0],
+        "center":[0,-50,500],
+        "angle":[0,0,0],
+        "radius":100
+      },
+      "SPHERE2":
+      {
+        "color":[255,0,255],
+        "center":[150,-50,500],
+        "angle":[0,0,0],
+        "radius":100
       }
-    ]
-  }
-  
+    }
+  ]
+}

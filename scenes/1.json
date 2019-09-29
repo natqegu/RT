@@ -1,36 +1,24 @@
 {
   "ROTATION":[0,0,0],
   "CAMERA":[0,0,0],
-  "AMBIENT":50,
+  "AMBIENT":100,
   "OBJECTS":
   [
     {
-      "LIGHT":
-      {
-        "position":[404,400,100]
-      }
+
     },
     {
-      "SPHERE":
+      "CYLINDER":
       {
+        "texture":4,
         "color":[255,0,0],
-        "center":[0,-200,300],
+        "center":[0,0,300],
         "angle":[0,0,0],
         "radius":100,
         "reflection":0,
         "transparency":0,
-        "specular": 5,
+        "specular": 0,
         "soft": 0
-      },
-      "PLANE":
-      {
-        "color":[255,255,0],
-        "center":[0,-200,0],
-        "angle":[90,0,0],
-        "radius":10,
-        "reflection":0,
-        "specular":4,
-        "soft": 1
       }
     }
   ]

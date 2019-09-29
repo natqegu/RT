@@ -37,6 +37,8 @@ int		key_press(int kk, void *param)
 	t_global *g;
 
 	g = param;
+	// if (kk == 47)
+		shot.x = -WIDTH;
 	shot.x = -WIDTH;
 	ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
 	if (kk == 53)
