@@ -6,7 +6,10 @@
   "OBJECTS":
   [
     {
-
+      "LIGHT":
+			{
+				"position":[0,-25,2]
+			}
     },
     {
       "SPHERE":
