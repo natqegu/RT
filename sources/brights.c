@@ -25,6 +25,7 @@ t_colbri		refl(t_vector refl, t_vector hit, t_vector nrm, t_object obj, t_global
 	{
 		init_vector(&ret.col, 0, 0, 0);
 		ret.bri = 0;
+		return (ret);
 	}
 	ret = reflobj.obj.bright(hit, reflobj.hit, reflobj.obj, g);
 	ret.col = scale(ret.bri / (double)255, ret.col);
