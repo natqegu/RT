@@ -36,6 +36,7 @@
 #define MAX_REC 5
 
 typedef	struct	s_vector t_vector;
+typedef	struct	s_2_vec t_2_vec;
 
 struct			s_vector
 {
@@ -114,9 +115,9 @@ void				debug(t_global *g);
 void				*recalc(void *p);
 void				*move(void *p);
 void				*toimg(void *tcp);
-void				objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc, t_global *g);
+void				objecthit(t_dstpst *ret, t_2_vec st_end, t_object *obj, int objc, t_global *g);
 
-t_dstpst			hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_plane(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
 t_colbri			bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
 
@@ -127,21 +128,21 @@ t_colbri			bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
 
-t_dstpst			hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_sphere(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_cylinder(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
 t_colbri			bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
-
+t_2_vec				cr_2_ve(t_vector one, t_vector two);
 
 void				init_tile(int i, char *tile, t_object *obj, t_global *g);
 
-t_dstpst			hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_cone(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_tri(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_complex(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
 
 void				alias(int *dst, int *a, int w, int h, int xmax, int ymax);
 
@@ -241,7 +242,7 @@ typedef struct		s_object
 	char			*name;
 	int				id;
 	int				cam_pos;
-	t_dstpst		(*hit)(t_vector, t_vector, t_vector, t_object, t_global *g);
+	t_dstpst		(*hit)(t_2_vec, t_vector, t_object, t_global *g);
 	t_colbri		(*bright)(t_vector, t_vector, t_object, struct s_global *);
 	t_colbri		(*simple_bright)(t_vector, t_vector, t_object, struct s_global *);
 

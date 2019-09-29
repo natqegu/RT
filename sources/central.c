@@ -42,7 +42,7 @@ void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv,
 				iobjn[1] = (iobjn[1] + 1) % (g->argc + 1);
 			if (obj.id != g->obj[iobjn[1]].id || 0)
 			{
-				t = g->obj[iobjn[1]].hit(hit, g->li[i], ray, g->obj[iobjn[1]], g);
+				t = g->obj[iobjn[1]].hit(cr_2_ve(hit, g->li[i]), ray, g->obj[iobjn[1]], g);
 				if (t.dst < 0.000001)
 				{
 					i++;
@@ -90,7 +90,7 @@ void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv,
 	}
 }
 
-void	objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc, t_global *g)
+void	objecthit(t_dstpst *ret, t_2_vec st_end, t_object *obj, int objc, t_global *g)
 {
 	int i;
 	int legal_hit;
@@ -100,10 +100,10 @@ void	objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc
 
 	i = 0;
 	legal_hit = 0;
-	ray = diff(end, st);
+	ray = diff(st_end.two, st_end.one);
 	while (++i < objc)
 	{
-		t_crt = obj[i].hit(st, end, ray, obj[i], g);
+		t_crt = obj[i].hit(st_end, ray, obj[i], g);
 		if ((t_crt.dst >= 0.0000001) && (!legal_hit || t_crt.dst < closest_tmp))
 		{
 			legal_hit = 1;
@@ -177,8 +177,7 @@ void		*move(void *p)
 		jheight += HEIGHT;
 		while (++i < WIDTH)
 		{
-			objecthit(&ret, *g->cam_pos,
-			sum(*g->rays[j][i], *g->cam_pos), g->obj, g->argc + 1, g);
+			objecthit(&ret, cr_2_ve(*g->cam_pos, sum(*g->rays[j][i], *g->cam_pos)), g->obj, g->argc + 1, g);
 			g->hits[j][i]->hit = sum(scale(ret.dst, *g->rays[j][i]), *g->cam_pos);
 			g->hits[j][i]->obj = ret.obj;
 			if (g->hits[j][i]->obj.name != NULL)
@@ -223,7 +222,7 @@ void		*recalc(void *p)
 			init_vector(&ray, i - WIDTH_2, HEIGHT_2 - j, g->ray->z);
 			ray = rotate(ray, *g->angle);
 			*g->rays[j][i] = ray;
-			objecthit(&ret, *g->cam_pos, sum(ray, *g->cam_pos), g->obj, g->argc + 1, g);
+			objecthit(&ret, cr_2_ve(*g->cam_pos, sum(ray, *g->cam_pos)), g->obj, g->argc + 1, g);
 			g->hits[j][i]->obj = ret.obj;
 			g->hits[j][i]->hit = sum(scale(ret.dst, *g->rays[j][i]), *g->cam_pos);
 			if (g->hits[j][i]->obj.name != NULL)

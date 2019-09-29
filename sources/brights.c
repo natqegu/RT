@@ -17,8 +17,8 @@ t_colbri		refl(t_vector refl, t_vector hit, t_vector nrm, t_object obj, t_global
 	t_dstpst temp;
 	t_objecthit reflobj;
 	t_colbri ret;
-
-	objecthit(&temp, hit, sum(refl, hit), g->obj, g->argc + 1, g);
+	
+	objecthit(&temp, cr_2_ve(hit, sum(refl, hit)), g->obj, g->argc + 1, g);
 	reflobj.hit = sum(scale(temp.dst, refl), hit);
 	reflobj.obj = temp.obj;
 	if (reflobj.obj.name == NULL)
@@ -59,7 +59,7 @@ t_colbri		trans(t_vector st, t_vector hit, t_vector nrm, t_object obj, t_global 
 
 	g->recursion++;
 	ray = diff(hit, st);
-	objecthit(&temp, hit, sum(ray, hit), g->obj, g->argc + 1, g);
+	objecthit(&temp, cr_2_ve(hit, sum(ray, hit)), g->obj, g->argc + 1, g);
 	transobj.hit = sum(scale(temp.dst, ray), hit);
 	transobj.obj = temp.obj;
 	transobj.obj.cam_pos = 0;
@@ -87,13 +87,13 @@ t_vector		reflray(t_vector st, t_vector end, t_vector nrm, t_global *g)
 
 void		do_trans(t_vector st, t_vector hit, t_colbri *ret, t_colbri reo, t_vector nrm, t_object obj, t_global *g)
 {
-		t_colbri transo;
+	t_colbri transo;
 
-		transo = trans(st, hit, nrm, obj, g);
-		transo.col = base255(scale(transo.bri, transo.col));
-		transo.col = sum(scale(1 - obj.trans, reo.col), scale(obj.trans, transo.col));
-		ret->col = transo.col;
-		ret->bri = transo.bri;
+	transo = trans(st, hit, nrm, obj, g);
+	transo.col = base255(scale(transo.bri, transo.col));
+	transo.col = sum(scale(1 - obj.trans, reo.col), scale(obj.trans, transo.col));
+	ret->col = transo.col;
+	ret->bri = transo.bri;
 }
 
 t_vector		mip_col(double x, double y, double dst2, t_object obj, t_global *g)
@@ -292,7 +292,7 @@ t_colbri	simple_bright_cylinder(t_vector st, t_vector hit, t_object obj, t_globa
 
 	nrm = obj.nr;
 	init_hitli(hitli, hit, g);
-	if (obj.cam_pos && (t = obj.hit(*g->cam_pos, *g->li, diff(*g->li, *g->cam_pos),obj, g)).dst < 1)
+	if (obj.cam_pos && (t = obj.hit(cr_2_ve(*g->cam_pos, *g->li), diff(*g->li, *g->cam_pos),obj, g)).dst < 1)
 		ret.bri = *g->ambient;
 	else
 		init_bri(&ret.bri, hitli, nrm, g);
@@ -328,7 +328,7 @@ t_colbri	bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g)
 	init_hitli(hitli, hit, g);
 	if (obj.cam_pos)
 	{
-		t = obj.hit(*g->cam_pos, *g->li, diff(*g->li, *g->cam_pos),obj, g);
+		t = obj.hit(cr_2_ve(*g->cam_pos, *g->li), diff(*g->li, *g->cam_pos),obj, g);
 		nrm = scale(-1, nrm);	
 		if (t.dst < 1)
 			ret.bri = *g->ambient;
@@ -338,7 +338,7 @@ t_colbri	bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g)
 	else
 		init_bri(&ret.bri, hitli, nrm, g);
 	obj.nr = nrm;	
-	ret.nrm = nrm;	
+	ret.nrm = nrm;
 	if (obj.tile[0].data_ptr)
 	{
 		double x;
@@ -439,7 +439,7 @@ t_colbri		simple_bright_spheror(t_vector st, t_vector hit, t_object obj, t_globa
 	t_vector camhitx = diff(camhit, scale(dot(camhit, nrm), nrm));
 	refl = (diff(scale(2, camhitx), camhit));
 	t_dstpst temp;
-	objecthit(&temp, hit, sum(refl, hit), g->obj, g->argc + 1, g);
+	objecthit(&temp, cr_2_ve(hit, sum(refl, hit)), g->obj, g->argc + 1, g);
 	reflobj.hit = sum(scale(temp.dst, refl), hit);
 	reflobj.obj = temp.obj;
 

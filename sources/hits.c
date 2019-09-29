@@ -10,88 +10,38 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
-int 			hit_quad(t_vector st, t_vector end, t_vector ray, t_vector quad[4], t_global *g)
+t_2_vec		cr_2_ve(t_vector one, t_vector two)
 {
-	t_vector	tri[2][3];
-	t_object	obj[2];
-	t_dstpst	hit[2];
+	t_2_vec hey;
 
-	tri[0][0] = quad[0];
-	tri[0][1] = quad[1];
-	tri[0][2] = quad[2];
-	tri[1][0] = quad[1];
-	tri[1][1] = quad[2];
-	tri[1][2] = quad[3];
-	obj[0].bd1 = tri[0][0];
-	obj[0].bd2 = tri[0][1];
-	obj[0].bd3 = tri[0][2];
-	obj[1].bd1 = tri[1][0];
-	obj[1].bd2 = tri[1][1];
-	obj[1].bd3 = tri[1][2];
-	hit[0] = hit_tri(st, end, ray, obj[0], g);
-	hit[1] = hit_tri(st, end, ray, obj[1], g);
-	return ((hit[0].dst > 0 || hit[0].dst <= 0) || (hit[1].dst > 0 || hit[1].dst <= 0));
+	hey.one = one;
+	hey.two = two;
+	return (hey);
 }
 
-int				hit_box(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
-{
-	t_vector	quad[6][4];
-
-	quad[0][0] = obj.box[0];
-	quad[0][1] = obj.box[1];
-	quad[0][2] = obj.box[2];
-	quad[0][3] = obj.box[3];
-	quad[1][0] = obj.box[0];
-	quad[1][1] = obj.box[1];
-	quad[1][2] = obj.box[4];
-	quad[1][3] = obj.box[5];
-	quad[2][0] = obj.box[1];
-	quad[2][1] = obj.box[2];
-	quad[2][2] = obj.box[5];
-	quad[2][3] = obj.box[6];
-	quad[3][0] = obj.box[3];
-	quad[3][1] = obj.box[7];
-	quad[3][2] = obj.box[6];
-	quad[3][3] = obj.box[2];
-	quad[4][0] = obj.box[4];
-	quad[4][1] = obj.box[5];
-	quad[4][2] = obj.box[6];
-	quad[4][3] = obj.box[7];
-	quad[5][0] = obj.box[0];
-	quad[5][1] = obj.box[4];
-	quad[5][2] = obj.box[7];
-	quad[5][3] = obj.box[3];
-	return (hit_quad(st, end, ray, quad[0], g) ||
-		hit_quad(st, end, ray, quad[1], g) ||
-		hit_quad(st, end, ray, quad[2], g) ||
-		hit_quad(st, end, ray, quad[3], g) ||
-		hit_quad(st, end, ray, quad[4], g) ||
-		hit_quad(st, end, ray, quad[5], g));
-}
-
-t_dstpst		hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_complex(t_2_vec st_end, t_vector ray, t_object obj, t_global *g)
 {
 	t_dstpst	t;
 	t_dstpst	framecheck;
 
-	framecheck = hit_sphere(st, end, ray, *(obj.frame), g);
+	framecheck = hit_sphere(st_end, ray, *(obj.frame), g);
 	if (framecheck.obj.name == NULL)
 			return (*(nani(&t)));
-	objecthit(&t, st, end, obj.tris, obj.rd, g);
+	objecthit(&t, st_end, obj.tris, obj.rd, g);
 	if (t.obj.name == NULL)
 		return (*(nani(&t)));
 	return (t);
 }
 
-t_dstpst		hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_plane(t_2_vec st_end, t_vector ray, t_object obj, t_global *g)
 {
 	t_dstpst	t;
 	t_global	p;
 
 	p = *g;
-	t.dst = -dot(diff(st, *obj.ctr), obj.base[1]) / dot(ray, obj.base[1]);
+	t.dst = -dot(diff(st_end.one, *obj.ctr), obj.base[1]) / dot(ray, obj.base[1]);
 	if (t.dst < 0.0000001)
 		return (*nani(&t));
 	t.obj = obj;
@@ -99,7 +49,7 @@ t_dstpst		hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_glo
 	return (t);
 }
 
-t_dstpst		hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_sphere(t_2_vec st_end, t_vector ray, t_object obj, t_global *g)
 {
 	t_vector	dx[2];
 	t_vector	abc;
@@ -110,7 +60,7 @@ t_dstpst		hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_gl
 	p = *g;
 	t.pst = 0;
 	dx[0] = ray;
-	dx[1] = diff(st, *obj.ctr);
+	dx[1] = diff(st_end.one, *obj.ctr);
 	abc.x = dot(dx[0], dx[0]);
 	abc.y = 2 * dot(dx[1], dx[0]);
 	abc.z = dot(dx[1], dx[1]) - obj.rd2;
@@ -126,7 +76,7 @@ t_dstpst		hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_gl
 	return (t);
 }
 
-t_dstpst		hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_cylinder(t_2_vec st_end, t_vector ray, t_object obj, t_global *g)
 {
 	t_vector	d;
 	t_vector	po[4];
@@ -136,7 +86,7 @@ t_dstpst		hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_
 	p = *g;
 	t.pst = 0;
 	po[0] = ray;
-	po[3] = diff(st, *obj.ctr);
+	po[3] = diff(st_end.one, *obj.ctr);
 	d.y = dot(po[0], obj.base[1]);
 	d.x = dot(po[3], obj.base[1]);
 	po[2].x = dot(po[0], po[0]) - d.y * d.y;
@@ -154,7 +104,7 @@ t_dstpst		hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_
 	return (t);
 }
 
-t_dstpst		hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_tri(t_2_vec st_end, t_vector ray, t_object obj, t_global *g)
 {
 	t_dstpst	t;
 	t_global	p;
@@ -162,17 +112,17 @@ t_dstpst		hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_globa
 	t_vector	hit;
 
 	p = *g;
-	t.dst = -dot(diff(st, obj.bd1), obj.base[1]) / dot(ray, obj.base[1]);
+	t.dst = -dot(diff(st_end.one, obj.bd1), obj.base[1]) / dot(ray, obj.base[1]);
 	if (t.dst < 0.000001)
 		return (*nani(&t));
-	hit = sum(scale(t.dst, ray), st);
-	if (!pinside(sum(scale(t.dst, ray), st), obj, obj.base[1], g))
+	hit = sum(scale(t.dst, ray), st_end.one);
+	if (!pinside(sum(scale(t.dst, ray), st_end.one), obj, obj.base[1], g))
 		return (*nani(&t));
 	t.obj = obj;
 	return (t);
 }
 
-t_dstpst		hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst		hit_cone(t_2_vec st_end, t_vector ray, t_object obj, t_global *g)
 {
 	t_vector	dx[2];
 	t_vector	dvxvdet;
@@ -182,7 +132,7 @@ t_dstpst		hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_glob
 	double		min;
 
 	p = *g;
-	dx[0] = diff(st, *obj.ctr);
+	dx[0] = diff(st_end.one, *obj.ctr);
 	dx[1] = ray;
 	dvxvdet.x = dot(dx[1], obj.base[1]);
 	dvxvdet.y = dot(dx[0], obj.base[1]);
