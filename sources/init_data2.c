@@ -94,5 +94,5 @@ void		init_tile(int i, char *tile, t_object *q, t_global *g)
 	q[i].tile[0].data_ptr = D;
 	q[i].tile[0].w2 = q[i].tile[0].w / 2;
 	q[i].tile[0].h2 = q[i].tile[0].h / 2;
-	q[i].tile[0].vectile = NN;
+	q[i].tile[0].vectile = NN
 }

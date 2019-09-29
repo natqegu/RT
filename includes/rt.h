@@ -20,7 +20,6 @@
 #include "../libft/libft.h"
 #include <pthread.h>
 #include <fcntl.h>
-#include <stdarg.h>
 
 #define WIDTH HEIGHT
 #define HEIGHT 400
@@ -54,7 +53,6 @@
 #define R4 norm(cross(diff(R[Y].bd1, R[Y].bd3), diff(R[Y].bd2, R[Y].bd3)))
 #define R5 norm(cross(diff(R[Y + 1].bd1, R[Y + 1].bd3), diff(R[Y + 1].bd2, R[Y + 1].bd3)))
 
-
 typedef	struct	s_vector t_vector;
 
 struct			s_vector
@@ -63,13 +61,6 @@ struct			s_vector
 	double		y;
 	double		z;
 };
-
-struct			s_2_vec
-{
-	t_vector	one;
-	t_vector	two;
-};
-
 
 t_vector		shot;
 int			mousex;
@@ -89,9 +80,9 @@ typedef	struct		s_colbri
 	int	bri;
 }			t_colbri;
 
-void	free_n(int nbr, ...);
-int				brg(t_vector rgb);
-int				inside_cone(t_vector p, t_object o, t_global *g);
+void				free_n(int nbr, ...);
+int					brg(t_vector rgb);
+int					inside_cone(t_vector p, t_object o, t_global *g);
 double				dot(t_vector a, t_vector b);
 t_vector			diff(t_vector a, t_vector b);
 t_vector			sum(t_vector a, t_vector b);
@@ -234,7 +225,7 @@ void				buttons5(int x, int y, t_global *g);
 void				buttons6(int x, int y, t_global *g);
 void				buttons7(int x, int y, t_global *g);
 void				buttons8(int x, int y, t_global *g);
-t_vector	*norm_tile(int *tile, int w, int h);
+t_vector			*norm_tile(int *tile, int w, int h);
 void				init_tile_2(int i, char *tile, t_object *obj, t_global *g);
 void				copy2(t_global *tcps, t_global *g);
 void				menu(t_global	*g);
@@ -416,6 +407,5 @@ typedef struct		s_global
 	t_vector		*ctrli;
 	t_global		*tcps[CORES];
 }					t_global;
-
 
 #endif
