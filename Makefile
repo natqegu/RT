@@ -15,6 +15,8 @@ HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY = ./sources/
 
 SRC_C = brights.c\
+		bright_plane.c\
+		bright_sphere.c\
 		central.c\
 		check_arg.c\
 		color.c\

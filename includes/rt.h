@@ -192,10 +192,13 @@ void				blue_stereo(t_global *g);
 void				stereoscopy(t_global *g);
 int					mouse_press(int button, int x, int y, void *param);
 int					x_close(t_global *g);
-
-
+t_vector		reflray(t_vector st, t_vector end, t_vector nrm, t_global *g);
+void		init_hitli(t_vector *hitli, t_vector hit, t_global *g);
+void		init_bri(int *bri, t_vector *hitli, t_vector nrm, t_global *g);
+void		do_re(t_vector reflrayv, t_vector *reocol, t_vector tileocol, t_vector hit, t_vector nrm, t_object obj, t_global *g);
 void	make_motion(t_global *g);
-
+void		do_trans(t_vector st, t_vector hit, t_colbri *ret, t_colbri reo, t_vector nrm, t_object obj, t_global *g);
+t_vector		mip_col(double x, double y, double dst2, t_object obj, t_global *g);
 
 typedef	struct		s_tile
 {
