@@ -215,8 +215,8 @@ void		*recalc(void *p)
 	jheight = j * HEIGHT;
 	while (++j < end && (i = -1))
 	{
-		if (g->core == 0)
-			printf("LOADING = %f%s\n", j / (double)(HEIGHT / (double)CORES) + 1 - g->core, "\%");
+		// if (g->core == 0)
+			// printf("LOADING = %f%s\n", j / (double)(HEIGHT / (double)CORES) + 1 - g->core, "\%");
 		jheight += HEIGHT;
 		while (++i < WIDTH)
 		{

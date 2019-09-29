@@ -188,4 +188,3 @@ int		mouse_move(int x, int y, void *param)
 	}
 	return (1);
 }
-
