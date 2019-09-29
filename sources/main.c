@@ -104,7 +104,7 @@ int				x_close(t_global *g)
 	return (0);
 }
 
-void			first(t_global g)
+void			menu(t_global *g)
 {
 	void		*menu;
 	int			h;
@@ -112,20 +112,12 @@ void			first(t_global g)
 
 	h = WIDTH;
 	w = HEIGHT;
-	menu = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
-	g.data_ptr = (int *)mlx_get_data_addr(g.img_ptr, &g.bpp, &g.sz_l, &g.e);
-	g.win_ptr = mlx_new_window(g.mlx_ptr, WHOLE_MENU, WHOLE_MENU, "RT");
-	menu = mlx_xpm_file_to_image(g.mlx_ptr, "./menuu.XPM", &h, &w);
-	mlx_put_image_to_window(g.mlx_ptr, g.win_ptr, menu, 0, 0);
-}
-
-void			finish(t_global g)
-{
-	mlx_hook(g.win_ptr, 4, 4, mouse_press, &g);
-	mlx_hook(g.win_ptr, 2, 2, key_press, &g);
-	mlx_hook(g.win_ptr, 6, 6, mouse_move, &g);
-	mlx_hook(g.win_ptr, 17, 1L << 17, x_close, &g);
-	mlx_loop(g.mlx_ptr);
+	menu = mlx_new_image(g->mlx_ptr, WIDTH, HEIGHT);
+	g->data_ptr = (int *)mlx_get_data_addr(g->img_ptr, &g->bpp,
+											&g->sz_l, &g->e);
+	g->win_ptr = mlx_new_window(g->mlx_ptr, WHOLE_MENU, WHOLE_MENU, "RT");
+	menu = mlx_xpm_file_to_image(g->mlx_ptr, "./menuu.XPM", &h, &w);
+	mlx_put_image_to_window(g->mlx_ptr, g->win_ptr, menu, 0, 0);
 }
 
 int				main(int argc, char **argv)
@@ -134,6 +126,7 @@ int				main(int argc, char **argv)
 	t_vector	ctr[argc];
 	t_vector	kenobi[5];
 
+	ft_bzero(&g, sizeof(g));
 	g.cam_pos = &kenobi[0];
 	g.angle = &kenobi[1];
 	g.ray = &kenobi[2];
@@ -143,20 +136,22 @@ int				main(int argc, char **argv)
 	if (!check_arg(argv, argc, &g, ctr))
 		return (0);
 	g.img_ptr = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
-	first(g);
-
+	menu(&g);
 	copy_tcps(&g);
-
-	t_tile		a;
-	int			i;
+	// t_tile		a;				// что оно делает вообще?)
+	// int			i;
 	
-	i = 0;
-	while (i < 0)
-	{
-		a = g.obj[1].tile[2];
-		screen(a.data_ptr, a.w, a.h, &g);
-		i++;
-	}
+	// i = 0;
+	// while (i < 0)
+	// {
+	// 	a = g.obj[1].tile[2];
+	// 	screen(a.data_ptr, a.w, a.h, &g);
+	// 	i++;
+	// }
 	start_threads(recalc, &g);
-
+	mlx_hook(g.win_ptr, 4, 4, mouse_press, &g);
+	mlx_hook(g.win_ptr, 2, 2, key_press, &g);
+	mlx_hook(g.win_ptr, 6, 6, mouse_move, &g);
+	mlx_hook(g.win_ptr, 17, 1L << 17, x_close, &g);
+	mlx_loop(g.mlx_ptr);
 }

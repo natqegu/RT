@@ -208,7 +208,7 @@ void				buttons8(int x, int y, t_global *g);
 t_vector			*norm_tile(int *tile, int w, int h, t_global *g);
 void				init_tile_2(int i, char *tile, t_object *obj, t_global *g);
 void				copy2(t_global *tcps, t_global *g);
-void				first(t_global g);
+void				menu(t_global	*g);
 
 
 
