@@ -14,83 +14,86 @@
 
 void	obstructed(t_colbri *cur, t_vector hit, t_vector *hitli, t_vector reflrayv, t_object obj, t_global *g)
 {
-	int i;
-	t_vector nrm;
-	int	iobjn[2];
+	int			ilpko[5];
+	int			obss[g->lights];
+	t_vector	nrm_ray_obstructed[3];
 	t_dstpst	t;
-	t_vector ray;
-	int	obsc;
-	t_colbri tmp;
-	int obss[g->lights];
-	int	specscal;
-	double soft[g->lights];
-	t_vector obstructed;
+	t_colbri	tmp;
+	double		soft[g->lights];
 
 	ft_bzero(obss, 4 * g->lights);
 	init_vector(&tmp.col, 0, 0, 0);
-	obsc = 0;
-	i = 0;
-	obj.nr = nrm;
-	while (i < g->lights)
+	ilpko[3] = 0;
+	ilpko[0] = 0;
+	obj.nr = nrm_ray_obstructed[0];
+	while (ilpko[0] < g->lights)
 	{
-		ray = hitli[i];
-		iobjn[0] = 0;
-		iobjn[1] = g->prim;
-		while (++iobjn[0] < g->argc + 1)
+		nrm_ray_obstructed[1] = hitli[ilpko[0]];
+		ilpko[1] = 0;
+		ilpko[2] = g->prim;
+		while (++ilpko[1] < g->argc + 1)
 		{
-			if (iobjn[1] == 0)
-				iobjn[1] = (iobjn[1] + 1) % (g->argc + 1);
-			if (obj.id != g->obj[iobjn[1]].id || 0)
+			if (ilpko[2] == 0)
+				ilpko[2] = (ilpko[2] + 1) % (g->argc + 1);
+			if (obj.id != g->obj[ilpko[2]].id || 0)
 			{
+<<<<<<< HEAD
 				t = g->obj[iobjn[1]].hit(cr_2_ve(hit, g->li[i]), ray, g->obj[iobjn[1]], g);
+=======
+				t = g->obj[ilpko[2]].hit(hit, g->li[ilpko[0]], nrm_ray_obstructed[1], g->obj[ilpko[2]], g);
+>>>>>>> f35b03c4c7525a24787fe02fe3e8c80f18f4e912
 				if (t.dst < 0.000001)
 				{
-					i++;
+					ilpko[0]++;
 					break;
 				}
 				if (t.dst < 1)
 				{
 					if (obj.soft)
 					{
-						obstructed = sum(scale(t.dst, ray), hit);
-						soft[i] = dot(norm(diff(obstructed, *g->obj[iobjn[1]].ctr)), norm(ray));
-						soft[i] = tothe2(soft[i], obj.soft);
+						nrm_ray_obstructed[2] = sum(scale(t.dst, nrm_ray_obstructed[1]), hit);
+						soft[ilpko[0]] = dot(norm(diff(nrm_ray_obstructed[2], *g->obj[ilpko[2]].ctr)), norm(nrm_ray_obstructed[1]));
+						soft[ilpko[0]] = tothe2(soft[ilpko[0]], obj.soft);
 					}
-					g->prim = iobjn[1];
-					obsc++;
-					obss[i] = 1;
+					g->prim = ilpko[2];
+					ilpko[3]++;
+					obss[ilpko[0]] = 1;
 					break;
 				}
 			}
-			iobjn[1] = (iobjn[1] + 1) % (g->argc + 1);
+			ilpko[2] = (ilpko[2] + 1) % (g->argc + 1);
 		}
-		i++;
+		ilpko[0]++;
 	}
-	i = -1;
+	ilpko[0] = -1;
 	if (obj.spec)
 	{
-		while (++i < g->lights)
+		while (++ilpko[0] < g->lights)
 		{
-			if (obss[i] == 0)
-				do_1_spec(&tmp, cur, hit, hitli, nrm, reflrayv, obj, i, g);
+			if (obss[ilpko[0]] == 0)
+				do_1_spec(&tmp, cur, hit, hitli, nrm_ray_obstructed[0], reflrayv, obj, ilpko[0], g);
 		}
-		specscal = g->lights - obsc;
-		if (obsc < g->lights)
+		ilpko[4] = g->lights - ilpko[3];
+		if (ilpko[3] < g->lights)
 		{
-			tmp.col = scale(1 / (double)specscal, tmp.col);
+			tmp.col = scale(1 / (double)ilpko[4], tmp.col);
 			cur->col = tmp.col;
 		}
 	}
-	if (obsc > 0)
+	if (ilpko[3] > 0)
 	{	
 		if (obj.soft)
-			cur->bri = fmax(*g->ambient, cur->bri * (1 - soft[0])) + ((g->lights - obsc) * (cur->bri - *g->ambient) / (double)g->lights);
+			cur->bri = fmax(*g->ambient, cur->bri * (1 - soft[0])) + ((g->lights - ilpko[3]) * (cur->bri - *g->ambient) / (double)g->lights);
 		else
-			cur->bri = *g->ambient + ((g->lights - obsc) * (cur->bri - *g->ambient) / (double)g->lights);
+			cur->bri = *g->ambient + ((g->lights - ilpko[3]) * (cur->bri - *g->ambient) / (double)g->lights);
 	}
 }
+<<<<<<< HEAD
 
 void	objecthit(t_dstpst *ret, t_2_vec st_end, t_object *obj, int objc, t_global *g)
+=======
+void	objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc, t_global *g)
+>>>>>>> f35b03c4c7525a24787fe02fe3e8c80f18f4e912
 {
 	int i;
 	int legal_hit;
@@ -158,7 +161,7 @@ void		*toimg(void *tcp)
 	pthread_exit(0);
 }
 
-void		*move(void *p)
+void	*move(void *p)
 {
 	t_global *g;
 	int i;
@@ -195,7 +198,7 @@ void		*move(void *p)
 	pthread_exit(0);
 }
 
-void		*recalc(void *p)
+void	*recalc(void *p)
 {
 	t_global *g;
 	int i;

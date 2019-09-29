@@ -12,55 +12,6 @@
 
 #include "../includes/rt.h"
 
-int				con(t_global *g)
-{
-	return (shot.x == g->ray->x && shot.y == g->ray->y);
-}
-
-void			free_arr(char **arr)
-{
-	int			i;
-
-	i = 0;
-	while (*(arr + i) != NULL)
-	{
-		free(*(arr + i));
-		i++;
-	}
-}
-
-int				putstr(char *s, int ret)
-{
-	int			i;
-
-	i = 0;
-	while (*(s + i) != '\0')
-	{
-		write(1, s + i, 1);
-		i++;
-	}
-	return (ret);
-}
-
-void			screen(int *a, int x, int y, t_global *g)
-{
-	int			i;
-	int			j;
-
-	i = 0;
-	j = 0;
-	while (j < y)
-	{
-		i = 0;
-		while (i < x)
-		{
-			mlx_pixel_put(g->mlx_ptr, g->win_ptr, i, j, *(a + j * x + i));
-			i++;
-		}
-		j++;
-	}
-}
-
 void			draw_vectile(t_vector *t, int w, int h, t_global *g)
 {
 	int			i;
@@ -138,16 +89,6 @@ int				main(int argc, char **argv)
 	g.img_ptr = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
 	menu(&g);
 	copy_tcps(&g);
-	// t_tile		a;				// что оно делает вообще?)
-	// int			i;
-	
-	// i = 0;
-	// while (i < 0)
-	// {
-	// 	a = g.obj[1].tile[2];
-	// 	screen(a.data_ptr, a.w, a.h, &g);
-	// 	i++;
-	// }
 	start_threads(recalc, &g);
 	mlx_hook(g.win_ptr, 4, 4, mouse_press, &g);
 	mlx_hook(g.win_ptr, 2, 2, key_press, &g);

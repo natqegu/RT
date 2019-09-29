@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rt.h                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/30 00:12:40 by vkarpova          #+#    #+#             */
-/*   Updated: 2019/09/30 00:12:41 by vkarpova         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef FT_RT_H
 # define FT_RT_H
@@ -20,6 +9,7 @@
 #include "../libft/libft.h"
 #include <pthread.h>
 #include <fcntl.h>
+#include <stdarg.h>
 
 #define WIDTH HEIGHT
 #define HEIGHT 400
@@ -53,8 +43,8 @@
 #define R4 norm(cross(diff(R[Y].bd1, R[Y].bd3), diff(R[Y].bd2, R[Y].bd3)))
 #define R5 norm(cross(diff(R[Y + 1].bd1, R[Y + 1].bd3), diff(R[Y + 1].bd2, R[Y + 1].bd3)))
 
+
 typedef	struct	s_vector t_vector;
-typedef	struct	s_2_vec t_2_vec;
 
 struct			s_vector
 {
@@ -62,6 +52,13 @@ struct			s_vector
 	double		y;
 	double		z;
 };
+
+struct			s_2_vec
+{
+	t_vector	one;
+	t_vector	two;
+};
+
 
 t_vector		shot;
 int			mousex;
@@ -81,9 +78,9 @@ typedef	struct		s_colbri
 	int	bri;
 }			t_colbri;
 
-void				free_n(int nbr, ...);
-int					brg(t_vector rgb);
-int					inside_cone(t_vector p, t_object o, t_global *g);
+void	free_n(int nbr, ...);
+int				brg(t_vector rgb);
+int				inside_cone(t_vector p, t_object o, t_global *g);
 double				dot(t_vector a, t_vector b);
 t_vector			diff(t_vector a, t_vector b);
 t_vector			sum(t_vector a, t_vector b);
@@ -126,9 +123,9 @@ void				debug(t_global *g);
 void				*recalc(void *p);
 void				*move(void *p);
 void				*toimg(void *tcp);
-void				objecthit(t_dstpst *ret, t_2_vec st_end, t_object *obj, int objc, t_global *g);
+void				objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc, t_global *g);
 
-t_dstpst			hit_plane(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
 t_colbri			bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
 
@@ -139,21 +136,21 @@ t_colbri			bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
 
-t_dstpst			hit_sphere(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_cylinder(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
 t_colbri			bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_2_vec				cr_2_ve(t_vector one, t_vector two);
+
 
 void				init_tile(int i, char *tile, t_object *obj, t_global *g);
 
-t_dstpst			hit_cone(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_tri(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_complex(t_2_vec st_end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
 
 void				alias(int *dst, int *a, int w, int h, int xmax, int ymax);
 
@@ -226,7 +223,7 @@ void				buttons5(int x, int y, t_global *g);
 void				buttons6(int x, int y, t_global *g);
 void				buttons7(int x, int y, t_global *g);
 void				buttons8(int x, int y, t_global *g);
-t_vector			*norm_tile(int *tile, int w, int h);
+t_vector			*norm_tile(int *tile, int w, int h, t_global *g);
 void				init_tile_2(int i, char *tile, t_object *obj, t_global *g);
 void				copy2(t_global *tcps, t_global *g);
 void				menu(t_global	*g);
@@ -289,16 +286,8 @@ int			open_file(char **argv, t_global *g);
 int			count_objects(t_global *g, int fd);
 int			check_arg(char **argv, int argc, t_global *g, t_vector *ctr);
 
-int				next_num(char *s);
-double			myacos(t_vector ax, t_vector v, t_vector nrm, t_global *g);
-void			init_vector(t_vector *i, double x, double y, double z);
-t_vector		cross(t_vector a, t_vector b);
-int				left(t_vector a, t_vector b, t_vector nr, t_global *g);
-int				pinside(t_vector p, t_object obj, t_vector nr, t_global *g);
-double			det(t_vector a, t_vector b);
-t_vector		rotate(t_vector ray, t_vector angle);
-double			tothe2(double x, int e);
-t_dstpst		*nani(t_dstpst *t);
+
+
 
 typedef	struct		s_tile
 {
@@ -320,7 +309,7 @@ typedef struct		s_object
 	char			*name;
 	int				id;
 	int				cam_pos;
-	t_dstpst		(*hit)(t_2_vec, t_vector, t_object, t_global *g);
+	t_dstpst		(*hit)(t_vector, t_vector, t_vector, t_object, t_global *g);
 	t_colbri		(*bright)(t_vector, t_vector, t_object, struct s_global *);
 	t_colbri		(*simple_bright)(t_vector, t_vector, t_object, struct s_global *);
 
@@ -408,5 +397,6 @@ typedef struct		s_global
 	t_vector		*ctrli;
 	t_global		*tcps[CORES];
 }					t_global;
+
 
 #endif
