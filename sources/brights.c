@@ -487,7 +487,8 @@ t_vector		do_tile_sphere(t_vector *tileocol, t_vector st, t_vector hit, t_vector
 	if (g->mip_map)
 		*tileocol = mip_col(y, x, dot(diff(hit, *g->cam_pos), diff(hit, *g->cam_pos)), obj, g);
 	else
-		*tileocol = base255(rgb(*(obj.tile[0].data_ptr + obj.tile[0].w * lround(y) + lround(x))));
+		*tileocol = *(obj.tile[0].vectile + lround(y)* obj.tile[0].w + lround(x));
+		// *tileocol = base255(rgb(*(obj.tile[0].data_ptr + obj.tile[0].w * lround(y) + lround(x))));
 	return (*tileocol);
 }
 
