@@ -116,7 +116,7 @@ t_dstpst	hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_gl
 	{
 		if (con(g))
 			printf("miss frame\n");
-			return (*(NANI(&t)));
+			return (*(nani(&t)));
 	}
 
 //	else
@@ -128,7 +128,7 @@ t_dstpst	hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_gl
 
 	objecthit(&t, st, end, obj.tris, obj.rd, g);
 	if (t.obj.name == NULL)
-		return (*(NANI(&t)));
+		return (*(nani(&t)));
 //	t.obj = obj;
 //	printf("returning %d %s\n", t.obj.id, t.obj.name);
 	return (t);
@@ -143,7 +143,7 @@ t_dstpst	hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_glob
 	p = *g;
 	t.dst = -dot(diff(st, *obj.ctr), obj.base[1]) / dot(ray, obj.base[1]);
 	if (t.dst < 0.0000001)
-		return(*NANI(&t));
+		return(*nani(&t));
 	t.obj = obj;
 	t.pst = obj.cam_pos;
 	return (t);
@@ -163,7 +163,7 @@ t_dstpst		hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_gl
 //	if (con(g))
 //		printf("hit box sphere %d\n", hit_box(st, end, ray, obj, g));
 //	if (!hit_box(st, end, ray, obj, g))
-//		return (*NANI(&t));
+//		return (*nani(&t));
 	p = *g;
 	t.pst = 0;
 	dx[0] = ray;
@@ -173,14 +173,14 @@ t_dstpst		hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_gl
 	abc.z= dot(dx[1], dx[1]) - obj.rd2;
 	det = abc.y* abc.y- 4 * abc.x* abc.z;
 	if (det < 0)
-		return (*(NANI(&t)));
+		return (*(nani(&t)));
 	t.dst = (-abc.y- sqrt(det)) /(2 * abc.x);
 	if (t.dst <= 0.000001 && (t.pst = 1) /*&& printf("vhsnging to inside\n")*/)
 		t.dst = (-abc.y+ sqrt(det)) / (2 * abc.x);
 	if (con(g))
 		printf("t is 0?%d t is %f\n", t.dst == 0, t.dst);
 	if (t.dst <= 0.000001)
-		return (*NANI(&t));
+		return (*nani(&t));
 
 	if (con(g))
 		printf("inside hit sphere returning t = %f\n", t.dst);
@@ -206,12 +206,12 @@ t_dstpst		hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_
 	po[2].z = dot(po[3], po[3]) - d.x * d.x - obj.rd2;
 	d.z = po[2].y * po[2].y - 4 * po[2].x * po[2].z;
 	if (d.z < 0)
-		return (*NANI(&t));
+		return (*nani(&t));
 	t.dst = (-po[2].y - sqrt(d.z)) /(2 * po[2].x);
 	if (t.dst < 0.000001 && (t.pst = 1))
 		t.dst = (-po[2].y + sqrt(d.z)) /(2 * po[2].x);
 	if (t.dst < 0.0000001)
-		return (*(NANI(&t)));
+		return (*(nani(&t)));
 	t.obj = obj;
 	return (t);
 }
@@ -232,7 +232,7 @@ t_dstpst	hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global
 	{
 //		if (con(g))
 //			printf("hit behind screen\n");
-		return(*NANI(&t));
+		return(*nani(&t));
 	}
 	t_vector hit = sum(scale(t.dst, ray), st);
 	if (con(g))
@@ -240,11 +240,12 @@ t_dstpst	hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global
 //		printf("dot nr bound %f\n", dot(obj.base[1], diff(obj.bd1, obj.bd3)));
 //		printf("dot nr bound->hit %f\n", dot(obj.base[1], diff(obj.bd1, hit)));
 	}
-	if (!pinside(sum(scale(t.dst, ray), st), obj.bd1, obj.bd2, obj.bd3, obj.base[1], g))
+	if (!pinside(sum(scale(t.dst, ray), st), obj, obj.base[1], g))
+		// if (!pinside(sum(scale(t.dst, ray), st), obj.bd1, obj.bd2, obj.bd3, obj.base[1], g))
 	{
 //		if (con(g))
 //			printf("returning nani from tri\n");
-		return(*NANI(&t));
+		return(*nani(&t));
 	}
 //	printf("assigning %d %s to obj\n", obj.id, obj.name);
 	if (con(g))
@@ -272,7 +273,7 @@ t_dstpst		hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_glob
 	abc.z = dot(dx[0], dx[0]) - (1 + obj.rd2) * dvxvdet.y * dvxvdet.y;
 	dvxvdet.z = abc.y * abc.y - 4 * abc.x * abc.z;
 	if (dvxvdet.z < 0)
-		return (*NANI(&g->cone[0]));
+		return (*nani(&g->cone[0]));
 	g->cone[0].dst = (-abc.y - sqrt(dvxvdet.z)) /(2 * abc.x);
 	g->cone[1].dst = (-abc.y + sqrt(dvxvdet.z)) /(2 * abc.x);
 	ret = fmin(g->cone[0].dst, g->cone[1].dst);
@@ -280,7 +281,7 @@ t_dstpst		hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_glob
 	{
 		g->cone[0].dst = fmax(g->cone[1].dst, g->cone[0].dst);
 		if (g->cone[0].dst < 0.0000001)
-			return (*NANI(&g->cone[0]));
+			return (*nani(&g->cone[0]));
 		g->cone[0].pst = 1;
 		g->cone[0].obj = obj;
 		return (g->cone[0]);

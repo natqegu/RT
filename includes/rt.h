@@ -141,14 +141,15 @@ t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_
 
 void				alias(int *dst, int *a, int w, int h, int xmax, int ymax);
 
-t_dstpst			*NANI(t_dstpst *t);
+t_dstpst			*nani(t_dstpst *t);
 void				obstructed(t_colbri *i, t_vector hit, t_vector *hitli, t_vector reflrayv, t_object obj, t_global *g);
 t_vector			rotate(t_vector ray, t_vector angle);
 void				init_vector(t_vector *current, double x, double y, double z);
 int					con(t_global *g);
 t_vector			rgb(int c);
 t_vector			base(t_vector c);
-int					pinside(t_vector p, t_vector bd1, t_vector bd2, t_vector bd3, t_vector nr, t_global *g);
+int					pinside(t_vector p, t_object object, t_vector nr, t_global *g);
+// int					pinside(t_vector p, t_vector bd1, t_vector bd2, t_vector bd3, t_vector nr, t_global *g);
 void				screen(int *a, int w, int h, t_global *g);
 
 t_vector			cross(t_vector a, t_vector b);
