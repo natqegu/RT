@@ -22,88 +22,101 @@ int			arrheight(void **a)
 	return (i);
 }
 
-void		ctd(t_object *ret, int jihul[5])
+t_object	*ret_retc(t_object *ret, int retc)
 {
-	t_object	obj;
-
-	obj = ret[999];
-	R[Y].base[1] = R4;
-	R[Y + 1].base[0] = norm(diff(R[Y + 1].bd1, R[Y + 1].bd3));
-	R[Y + 1].ctr = obj.ctr;
-	R[Y].tile[0] = obj.tile[0];
-	R[Y + 1].tile[0] = obj.tile[0];
-	R[Y].color = obj.color;
-	R[Y + 1].color = rgb(0x010000);
-	R[Y].re = obj.re;
-	R[Y + 1].re = obj.re;
-	R[Y].spec = obj.spec;
-	R[Y + 1].spec = obj.spec;
-	Y = Y + 2;
-	R[Y + 1].base[2] = norm(diff(R[Y + 1].bd2, R[Y + 1].bd3));
-	R[Y + 1].base[1] = R5;
-	R[Y].ctr = obj.ctr;
+	ret[retc].hit = &hit_tri;
+	ret[retc + 1].hit = &hit_tri;
+	ret[retc].bright = &bright_tri;
+	ret[retc].simple_bright = &bright_tri;
+	ret[retc + 1].bright = &bright_tri;
+	ret[retc + 1].simple_bright = &bright_tri;
+	ret[retc].name = "tri";
+	ret[retc + 1].name = "tri";
+	ret[retc + 1].color = rgb(0x010000);
+	ret[retc].base[0] = norm(diff(ret[retc].bd1, ret[retc].bd3));
+	ret[retc].base[2] = norm(diff(ret[retc].bd2, ret[retc].bd3));
+	ret[retc].base[1] = norm(cross(diff(ret[retc].bd1, ret[retc].bd3),
+								diff(ret[retc].bd2, ret[retc].bd3)));
+	ret[retc + 1].base[0] = norm(diff(ret[retc + 1].bd1, ret[retc + 1].bd3));
+	ret[retc + 1].base[2] = norm(diff(ret[retc + 1].bd2, ret[retc + 1].bd3));
+	ret[retc + 1].base[1] = norm(cross(diff(ret[retc + 1].bd1, ret[retc + 1].
+							bd3), diff(ret[retc + 1].bd2, ret[retc + 1].bd3)));
+	return (ret);
 }
 
-void		c_tris_add(t_object *ret, int jihul[5], t_global *g, t_vector **pts)
+t_object	*ret_retc_obj(t_object *ret, int retc, t_object obj, t_global *g)
 {
-	t_object	obj;
+	ret[retc].id = g->argc + retc + 1;
+	ret[retc + 1].id = g->argc + retc + 2;
+	ret[retc].ctr = obj.ctr;
+	ret[retc + 1].ctr = obj.ctr;
+	ret[retc].tile[0] = obj.tile[0];
+	ret[retc + 1].tile[0] = obj.tile[0];
+	ret[retc].color = obj.color;
+	ret[retc].re = obj.re;
+	ret[retc + 1].re = obj.re;
+	ret[retc].trans = obj.trans;
+	ret[retc + 1].trans = obj.trans;
+	ret[retc + 1].spec = obj.spec;
+	return (ret);
+}
+
+void	hrrrr(t_object *h, t_vector *vec, t_object *obj)
+{
 	t_vector	smallspace;
 
-	smallspace = (t_vector){1, 2, 3};
-	obj = ret[999];
-	R[Y].bd1 = sum(rotate(*(*(pts + Q) + W), obj.ang), *obj.ctr);
-	R[Y].bd2 = sum(rotate(*(*(pts + Q) + W + 1), obj.ang), *obj.ctr);
-	R[Y].bd3 = sum(rotate(*(*(pts + Q + 1) + W), obj.ang), *obj.ctr);
-	R[Y + 1].bd1 = R1;
-	R[Y + 1].bd2 = R2;
-	R[Y + 1].bd3 = R3;
-	R[Y].hit = &hit_tri;
-	R[Y + 1].hit = &hit_tri;
-	R[Y].bright = &bright_tri;
-	R[Y].simple_bright = &bright_tri;
-	R[Y + 1].bright = &bright_tri;
-	R[Y + 1].simple_bright = &bright_tri;
-	R[Y].id = g->argc + Y + 1;
-	R[Y + 1].id = g->argc + Y + 2;
-	R[Y].name = "tri";
-	R[Y + 1].name = "tri";
-	R[Y].base[0] = norm(diff(R[Y].bd1, R[Y].bd3));
-	R[Y].base[2] = norm(diff(R[Y].bd2, R[Y].bd3));
-	ret[999] = obj;
-	ctd(ret, jihul);
+	init_vector(&smallspace, 0, 0, 0);
+	h->bd1 = sum(rotate(vec[3], obj->ang), *obj->ctr);
+	h->bd2 = sum(rotate(vec[1], obj->ang), *obj->ctr);
+	h->bd3 = sum(rotate(vec[2], obj->ang), *obj->ctr);
+	(h + 1)->bd1 = sum(rotate(sum(vec[0], smallspace), obj->ang), *obj->ctr);
+	(h + 1)->bd2 = sum(rotate(sum(vec[1], smallspace), obj->ang), *obj->ctr);
+	(h + 1)->bd3 = sum(rotate(sum(vec[2], smallspace), obj->ang), *obj->ctr);
+}
+
+t_vector	*cr_vec(t_vector **pts, int i, int j)
+{
+	t_vector	*vec;
+
+	vec = (t_vector *)malloc(sizeof(t_vector) * 4);
+	vec[0] = *(*(pts + j + 1) + i + 1);
+	vec[1] = *(*(pts + j) + i + 1);
+	vec[2] = *(*(pts + j + 1) + i);
+	vec[3] = *(*(pts + j) + i);
+	return (vec);
 }
 
 t_object	*create_tris(t_vector **pts, t_object obj, t_global *g)
 {
-	t_vector	smallspace;
+	int			j;
+	int			i;
+	int			retc;
 	t_object	*ret;
-	int			jihul[5];
 
-	T = obj.ptdim.x / 20;
-	E = arrheight((void **)pts);
-	R = (t_object *)malloc(sizeof(t_object) * (T * E * 2 + 1));
-	Q = -1;
-	W = 0;
-	Y = 0;
-	init_vector(&smallspace, 0, 0, 0);
-	while (*(pts + ++Q + 1))
+	ret = (t_object *)malloc(sizeof(t_object) *
+			(obj.ptdim.x / 20 * arrheight((void **)pts) * 2 + 1));
+	j = -1;
+	retc = 0;
+	while (*(pts + ++j + 1))
 	{
-		W = -1;
-		while (++W + 1 < T)
+		i = -1;
+		while (++i < obj.ptdim.x / 20 - 1)
 		{
-			ret[999] = obj;
-			c_tris_add(ret, jihul, g, pts);
+			ret_retc_obj(ret, retc, obj, g);
+			hrrrr(&ret[retc], cr_vec(pts, i, j), &obj);
+			ret_retc(ret, retc);
+			retc += 2;
 		}
 	}
-	(R)->rd = (T - 1) * (E - 1) * 2 + 1;
-	return (R);
+	(ret)->rd = (obj.ptdim.x / 20 - 1) * (arrheight((void **)pts) - 1) * 2 + 1;
+	return (ret);
 }
 
 t_object	*init_frame(t_object obj, t_global *g)
 {
-	t_object	*ret;
-	t_vector	bas[3];
-	t_vector	rc;
+	t_object *ret;
+	t_vector bas[3];
+	t_vector rc;
 
 	ret = (t_object *)malloc(sizeof(t_object));
 	ret->name = "sphere";

@@ -13,12 +13,11 @@
     {
       "COMPLEX":
       {
-        "texture":5,
         "color":[255,255,255],
         "center":[-10,0,700],
         "angle":[30,15,60],
         "specular":4,
-        "3ds-map": "./maps/cube.3ds"
+        "3ds-map":"./maps/cube.3ds"
       }
     }
   ]

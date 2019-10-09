@@ -15,18 +15,16 @@ HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 SOURCES_DIRECTORY = ./sources/
 
 SRC_C = brights.c\
-		bright_plane.c\
-		bright_sphere.c\
 		central.c\
 		check_arg.c\
 		check_arg_1.c\
 		check_arg_2.c\
-		check_arg_3.c\
-		check_arg_4.c\
-		check_arg_5.c\
-		check_arg_6.c\
-		check_arg_7.c\
-		check_arg_8.c\
+		parse_complex.c\
+		parse_cone.c\
+		parse_cylinder.c\
+		parse_plane.c\
+		parse_sphere.c\
+		parse_tri.c\
 		check_arg_9.c\
 		color.c\
 		create_points.c\
@@ -47,6 +45,8 @@ SRC_C = brights.c\
 		main.c\
 		memory.c\
 		menu.c\
+		bright_sphere.c\
+		bright_plane.c\
 
 SRC_O = $(addprefix objects/,$(SRC_C:.c=.o))
 

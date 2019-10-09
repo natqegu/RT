@@ -24,7 +24,6 @@
 
 #define WIDTH HEIGHT
 #define HEIGHT 400
-#define LOLKEK (hit_quad(st, end, ray, quad[0], g) || hit_quad(st, end, ray, quad[1], g) || hit_quad(st, end, ray, quad[2], g) || hit_quad(st, end, ray, quad[3], g) || hit_quad(st, end, ray, quad[4], g) || hit_quad(st, end, ray, quad[5], g))
 #define WHOLE_MENU 1000
 #define WINDOW_START_X 300
 #define WINDOW_START_Y 120
@@ -34,25 +33,10 @@
 #define STRIPS HEIGHT / TASK
 #define CORES 16
 #define M_T 6.28318530718
-#define MAX_REC 5
-#define ZZZ (int *)malloc(sizeof(int) * q[i].tile[0].w * q[i].tile[0].h)
-#define X mlx_xpm_file_to_image(g->mlx_ptr, tile, &q[i].tile[0].w,	&q[i].tile[0].h)
-#define D (int *)mlx_get_data_addr(q[i].tile[0].ptr, &q[i].tile[0].bpp,	&q[i].tile[0].sz_l, &q[i].tile[0].e)
-#define NN norm_tile(q[i].tile[0].data_ptr, q[i].tile[0].w, q[i].tile[0].h);
-#define RRR ret[0]
+#define MAX_REC 3
 
 
-#define Q jihul[0]
-#define W jihul[1]
-#define E jihul[2]
-#define Y jihul[3]
-#define T jihul[4]
-#define R ret
-#define R1 sum(rotate(sum(*(*(pts + Q + 1) + W + 1), smallspace), obj.ang), *obj.ctr);
-#define R2 sum(rotate(sum(*(*(pts + Q) + W + 1), smallspace), obj.ang), *obj.ctr);
-#define R3 sum(rotate(sum(*(*(pts + Q + 1) + W), smallspace), obj.ang), *obj.ctr);
-#define R4 norm(cross(diff(R[Y].bd1, R[Y].bd3), diff(R[Y].bd2, R[Y].bd3)))
-#define R5 norm(cross(diff(R[Y + 1].bd1, R[Y + 1].bd3), diff(R[Y + 1].bd2, R[Y + 1].bd3)))
+
 
 typedef	struct	s_vector t_vector;
 
@@ -66,7 +50,14 @@ struct			s_vector
 t_vector		shot;
 int			mousex;
 
+typedef	struct	s_3_vecs t_3_vecs;
 
+struct s_3_vecs
+{
+	t_vector	one;
+	t_vector	*two;
+	t_vector	three;
+};
 
 typedef struct		s_global t_global;
 typedef	struct		s_object t_object;
@@ -80,6 +71,9 @@ typedef	struct		s_colbri
 	t_vector nrm;
 	int	bri;
 }			t_colbri;
+
+
+
 
 void				free_n(int nbr, ...);
 int					brg(t_vector rgb);
@@ -126,48 +120,50 @@ void				debug(t_global *g);
 void				*recalc(void *p);
 void				*move(void *p);
 void				*toimg(void *tcp);
-void				objecthit(t_dstpst *ret, t_vector st, t_vector end, t_object *obj, int objc, t_global *g);
+double				len2(t_vector a);
+t_dstpst			*nani(t_dstpst *t);
+void				objecthit(t_dstpst *ret, t_3_vecs co, t_object *obj, int objc);
 
-t_dstpst			hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_plane(t_vector st, t_vector end, t_vector ray, t_object *obj);
 t_colbri			bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
 t_colbri			simple_bright_spheror(t_vector st, t_vector hit, t_object obj, t_global *g);
+void		do_tile_sphere(t_vector hit, t_object *obj, t_global *g);
+t_colbri	simple_bright_sphere(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri	bright_sphere(t_vector st, t_vector hit, t_object *obj, t_global *g);
 
+t_colbri			simple_bright_plane(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			bright_plane(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			bright_sphere(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			simple_bright_sphere(t_vector st, t_vector hit, t_object *obj, t_global *g);
 
-t_colbri			simple_bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_colbri			bright_plane(t_vector st, t_vector hit, t_object obj, t_global *g);
-
-t_colbri			bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_colbri			simple_bright_sphere(t_vector st, t_vector hit, t_object obj, t_global *g);
-
-t_dstpst			hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
-t_colbri			bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_colbri			simple_bright_cylinder(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_colbri			bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_colbri			bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
-t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object obj, t_global *g);
+t_dstpst			hit_sphere(t_vector st, t_vector end, t_vector ray, t_object *obj);
+t_dstpst			hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object *obj);
+t_colbri			bright_cylinder(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			simple_bright_cylinder(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			bright_cone(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			simple_bright_cone(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			bright_tri(t_vector st, t_vector hit, t_object *obj, t_global *g);
+t_colbri			simple_bright_tri(t_vector st, t_vector hit, t_object *obj, t_global *g);
 int					file_height(char *filename);
 int					parse_line(t_vector **a, char *s, int j, t_vector *ptdim);
 void				shift_center(t_vector **pts, t_vector *ptdim, t_global *g);
 
 void				init_tile(int i, char *tile, t_object *obj, t_global *g);
 
-t_dstpst			hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
-t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g);
+t_dstpst			hit_cone(t_vector st, t_vector end, t_vector ray, t_object *obj);
+t_dstpst			hit_tri(t_vector st, t_vector end, t_vector ray, t_object *obj);
+t_dstpst			hit_complex(t_vector st, t_vector end, t_vector ray, t_object *obj);
 
 void				alias(int *dst, int *a, int w, int h, int xmax, int ymax);
 
 t_dstpst			*nani(t_dstpst *t);
-void				obstructed(t_colbri *i, t_vector hit, t_vector *hitli, t_vector reflrayv, t_object obj, t_global *g);
+void				obstructed(t_colbri *i, t_3_vecs co, t_object *obj, t_global *g);
 t_vector			rotate(t_vector ray, t_vector angle);
 void				init_vector(t_vector *current, double x, double y, double z);
 int					con(t_global *g);
 t_vector			rgb(int c);
 t_vector			base(t_vector c);
-int					pinside(t_vector p, t_object object, t_vector nr, t_global *g);
-// int					pinside(t_vector p, t_vector bd1, t_vector bd2, t_vector bd3, t_vector nr, t_global *g);
+int					pinside(t_vector p, t_object object, t_vector nr);
 void				screen(int *a, int w, int h, t_global *g);
 
 t_vector			cross(t_vector a, t_vector b);
@@ -183,12 +179,11 @@ void				free_points(t_vector **pts);
 double				mymod(double x, int m);
 double				myacos(t_vector ax, t_vector v, t_vector nrm, t_global *g);
 int					myintmod(int x, int m);
-int					left(t_vector a, t_vector b, t_vector nrm, t_global *g);
+int					left(t_vector a, t_vector b, t_vector nrm);
 t_object			*init_frame(t_object obj, t_global *g);
 t_object			*create_tris(t_vector **pts, t_object obj, t_global *g);
 double				tothe2(double x, int e);
-void				do_spec(t_colbri *ret, t_vector hit, t_vector nrm, t_vector reflrayv, t_object obj, t_global *g);
-void				do_1_spec(t_colbri *tmp, t_colbri *ret, t_vector hit, t_vector *hitli, t_vector nrm, t_vector reflrayv, t_object obj, int i, t_global *g);
+// void				do_1_spec(t_colbri *tmp, t_colbri *ret, t_vector *hitli, t_vector reflrayv, t_object obj, int i, t_global *g);
 
 int					x_close(t_global *g);
 void				tile_sepia(t_global *g, int id);
@@ -211,13 +206,14 @@ void				blue_stereo(t_global *g);
 void				stereoscopy(t_global *g);
 int					mouse_press(int button, int x, int y, void *param);
 int					x_close(t_global *g);
+t_colbri		refl(t_vector refl, t_vector hit, t_object obj, t_global *g);
 
 t_vector		reflray(t_vector st, t_vector end, t_vector nrm, t_global *g);
 void		init_hitli(t_vector *hitli, t_vector hit, t_global *g);
 void		init_bri(int *bri, t_vector *hitli, t_vector nrm, t_global *g);
-void		do_re(t_vector reflrayv, t_vector *reocol, t_vector tileocol, t_vector hit, t_vector nrm, t_object obj, t_global *g);
+void		do_re(t_vector refl, t_vector hit, t_object *obj, t_global *g);
 void	make_motion(t_global *g);
-void		do_trans(t_vector st, t_vector hit, t_colbri *ret, t_colbri reo, t_vector nrm, t_object obj, t_global *g);
+void		do_trans(t_3_vecs co, t_colbri *ret, t_object obj, t_global *g);
 t_vector		mip_col(double x, double y, double dst2, t_object obj, t_global *g);
 
 void				buttons1(int x, int y, t_global *g);
@@ -295,12 +291,12 @@ int				next_num(char *s);
 double			myacos(t_vector ax, t_vector v, t_vector nrm, t_global *g);
 void			init_vector(t_vector *i, double x, double y, double z);
 t_vector		cross(t_vector a, t_vector b);
-int				left(t_vector a, t_vector b, t_vector nr, t_global *g);
-int				pinside(t_vector p, t_object obj, t_vector nr, t_global *g);
+
 double			det(t_vector a, t_vector b);
 t_vector		rotate(t_vector ray, t_vector angle);
 double			tothe2(double x, int e);
 t_dstpst		*nani(t_dstpst *t);
+
 
 typedef	struct		s_tile
 {
@@ -314,7 +310,6 @@ typedef	struct		s_tile
 	int 			mipq;
 	int 			*data_ptr;
 	void 			*ptr;
-	t_vector 		*vectile;
 }			t_tile;
 
 typedef struct		s_object
@@ -322,9 +317,9 @@ typedef struct		s_object
 	char			*name;
 	int				id;
 	int				cam_pos;
-	t_dstpst		(*hit)(t_vector, t_vector, t_vector, t_object, t_global *g);
-	t_colbri		(*bright)(t_vector, t_vector, t_object, struct s_global *);
-	t_colbri		(*simple_bright)(t_vector, t_vector, t_object, struct s_global *);
+	t_dstpst		(*hit)(t_vector, t_vector, t_vector, t_object *);
+	t_colbri		(*bright)(t_vector, t_vector, t_object *, struct s_global *);
+	t_colbri		(*simple_bright)(t_vector, t_vector, t_object *, struct s_global *);
 
 	t_vector		bd1;
 	t_vector		bd2;
@@ -361,6 +356,16 @@ typedef	struct		s_objecthit
 	t_vector hit;
 }				t_objecthit;
 
+
+typedef struct s_do_spec
+{
+	t_colbri	*ret;
+	t_vector	*hitli;
+	t_vector	reflrayv;
+	t_object	obj;
+	int			i;
+}			t_do_spec;
+
 typedef struct		s_global
 {
 	void 			*mlx_ptr;
@@ -377,7 +382,6 @@ typedef struct		s_global
 	int				light_switch;
 	int				filter_switch;
 	int				music;
-	t_dstpst		cone[2];
 	t_vector		_0015;
 	t_vector		base[3];
 	t_vector		*ray;
@@ -398,10 +402,9 @@ typedef struct		s_global
 	int				prim;
 	int				*ambient;
 	int				my_line;
-	int				*line_taken;//size of number of tasks
+	int				*line_taken;
 	int				mip_map;
 	pthread_mutex_t			mutex;
-	int				recursion;
 	int				lights;
 	t_vector		*savehitli;
 	t_vector		prev;
@@ -409,6 +412,13 @@ typedef struct		s_global
 	t_vector		*hitli;
 	t_vector		*ctrli;
 	t_global		*tcps[CORES];
+	int				*recursion;
 }					t_global;
 
+
+t_do_spec		cr_spec(t_colbri *ret, t_vector *hitli,	t_vector reflrayv, t_object obj, int i);
+void		do_1_spec(t_colbri *tmp, t_do_spec sp, t_global *g);
+t_3_vecs		create_3_vecs(t_vector one, t_vector *two, t_vector three);
+void	sphere_1(t_global *g);
+void	sphere_2(t_global *g);
 #endif

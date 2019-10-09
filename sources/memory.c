@@ -39,11 +39,6 @@ int				free_hits(t_global *g)
 	return (1);
 }
 
-void			copy_obj(t_object *t, t_object *g)
-{
-	t = g;
-}
-
 void			copy2(t_global *tcps, t_global *g)
 {
 	tcps->argc = g->argc;
@@ -51,8 +46,6 @@ void			copy2(t_global *tcps, t_global *g)
 	tcps->hits = g->hits;
 	tcps->rays = g->rays;
 	tcps->prim = g->prim;
-	tcps->cone[0] = g->cone[0];
-	tcps->cone[1] = g->cone[1];
 	tcps->ambient = g->ambient;
 	tcps->base[0] = g->base[0];
 	tcps->base[1] = g->base[1];
@@ -65,6 +58,8 @@ void			copy2(t_global *tcps, t_global *g)
 	tcps->hitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
 	tcps->savehitli = (t_vector *)malloc(sizeof(t_vector) * g->lights);
 	tcps->cosa = (double *)malloc(sizeof(double) * g->lights);
+	tcps->recursion = (int *)malloc(sizeof(int) * (g->argc + 1));
+	ft_bzero(tcps->recursion, sizeof(int) * (g->argc + 1));
 }
 
 void			copy(t_global *tcps, t_global *g)

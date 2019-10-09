@@ -1,6 +1,6 @@
 {
   "ROTATION":[0,0,0],
-  "CAMERA":[0,0,-800],
+  "CAMERA":[0,0,-600],
   "AMBIENT":100,
 
   "OBJECTS":
@@ -8,20 +8,23 @@
     {
       "LIGHT":
 			{
-				"position":[0,-25,2]
-			}
+				"position":[-40,25,2]
+      },
+      "LIGHT1":
+			{
+				"position":[40,25,2]
+      }
     },
     {
       "SPHERE":
       {
-        "texture":8,
         "color":[255,0,0],
-        "center":[-200,0,300],
+        "center":[-100,0,200],
         "angle":[0,0,0],
         "radius":100,
-        "reflection":0,
-        "transparency":0,
-        "specular": 0,
+        "reflection":10,
+        "transparency":30,
+        "specular":3,
         "soft": 0
       },
       "CYLINDER":
@@ -33,25 +36,27 @@
         "radius":100,
         "reflection":0,
         "transparency":0,
-        "specular": 0,
-        "soft": 0
+        "specular":3,
+        "soft":0
       },
       "CONE":
       {
-        "texture":15,
+        "texture":13,
         "color":[255,0,0],
         "center":[60,-100,300],
         "angle":[0,0,0],
         "radius":1,
         "reflection":0,
         "transparency":0,
-        "specular": 0,
+        "specular":3,
         "soft": 0
       },
       "PLANE":
       {
         "color":[255,255,255],
-        "angle":[0,0,0],
+        "angle":[90,0,0],
+        "reflection":10,
+        "specular":3,
         "center":[0,-200,800]
       }
     }

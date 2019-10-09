@@ -17,7 +17,7 @@ void		ginit(t_global *g)
 	int			i;
 	t_objecthit ***hits;
 
-	g->ray->z = lround(WIDTH / (double)2000 * 1600);
+	g->ray->z = round(WIDTH / (double)2000 * 1600);
 	g->mip_map = 0;
 	init_vector(&g->_0015, 0, 0, 15);
 	init_vector(&g->base[0], 1, 0, 0);
@@ -63,41 +63,20 @@ void		stretch(int *a, int d, int h)
 	}
 }
 
-t_vector	*norm_tile(int *tile, int w, int h)
-{
-	int			i;
-	int			j;
-	t_vector	*ret;
-
-	i = 0;
-	j = 0;
-	ret = (t_vector *)malloc(sizeof(t_vector) * h * w);
-	while (j < w)
-	{
-		i = 0;
-		while (i < h)
-		{
-			*(ret + j * h + i) = base255(rgb(*(tile + j * h + i)));
-			i++;
-		}
-		j++;
-	}
-	return (ret);
-}
-
 void		init_tile(int i, char *tile, t_object *q, t_global *g)
 {
 	int			k;
 
 	k = 0;
-	q[i].tile[0].ptr = X;
-	q[i].tile[0].data_ptr = D;
+	q[i].tile[0].ptr = mlx_xpm_file_to_image(g->mlx_ptr,
+						tile, &q[i].tile[0].w, &q[i].tile[0].h);
+	q[i].tile[0].data_ptr = (int *)mlx_get_data_addr(q[i].tile[0].ptr,
+				&q[i].tile[0].bpp, &q[i].tile[0].sz_l, &q[i].tile[0].e);
 	q[i].tile[0].w2 = q[i].tile[0].w / 2;
 	q[i].tile[0].h2 = q[i].tile[0].h / 2;
-	q[i].tile[0].vectile = NN
 }
 
-t_vector		**create_points(char *filename, t_vector *ptdim, t_global *g)
+t_vector	**create_points(char *filename, t_vector *ptdim, t_global *g)
 {
 	t_vector	**ret;
 	char		*line;

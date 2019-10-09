@@ -17,9 +17,7 @@ double			myacos(t_vector ax, t_vector v, t_vector nrm, t_global *g)
 	double		ret;
 
 	ret = acos(dot(ax, v));
-	if (con(g))
-		printf("left %d\n", left(v, ax, nrm, g));
-	if (left(v, ax, nrm, g))
+	if (left(v, ax, nrm))
 		return (M_T - ret);
 	if (ret > M_PI)
 		return (M_T - ret);
@@ -44,12 +42,12 @@ t_vector		cross(t_vector a, t_vector b)
 	return (ret);
 }
 
-int				left(t_vector a, t_vector b, t_vector nr, t_global *g)
+int				left(t_vector a, t_vector b, t_vector nr)
 {
 	return (dot(cross(b, a), nr) >= -0.000004);
 }
 
-int				pinside(t_vector p, t_object obj, t_vector nr, t_global *g)
+int				pinside(t_vector p, t_object obj, t_vector nr)
 {
 	t_vector	bd[3];
 	t_vector	pt[3];
@@ -60,7 +58,19 @@ int				pinside(t_vector p, t_object obj, t_vector nr, t_global *g)
 	pt[0] = diff(p, obj.bd1);
 	pt[1] = diff(p, obj.bd2);
 	pt[2] = diff(p, obj.bd3);
-	return (left(pt[0], bd[0], nr, g)
-		&& left(pt[2], bd[2], nr, g)
-		&& left(pt[1], bd[1], nr, g));
+	return (left(pt[0], bd[0], nr)
+		&& left(pt[2], bd[2], nr)
+		&& left(pt[1], bd[1], nr));
+}
+
+double			len2(t_vector a)
+{
+	return (dot(a, a));
+}
+
+t_dstpst		*nani(t_dstpst *t)
+{
+	t->dst = NAN;
+	t->obj.name = NULL;
+	return (t);
 }

@@ -10,51 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
-t_dstpst		hit_complex(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_complex(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
-	t_dstpst	t;
-	t_dstpst	framecheck;
+	t_dstpst t;
+	t_dstpst framecheck;
 
-	framecheck = hit_sphere(st, end, ray, *(obj.frame), g);
+	framecheck = hit_sphere(st, end, ray, obj->frame);
 	if (framecheck.obj.name == NULL)
-			return (*(nani(&t)));
-	objecthit(&t, st, end, obj.tris, obj.rd, g);
+		return (*(nani(&t)));
+	objecthit(&t, create_3_vecs(st, NULL, end), obj->tris, obj->rd);
 	if (t.obj.name == NULL)
 		return (*(nani(&t)));
 	return (t);
 }
 
-t_dstpst		hit_plane(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_plane(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
-	t_dstpst	t;
-	t_global	p;
+	t_dstpst t;
 
-	p = *g;
-	t.dst = -dot(diff(st, *obj.ctr), obj.base[1]) / dot(ray, obj.base[1]);
+	t.dst = -dot(diff(st, *obj->ctr), obj->base[1]) / dot(ray, obj->base[1]);
 	if (t.dst < 0.0000001)
 		return (*nani(&t));
-	t.obj = obj;
-	t.pst = obj.cam_pos;
+	t.obj = *obj;
+	t.pst = obj->cam_pos;
 	return (t);
 }
 
-t_dstpst		hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_sphere(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
 	t_vector	dx[2];
 	t_vector	abc;
 	double		det;
 	t_dstpst	t;
-	t_global	p;
 
-	p = *g;
 	t.pst = 0;
 	dx[0] = ray;
-	dx[1] = diff(st, *obj.ctr);
+	dx[1] = diff(st, *obj->ctr);
 	abc.x = dot(dx[0], dx[0]);
 	abc.y = 2 * dot(dx[1], dx[0]);
-	abc.z = dot(dx[1], dx[1]) - obj.rd2;
+	abc.z = dot(dx[1], dx[1]) - obj->rd2;
 	det = abc.y * abc.y - 4 * abc.x * abc.z;
 	if (det < 0)
 		return (*(nani(&t)));
@@ -63,26 +59,24 @@ t_dstpst		hit_sphere(t_vector st, t_vector end, t_vector ray, t_object obj, t_gl
 		t.dst = (-abc.y + sqrt(det)) / (2 * abc.x);
 	if (t.dst <= 0.000001)
 		return (*nani(&t));
-	t.obj = obj;
+	t.obj = *obj;
 	return (t);
 }
 
-t_dstpst		hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
-	t_vector	d;
-	t_vector	po[4];
-	t_dstpst	t;
-	t_global	p;
+	t_vector d;
+	t_vector po[4];
+	t_dstpst t;
 
-	p = *g;
 	t.pst = 0;
 	po[0] = ray;
-	po[3] = diff(st, *obj.ctr);
-	d.y = dot(po[0], obj.base[1]);
-	d.x = dot(po[3], obj.base[1]);
+	po[3] = diff(st, *obj->ctr);
+	d.y = dot(po[0], obj->base[1]);
+	d.x = dot(po[3], obj->base[1]);
 	po[2].x = dot(po[0], po[0]) - d.y * d.y;
 	po[2].y = 2 * (dot(po[0], po[3]) - d.y * d.x);
-	po[2].z = dot(po[3], po[3]) - d.x * d.x - obj.rd2;
+	po[2].z = dot(po[3], po[3]) - d.x * d.x - obj->rd2;
 	d.z = po[2].y * po[2].y - 4 * po[2].x * po[2].z;
 	if (d.z < 0)
 		return (*nani(&t));
@@ -91,65 +85,51 @@ t_dstpst		hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object obj, t_
 		t.dst = (-po[2].y + sqrt(d.z)) / (2 * po[2].x);
 	if (t.dst < 0.0000001)
 		return (*(nani(&t)));
-	t.obj = obj;
+	t.obj = *obj;
 	return (t);
 }
 
-t_dstpst		hit_tri(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_tri(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
-	t_dstpst	t;
-	t_global	p;
-	t_dstpst	framecheck;
-	t_vector	hit;
+	t_dstpst t;
+	t_dstpst framecheck;
+	t_vector hit;
 
-	p = *g;
-	t.dst = -dot(diff(st, obj.bd1), obj.base[1]) / dot(ray, obj.base[1]);
+	t.dst = -dot(diff(st, obj->bd1), obj->base[1]) / dot(ray, obj->base[1]);
 	if (t.dst < 0.000001)
 		return (*nani(&t));
 	hit = sum(scale(t.dst, ray), st);
-	if (!pinside(sum(scale(t.dst, ray), st), obj, obj.base[1], g))
+	if (!pinside(sum(scale(t.dst, ray), st), *obj, obj->base[1]))
 		return (*nani(&t));
-	t.obj = obj;
+	t.obj = *obj;
 	return (t);
 }
 
-t_dstpst		hit_cone(t_vector st, t_vector end, t_vector ray, t_object obj, t_global *g)
+t_dstpst	hit_cone(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
-	t_vector	dx[2];
 	t_vector	dvxvdet;
 	t_vector	abc;
-	t_global	p;
-	double		ret;
-	double		min;
+	t_dstpst	cone[2];
 
-	p = *g;
-	dx[0] = diff(st, *obj.ctr);
-	dx[1] = ray;
-	dvxvdet.x = dot(dx[1], obj.base[1]);
-	dvxvdet.y = dot(dx[0], obj.base[1]);
-	abc.x = dot(dx[1], dx[1]) - (1 + obj.rd2) * dvxvdet.x * dvxvdet.x;
-	abc.y = 2 * (dot(dx[1], dx[0]) - (1 + obj.rd2) * dvxvdet.x * dvxvdet.y);
-	abc.z = dot(dx[0], dx[0]) - (1 + obj.rd2) * dvxvdet.y * dvxvdet.y;
+	dvxvdet.x = dot(ray, obj->base[1]);
+	dvxvdet.y = dot(diff(st, *obj->ctr), obj->base[1]);
+	abc.x = dot(ray, ray) - (1 + obj->rd2) * dvxvdet.x * dvxvdet.x;
+	abc.y = 2 * (dot(ray, diff(st, *obj->ctr)) - (1 + obj->rd2)
+										* dvxvdet.x * dvxvdet.y);
+	abc.z = dot(diff(st, *obj->ctr), diff(st, *obj->ctr)) - (1 + obj->rd2)
+										* dvxvdet.y * dvxvdet.y;
 	dvxvdet.z = abc.y * abc.y - 4 * abc.x * abc.z;
 	if (dvxvdet.z < 0)
-		return (*nani(&g->cone[0]));
-	g->cone[0].dst = (-abc.y - sqrt(dvxvdet.z)) / (2 * abc.x);
-	g->cone[1].dst = (-abc.y + sqrt(dvxvdet.z)) / (2 * abc.x);
-	ret = fmin(g->cone[0].dst, g->cone[1].dst);
-	if (ret < 0.000001)
-	{
-		g->cone[0].dst = fmax(g->cone[1].dst, g->cone[0].dst);
-		if (g->cone[0].dst < 0.0000001)
-			return (*nani(&g->cone[0]));
-		g->cone[0].pst = 1;
-		g->cone[0].obj = obj;
-		return (g->cone[0]);
-	}
+		return (*nani(&cone[0]));
+	cone[0].dst = (-abc.y - sqrt(dvxvdet.z)) / (2 * abc.x);
+	cone[1].dst = (-abc.y + sqrt(dvxvdet.z)) / (2 * abc.x);
+	cone[0].dst = fmin(cone[0].dst, cone[1].dst);
+	if (cone[0].dst < 0.000001)
+		return (*nani(&cone[0]));
 	else
 	{
-		g->cone[0].obj = obj;
-		g->cone[0].dst = ret;
-		return (g->cone[0]);
+		cone[0].obj = *obj;
+		return (cone[0]);
 	}
-	return (g->cone[0]);
+	return (cone[0]);
 }

@@ -24,7 +24,6 @@ void			make_sepia(t_global *g)
 		j = 1;
 	while (j < g->argc + 1)
 	{
-		printf("color sepia\n");
 		c = g->obj[j].color;
 		g->obj[j].color.x = (((c.x * 0.393f) + (c.y * 0.769f)
 												+ (c.z * 0.189f))) / 2;
@@ -113,8 +112,6 @@ void			shift_center(t_vector **pts, t_vector *ptdim, t_global *g)
 	t_vector	bas[3];
 	t_vector	rc;
 
-	i = 0;
-	j = 0;
 	init_vector(&g->base[0], 1, 0, 0);
 	init_vector(&g->base[1], 0, 1, 0);
 	init_vector(&g->base[2], 0, 0, 1);
@@ -123,12 +120,14 @@ void			shift_center(t_vector **pts, t_vector *ptdim, t_global *g)
 	bas[2] = scale(ptdim->z, g->base[2]);
 	imax = ptdim->x / 20;
 	rc = scale(-0.5, sum(sum(bas[0], bas[1]), bas[2]));
+	j = 0;
 	while (*(pts + j))
 	{
 		i = 0;
-		while (i++ < imax)
+		while (i < imax)
 		{
 			pts[j][i] = sum(pts[j][i], rc);
+			i++;
 		}
 		j++;
 	}

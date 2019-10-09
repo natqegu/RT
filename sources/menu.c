@@ -30,6 +30,12 @@ void			buttons1(int x, int y, t_global *g)
 	}
 	if (x > 50 && x < 250 && y > 170 && y < 244)
 		system("screencapture -i ~/Desktop/screen.png");
+	if (x > 400 && x < 440 && y > 912 && y < 942)
+		if (ft_strcmp(g->obj[g->objn].name, "cone"))
+		{
+			g->obj[g->objn].rd--;
+			g->obj[g->objn].rd2 = g->obj[g->objn].rd * g->obj[g->objn].rd;
+		}
 }
 
 void			buttons2(int x, int y, t_global *g)
@@ -77,14 +83,14 @@ void			buttons3(int x, int y, t_global *g)
 	if (x > 360 && x < 400 && y > 720 && y < 750)
 	{
 		g->obj[g->objn].re += 0.05;
-		if (g->obj[g->objn].re > 0.75)
-			g->obj[g->objn].re = 0.8;
+		if (g->obj[g->objn].re > 0.99)
+			g->obj[g->objn].re = 1;
 	}
 	if (x > 400 && x < 440 && y > 720 && y < 750)
 	{
 		g->obj[g->objn].re -= 0.05;
 		if (g->obj[g->objn].re < 0.05)
-			g->obj[g->objn].re = 0.01;
+			g->obj[g->objn].re = 0;
 	}
 }
 
@@ -93,8 +99,8 @@ void			buttons4(int x, int y, t_global *g)
 	if (x > 360 && x < 400 && y > 784 && y < 814)
 	{
 		*g->ambient += 5;
-		if (*g->ambient > 95)
-			*g->ambient = 100;
+		if (*g->ambient > 135)
+			*g->ambient = 135;
 	}
 	if (x > 400 && x < 440 && y > 784 && y < 814)
 	{
@@ -105,8 +111,8 @@ void			buttons4(int x, int y, t_global *g)
 	if (x > 360 && x < 400 && y > 848 && y < 878)
 	{
 		g->obj[g->objn].trans += 0.05;
-		if (g->obj[g->objn].trans > 0.75)
-			g->obj[g->objn].trans = 0.8;
+		if (g->obj[g->objn].trans > 0.99)
+			g->obj[g->objn].trans = 1;
 	}
 	if (x > 400 && x < 440 && y > 848 && y < 878)
 	{
@@ -119,15 +125,11 @@ void			buttons4(int x, int y, t_global *g)
 void			buttons5(int x, int y, t_global *g)
 {
 	if (x > 360 && x < 400 && y > 912 && y < 942)
-	{
-		g->obj[g->objn].rd++;
-		g->obj[g->objn].rd2 = g->obj[g->objn].rd * g->obj[g->objn].rd;
-	}
-	if (x > 400 && x < 440 && y > 912 && y < 942)
-	{
-		g->obj[g->objn].rd--;
-		g->obj[g->objn].rd2 = g->obj[g->objn].rd * g->obj[g->objn].rd;
-	}
+		if (ft_strcmp(g->obj[g->objn].name, "cone"))
+		{
+			g->obj[g->objn].rd++;
+			g->obj[g->objn].rd2 = g->obj[g->objn].rd * g->obj[g->objn].rd;
+		}
 	if (x > 750 && x < 950 && y > 170 && y < 220)
 	{
 		if (g->filter_switch == 1)

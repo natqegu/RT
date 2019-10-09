@@ -31,8 +31,6 @@ t_vector	rgb(int c)
 
 t_vector	base255(t_vector dir)
 {
-	double		max;
-
 	dir.x = dir.x / (double)255;
 	dir.y = dir.y / (double)255;
 	dir.z = dir.z / (double)255;
@@ -52,8 +50,8 @@ t_vector	base(t_vector dir)
 
 int			color(int b, t_vector v)
 {
-	v.x = lround(b * v.x);
-	v.y = lround(b * v.y);
-	v.z = lround(b * v.z);
+	v.x = round(b * v.x);
+	v.y = round(b * v.y);
+	v.z = round(b * v.z);
 	return (v.z + v.y * 256 + v.x * 65536);
 }
