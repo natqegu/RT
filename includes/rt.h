@@ -417,14 +417,15 @@ t_dstpst			*nani(t_dstpst *t);
 t_do_spec			cr_spec(t_colbri *ret, t_vector *hitli, t_vector reflrayv,
 															t_object obj);
 void				hello(t_vector end);
-int			arrheight(void **a);
-t_vector	*cr_vec(t_vector **pts, int i, int j);
-t_hunia		cr_hu(int o, t_colbri *cur, t_3_vecs co);
-double			len2(t_vector a);
-t_masi	cr_masi(double *soft, int *obss, int *io);
-void	*recalc(void *p);
-void	recalc_row(int jheight, int j, t_global *g);
-void	*move(void *p);
-void	move_row(int j, int jheight, t_global *g);
-int				free_hits(t_global *g);
+int					arrheight(void **a);
+t_vector			*cr_vec(t_vector **pts, int i, int j);
+t_hunia				cr_hu(int o, t_colbri *cur, t_3_vecs co);
+double				len2(t_vector a);
+t_masi				cr_masi(double *soft, int *obss, int *io);
+void				*recalc(void *p);
+void				recalc_row(int jheight, int j, t_global *g);
+void				*move(void *p);
+void				move_row(int j, int jheight, t_global *g);
+int					free_hits(t_global *g);
+
 #endif
