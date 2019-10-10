@@ -59,7 +59,7 @@ void	load(t_global *g, int j)
 {
 	if (g->core == 4)
 		printf("LOADING %d%c\n", (int)((j / (double)(HEIGHT
-						/ (double)CORES)) * 100 + 4), '%');
+						/ (double)CORES)) * 100 + 4) - 400, '%');
 }
 
 void	recalc_row(int jheight, int j, t_global *g)
