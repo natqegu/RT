@@ -12,7 +12,7 @@
 
 #include "../includes/rt.h"
 
-double			myacos(t_vector ax, t_vector v, t_vector nrm, t_global *g)
+double			myacos(t_vector ax, t_vector v, t_vector nrm)
 {
 	double		ret;
 

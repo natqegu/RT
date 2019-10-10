@@ -15,7 +15,6 @@
 void			make_sepia(t_global *g)
 {
 	t_vector	c;
-	int			color;
 	int			j;
 
 	g->filter_switch = 1;

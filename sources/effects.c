@@ -15,7 +15,6 @@
 void			make_gray_scale(t_global *g)
 {
 	t_vector	c;
-	int			color;
 	int			j;
 	double		a;
 
@@ -38,7 +37,6 @@ void			make_gray_scale(t_global *g)
 void			make_negative(t_global *g)
 {
 	t_vector	c;
-	int			color;
 	int			j;
 
 	g->filter_switch = 3;
@@ -99,8 +97,6 @@ void			red_stereo(t_global *g)
 
 void			make_stereo(t_global *g)
 {
-	t_vector	c;
-	int			color;
 	int			j;
 
 	g->filter_switch = 4;

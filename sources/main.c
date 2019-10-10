@@ -50,7 +50,7 @@ int				x_close(t_global *g)
 	if (g->music == 1)
 		system("killall afplay");
 	mlx_clear_window(g->mlx_ptr, g->win_ptr);
-	system("leask RT");
+	system("leaks RT");
 	exit(free_hits(g));
 	return (0);
 }
@@ -74,7 +74,6 @@ void			menu(t_global *g)
 int				main(int argc, char **argv)
 {
 	t_global	g;
-	t_vector	ctr[argc];
 	t_vector	kenobi[5];
 
 	ft_bzero(&g, sizeof(g));
@@ -84,7 +83,7 @@ int				main(int argc, char **argv)
 	g.li = &kenobi[3];
 	g.normal = &kenobi[4];
 	g.mlx_ptr = mlx_init();
-	if (!check_arg(argv, argc, &g, ctr))
+	if (!check_arg(argv, argc, &g))
 		return (0);
 	g.img_ptr = mlx_new_image(g.mlx_ptr, WIDTH, HEIGHT);
 	menu(&g);

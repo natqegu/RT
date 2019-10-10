@@ -12,7 +12,7 @@
 
 #include "../includes/rt.h"
 
-void		objects_1(t_global *g, char **data, int i)
+void		objects_1(t_global *g)
 {
 	int		lig;
 
@@ -46,7 +46,7 @@ int			parse_objects(t_global *g, char **data, int i, int lines)
 	int		lig;
 
 	lig = 0;
-	objects_1(g, data, i);
+	objects_1(g);
 	while (i < lines)
 	{
 		if (ft_strstr(data[i], "LIGHT"))
@@ -82,7 +82,6 @@ int			ft_linelen(char *buf, int k)
 
 int			parse_file(t_global *g, char **data, int lines)
 {
-	char	*tmp;
 	int		i;
 
 	i = 0;

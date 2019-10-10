@@ -12,6 +12,15 @@
 
 #include "rt.h"
 
+void		hello(t_vector end)
+{
+	int i;
+
+	i = 1;
+	if (end.x == 0)
+		i = 0;
+}
+
 t_dstpst	hit_complex(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
 	t_dstpst t;
@@ -33,6 +42,7 @@ t_dstpst	hit_plane(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	t.dst = -dot(diff(st, *obj->ctr), obj->base[1]) / dot(ray, obj->base[1]);
 	if (t.dst < 0.0000001)
 		return (*nani(&t));
+	hello(end);
 	t.obj = *obj;
 	t.pst = obj->cam_pos;
 	return (t);
@@ -60,6 +70,7 @@ t_dstpst	hit_sphere(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	if (t.dst <= 0.000001)
 		return (*nani(&t));
 	t.obj = *obj;
+	hello(end);
 	return (t);
 }
 
@@ -86,13 +97,13 @@ t_dstpst	hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	if (t.dst < 0.0000001)
 		return (*(nani(&t)));
 	t.obj = *obj;
+	hello(end);
 	return (t);
 }
 
 t_dstpst	hit_tri(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
 	t_dstpst t;
-	t_dstpst framecheck;
 	t_vector hit;
 
 	t.dst = -dot(diff(st, obj->bd1), obj->base[1]) / dot(ray, obj->base[1]);
@@ -102,6 +113,7 @@ t_dstpst	hit_tri(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	if (!pinside(sum(scale(t.dst, ray), st), *obj, obj->base[1]))
 		return (*nani(&t));
 	t.obj = *obj;
+	hello(end);
 	return (t);
 }
 
@@ -131,5 +143,6 @@ t_dstpst	hit_cone(t_vector st, t_vector end, t_vector ray, t_object *obj)
 		cone[0].obj = *obj;
 		return (cone[0]);
 	}
+	hello(end);
 	return (cone[0]);
 }

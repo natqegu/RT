@@ -104,7 +104,7 @@ int			count_objects(t_global *g, int fd)
 	return (g->argc);
 }
 
-int			check_arg(char **argv, int argc, t_global *g, t_vector *ctr)
+int			check_arg(char **argv, int argc, t_global *g)
 {
 	int		fd;
 

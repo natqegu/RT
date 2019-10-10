@@ -15,7 +15,6 @@
 int		parse_tile(char *line, t_global *g)
 {
 	char	**name;
-	char	*tmp;
 	int		num;
 
 	name = ft_strsplit(line, ':');
@@ -30,7 +29,7 @@ int		parse_tile(char *line, t_global *g)
 	return (1);
 }
 
-char	*save_fdf_name(t_global *g, char *line)
+char	*save_fdf_name(char *line)
 {
 	char	*tmp;
 	char	**name;
@@ -101,7 +100,7 @@ int		parse_complex(t_global *g, char **data, int i)
 		if (ft_strstr(data[i], "reflection"))
 			parse_double(data[i], &(g->obj[g->id].re), 100.0, 100.0);
 		if (ft_strstr(data[i], "3ds-map"))
-			g->obj[g->id].pts = create_points(save_fdf_name(g, data[i]),
+			g->obj[g->id].pts = create_points(save_fdf_name(data[i]),
 												&g->obj[g->id].ptdim, g);
 		if (ft_strstr(data[i], "transparency"))
 			parse_double(data[i], &(g->obj[g->id].trans), 100.0, 100.0);

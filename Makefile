@@ -2,7 +2,7 @@ NAME = RT
 
 DIR = objects
 
-FLAGS = -g #-Wextra -Werror -Wall
+FLAGS = -g -Wextra -Werror -Wall
 
 INCLUDES = -I$(HEADERS_DIRECTORY)
 
@@ -47,6 +47,10 @@ SRC_C = brights.c\
 		menu.c\
 		bright_sphere.c\
 		bright_plane.c\
+		bright_tri.c\
+		bright_cone.c\
+		bright_cylinder.c\
+		re_trans.c\
 
 SRC_O = $(addprefix objects/,$(SRC_C:.c=.o))
 
