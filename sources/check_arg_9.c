@@ -6,11 +6,11 @@
 /*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 22:25:13 by vkarpova          #+#    #+#             */
-/*   Updated: 2019/09/29 22:25:13 by vkarpova         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:24:06 by nnovikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 void		objects_1(t_global *g)
 {

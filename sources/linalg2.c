@@ -49,3 +49,18 @@ double			tothe2(double x, int e)
 		x = x * x;
 	return (x);
 }
+
+double			len2(t_vector a)
+{
+	return (dot(a, a));
+}
+
+t_masi			cr_masi(double *soft, int *obss, int *io)
+{
+	t_masi masivchik;
+
+	masivchik.s = soft;
+	masivchik.obss = obss;
+	masivchik.io = io;
+	return (masivchik);
+}

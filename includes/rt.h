@@ -10,30 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_RT_H
-# define FT_RT_H
+#ifndef RT_H
+# define RT_H
 
-#include <math.h>
-#include <mlx.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include "../libft/libft.h"
-#include <pthread.h>
-#include <fcntl.h>
-#include <stdarg.h>
+# include <math.h>
+# include <mlx.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include "../libft/libft.h"
+# include <pthread.h>
+# include <fcntl.h>
+# include <stdarg.h>
 
-#define WIDTH HEIGHT
-#define HEIGHT 400
-#define WHOLE_MENU 1000
-#define WINDOW_START_X 300
-#define WINDOW_START_Y 120
-#define WIDTH_2 200
-#define HEIGHT_2 WIDTH_2
-#define TASK 20
-#define STRIPS HEIGHT / TASK
-#define CORES 16
-#define M_T 6.28318530718
-#define MAX_REC 3
+# define WIDTH HEIGHT
+# define HEIGHT 400
+# define WHOLE_MENU 1000
+# define WINDOW_START_X 300
+# define WINDOW_START_Y 120
+# define WIDTH_2 200
+# define HEIGHT_2 WIDTH_2
+# define TASK 20
+# define STRIPS HEIGHT / TASK
+# define CORES 16
+# define M_T 6.28318530718
+# define MAX_REC 3
 
 typedef struct		s_vector
 {
@@ -52,7 +52,7 @@ typedef struct 		s_3_vecs
 typedef struct		s_global t_global;
 typedef	struct		s_object t_object;
 typedef	struct		s_objecthit t_objecthit;
-typedef struct		s_dstpst	t_dstpst;
+typedef struct		s_dstpst t_dstpst;
 
 typedef	struct		s_colbri
 {
@@ -414,4 +414,17 @@ double				det(t_vector a, t_vector b);
 t_vector			rotate(t_vector ray, t_vector angle);
 double				tothe2(double x, int e);
 t_dstpst			*nani(t_dstpst *t);
+t_do_spec			cr_spec(t_colbri *ret, t_vector *hitli, t_vector reflrayv,
+															t_object obj);
+void				hello(t_vector end);
+int			arrheight(void **a);
+t_vector	*cr_vec(t_vector **pts, int i, int j);
+t_hunia		cr_hu(int o, t_colbri *cur, t_3_vecs co);
+double			len2(t_vector a);
+t_masi	cr_masi(double *soft, int *obss, int *io);
+void	*recalc(void *p);
+void	recalc_row(int jheight, int j, t_global *g);
+void	*move(void *p);
+void	move_row(int j, int jheight, t_global *g);
+int				free_hits(t_global *g);
 #endif

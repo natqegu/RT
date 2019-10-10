@@ -6,23 +6,11 @@
 /*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 20:37:08 by tpokalch          #+#    #+#             */
-/*   Updated: 2019/07/03 20:49:07 by tpokalch         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:22:47 by nnovikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-t_do_spec	cr_spec(t_colbri *ret, t_vector *hitli, t_vector reflrayv,
-															t_object obj)
-{
-	t_do_spec spec;
-
-	spec.ret = ret;
-	spec.hitli = hitli;
-	spec.reflrayv = reflrayv;
-	spec.obj = obj;
-	return (spec);
-}
 
 t_3_vecs	create_3_vecs(t_vector one, t_vector *two, t_vector three)
 {

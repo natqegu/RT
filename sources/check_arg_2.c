@@ -6,11 +6,11 @@
 /*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 22:16:50 by vkarpova          #+#    #+#             */
-/*   Updated: 2019/09/29 22:16:51 by vkarpova         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:23:47 by nnovikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 int			parse_angle(char *line, t_vector *vector)
 {

@@ -12,15 +12,6 @@
 
 #include "rt.h"
 
-void		hello(t_vector end)
-{
-	int i;
-
-	i = 1;
-	if (end.x == 0)
-		i = 0;
-}
-
 t_dstpst	hit_complex(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
 	t_dstpst t;
@@ -32,19 +23,6 @@ t_dstpst	hit_complex(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	objecthit(&t, create_3_vecs(st, NULL, end), obj->tris, obj->rd);
 	if (t.obj.name == NULL)
 		return (*(nani(&t)));
-	return (t);
-}
-
-t_dstpst	hit_plane(t_vector st, t_vector end, t_vector ray, t_object *obj)
-{
-	t_dstpst t;
-
-	t.dst = -dot(diff(st, *obj->ctr), obj->base[1]) / dot(ray, obj->base[1]);
-	if (t.dst < 0.0000001)
-		return (*nani(&t));
-	hello(end);
-	t.obj = *obj;
-	t.pst = obj->cam_pos;
 	return (t);
 }
 
@@ -117,32 +95,15 @@ t_dstpst	hit_tri(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	return (t);
 }
 
-t_dstpst	hit_cone(t_vector st, t_vector end, t_vector ray, t_object *obj)
+t_dstpst	hit_plane(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {
-	t_vector	dvxvdet;
-	t_vector	abc;
-	t_dstpst	cone[2];
+	t_dstpst t;
 
-	dvxvdet.x = dot(ray, obj->base[1]);
-	dvxvdet.y = dot(diff(st, *obj->ctr), obj->base[1]);
-	abc.x = dot(ray, ray) - (1 + obj->rd2) * dvxvdet.x * dvxvdet.x;
-	abc.y = 2 * (dot(ray, diff(st, *obj->ctr)) - (1 + obj->rd2)
-										* dvxvdet.x * dvxvdet.y);
-	abc.z = dot(diff(st, *obj->ctr), diff(st, *obj->ctr)) - (1 + obj->rd2)
-										* dvxvdet.y * dvxvdet.y;
-	dvxvdet.z = abc.y * abc.y - 4 * abc.x * abc.z;
-	if (dvxvdet.z < 0)
-		return (*nani(&cone[0]));
-	cone[0].dst = (-abc.y - sqrt(dvxvdet.z)) / (2 * abc.x);
-	cone[1].dst = (-abc.y + sqrt(dvxvdet.z)) / (2 * abc.x);
-	cone[0].dst = fmin(cone[0].dst, cone[1].dst);
-	if (cone[0].dst < 0.000001)
-		return (*nani(&cone[0]));
-	else
-	{
-		cone[0].obj = *obj;
-		return (cone[0]);
-	}
+	t.dst = -dot(diff(st, *obj->ctr), obj->base[1]) / dot(ray, obj->base[1]);
+	if (t.dst < 0.0000001)
+		return (*nani(&t));
 	hello(end);
-	return (cone[0]);
+	t.obj = *obj;
+	t.pst = obj->cam_pos;
+	return (t);
 }

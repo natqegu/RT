@@ -10,17 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
-
-int			arrheight(void **a)
-{
-	int			i;
-
-	i = 0;
-	while (*(a + i))
-		i++;
-	return (i);
-}
+#include "rt.h"
 
 t_object	*ret_retc(t_object *ret, int retc)
 {
@@ -61,7 +51,7 @@ t_object	*ret_retc_obj(t_object *ret, int retc, t_object obj, t_global *g)
 	return (ret);
 }
 
-void	hrrrr(t_object *h, t_vector *vec, t_object *obj)
+void		hrrrr(t_object *h, t_vector *vec, t_object *obj)
 {
 	t_vector	smallspace;
 
@@ -72,18 +62,6 @@ void	hrrrr(t_object *h, t_vector *vec, t_object *obj)
 	(h + 1)->bd1 = sum(rotate(sum(vec[0], smallspace), obj->ang), *obj->ctr);
 	(h + 1)->bd2 = sum(rotate(sum(vec[1], smallspace), obj->ang), *obj->ctr);
 	(h + 1)->bd3 = sum(rotate(sum(vec[2], smallspace), obj->ang), *obj->ctr);
-}
-
-t_vector	*cr_vec(t_vector **pts, int i, int j)
-{
-	t_vector	*vec;
-
-	vec = (t_vector *)malloc(sizeof(t_vector) * 4);
-	vec[0] = *(*(pts + j + 1) + i + 1);
-	vec[1] = *(*(pts + j) + i + 1);
-	vec[2] = *(*(pts + j + 1) + i);
-	vec[3] = *(*(pts + j) + i);
-	return (vec);
 }
 
 t_object	*create_tris(t_vector **pts, t_object obj, t_global *g)

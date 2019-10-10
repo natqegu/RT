@@ -49,8 +49,6 @@ void			make_negative(t_global *g)
 		g->obj[j].color.x = (fabs(1.0f - g->obj[j].color.x));
 		g->obj[j].color.y = (fabs(1.0f - g->obj[j].color.y));
 		g->obj[j].color.z = (fabs(1.0f - g->obj[j].color.z));
-		if (g->obj[j].tile[0].data_ptr)
-			
 		j++;
 	}
 }

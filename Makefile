@@ -51,6 +51,11 @@ SRC_C = brights.c\
 		bright_cone.c\
 		bright_cylinder.c\
 		re_trans.c\
+		helper.c\
+		hit_cone.c\
+		central_main.c\
+		to_img.c\
+		free.c\
 
 SRC_O = $(addprefix objects/,$(SRC_C:.c=.o))
 

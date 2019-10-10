@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bright_tri.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nnovikov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/10 19:22:34 by nnovikov          #+#    #+#             */
+/*   Updated: 2019/10/10 19:22:37 by nnovikov         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 t_colbri		simple_bright_tri(t_vector st, t_vector hit,
@@ -39,10 +51,12 @@ void			do_tile_tri(t_object *obj, t_vector hit)
 	v = diff(hit, *obj->ctr);
 	x = mymod(v.x, obj->tile[0].w);
 	y = mymod(v.z, obj->tile[0].h);
-	obj->color = base255(rgb(*(obj->tile[0].data_ptr + obj->tile[0].w * (int)y + (int)x)));
+	obj->color = base255(rgb(*(obj->tile[0].data_ptr +
+					obj->tile[0].w * (int)y + (int)x)));
 }
 
-t_colbri		bright_tri(t_vector st, t_vector hit, t_object *obj, t_global *g)
+t_colbri		bright_tri(t_vector st, t_vector hit,
+							t_object *obj, t_global *g)
 {
 	t_colbri	ret;
 	t_vector	hitli[g->lights];
@@ -67,6 +81,6 @@ t_colbri		bright_tri(t_vector st, t_vector hit, t_object *obj, t_global *g)
 	ret.bri = retorig.bri;
 	if (obj->spec)
 		do_spec(&ret, create_3_vecs(hit, NULL, reflrayv), *obj, g);
-	obj->color = saveobjcol;	
+	obj->color = saveobjcol;
 	return (ret);
 }

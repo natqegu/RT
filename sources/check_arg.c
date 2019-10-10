@@ -6,11 +6,11 @@
 /*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 21:52:17 by vkarpova          #+#    #+#             */
-/*   Updated: 2019/09/29 21:52:18 by vkarpova         ###   ########.fr       */
+/*   Updated: 2019/10/10 19:23:11 by nnovikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 char		**get_scene(char *buf, int lines)
 {

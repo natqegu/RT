@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/rt.h"
+#include "rt.h"
 
 double			myacos(t_vector ax, t_vector v, t_vector nrm)
 {
@@ -61,16 +61,4 @@ int				pinside(t_vector p, t_object obj, t_vector nr)
 	return (left(pt[0], bd[0], nr)
 		&& left(pt[2], bd[2], nr)
 		&& left(pt[1], bd[1], nr));
-}
-
-double			len2(t_vector a)
-{
-	return (dot(a, a));
-}
-
-t_dstpst		*nani(t_dstpst *t)
-{
-	t->dst = NAN;
-	t->obj.name = NULL;
-	return (t);
 }
