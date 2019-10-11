@@ -42,10 +42,10 @@ int		key_press_1(int kk, t_global *g)
 
 int		key_press(int kk, void *param)
 {
-	t_global *g;
+	t_global	*g;
 
 	g = param;
-	shot.x = -WIDTH;
+	g->shot.x = -WIDTH;
 	ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
 	if (kk == 53)
 	{
@@ -112,7 +112,7 @@ int		move_obj(int kk, t_global *g)
 			g->angle->y -= 0.05;
 		if (kk == 2 || kk == 124)
 			g->angle->y += 0.05;
-		*g->normal = rotate(g->_0015, *g->angle);
+		*g->normal = rotate(g->fifteen, *g->angle);
 		return (start_threads(recalc, g));
 	}
 	if (kk == 1)

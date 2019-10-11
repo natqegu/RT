@@ -8,7 +8,12 @@ INCLUDES = -I$(HEADERS_DIRECTORY)
 
 HEADERS_DIRECTORY = ./includes/
 
-HEADERS_LIST = rt.h
+HEADERS_LIST = rt.h\
+				first.h\
+				second.h\
+				third.h\
+				fourth.h\
+				func.h\
 
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 

@@ -14,7 +14,7 @@
 
 int				con(t_global *g)
 {
-	return (shot.x == g->ray->x && shot.y == g->ray->y);
+	return (g->shot.x == g->ray->x && g->shot.y == g->ray->y);
 }
 
 void			free_arr(char **arr)

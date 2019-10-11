@@ -80,8 +80,8 @@ int				mouse_press(int button, int x, int y, void *param)
 	ft_bzero((int *)g->data_ptr, g->sz_l * HEIGHT);
 	if (button == 1)
 	{
-		shot.x = -WIDTH / 2 + x;
-		shot.y = HEIGHT / 2 - y;
+		g->shot.x = -WIDTH / 2 + x;
+		g->shot.y = HEIGHT / 2 - y;
 		buttons1(x, y, g);
 		buttons2(x, y, g);
 		buttons3(x, y, g);
