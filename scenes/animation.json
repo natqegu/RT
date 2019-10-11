@@ -20,15 +20,6 @@
         "reflection":10,
         "transparency":0
       },
-      "SPHERE1":
-      {
-        "color":[100,50,0],
-        "center":[0,100,500],
-        "angle":[0,0,0],
-        "radius":50,
-        "reflection":10,
-        "transparency":0
-      },
       "SPHERE2":
       {
         "color":[10,0,255],

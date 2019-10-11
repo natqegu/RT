@@ -30,7 +30,7 @@ t_dstpst	hit_cone(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	cone[0].dst = (-abc.y - sqrt(d.z)) / (2 * abc.x);
 	cone[1].dst = (-abc.y + sqrt(d.z)) / (2 * abc.x);
 	cone[0].dst = fmin(cone[0].dst, cone[1].dst);
-	if (cone[0].dst < 0.000001)
+	if (cone[0].dst < 0.001)
 		return (*nani(&cone[0]));
 	else
 	{

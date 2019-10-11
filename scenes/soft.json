@@ -23,7 +23,7 @@
         },
         "PLANE":
         {
-            "texture":1,
+            "texture":4,
             "color":[255,255,255],
             "reflection":0,
             "specular":3,

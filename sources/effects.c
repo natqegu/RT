@@ -24,7 +24,6 @@ void			make_gray_scale(t_global *g)
 		j = 1;
 	while (j < g->argc + 1)
 	{
-		printf("color gray scale\n");
 		c = g->obj[j].color;
 		a = (c.x * 0.3f + c.y * 0.59f + c.z * 0.11f);
 		g->obj[j].color.x = a;
@@ -88,7 +87,7 @@ void			red_stereo(t_global *g)
 		{
 			pos = (y * WIDTH + x);
 			*(g->data_ptr_2 + pos + 2) += (*(g->data_ptr + pos + 2) -
-											*(g->data_ptr_2 + pos)) / 16;
+											*(g->data_ptr_2 + pos) / 16);
 		}
 	}
 }
