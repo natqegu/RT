@@ -21,7 +21,7 @@ int			inside_cone(t_vector p, t_object obj)
 	t_vector	op;
 
 	op = diff(p, *obj.ctr);
-	if (dot(op, op) < 0.001)
+	if (dot(op, op) < 0.01)
 		return (0);
 	axdst = dot(op, obj.base[1]);
 	cirad = axdst * obj.rd2;

@@ -65,7 +65,7 @@ int		if_obj_id(t_3_vecs co, t_object *obj, t_global *g, t_masi m)
 	{
 		t = g->obj[m.io[1]].hit(co.one, g->li[m.io[3]], co.two[m.io[3]],
 													&g->obj[m.io[1]]);
-		if (t.dst < 0.000001)
+		if (t.dst < 0.01)
 		{
 			m.io[3]++;
 			return (0);
@@ -126,7 +126,7 @@ void	objecthit(t_dstpst *ret, t_3_vecs co, t_object *obj, int objc)
 	while (++i < objc)
 	{
 		t_crt = obj[i].hit(co.one, co.three, ray, &obj[i]);
-		if ((t_crt.dst >= 0.0000001) && (!legal_hit || t_crt.dst < closest_tmp))
+		if ((t_crt.dst >= 0.001) && (!legal_hit || t_crt.dst < closest_tmp))
 		{
 			legal_hit = 1;
 			closest_tmp = t_crt.dst;

@@ -50,7 +50,6 @@ int				x_close(t_global *g)
 	if (g->music == 1)
 		system("killall afplay");
 	mlx_clear_window(g->mlx_ptr, g->win_ptr);
-	system("leaks RT");
 	exit(free_hits(g));
 	return (0);
 }

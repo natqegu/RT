@@ -1,0 +1,43 @@
+{
+    "ROTATION":[0,0,0],
+    "CAMERA":[0,30,-400],
+    "AMBIENT":100,
+  
+    "OBJECTS":
+    [
+      {
+        "LIGHT":
+        {
+            "position":[100,150,0]
+        },
+        "LIGHT1":
+        {
+            "position":[100,200,-100]
+        },
+        "LIGHT2":
+        {
+            "position":[100,250,100]
+        }
+      },
+      {
+        "SPHERE":
+        {
+          "color":[255,0,0],
+          "center":[0,0,0],
+          "angle":[0,0,0],
+          "radius":100,
+          "specular":3,
+          "soft": 0
+        },
+        "PLANE":
+        {
+            "texture":1,
+            "color":[255,255,255],
+            "reflection":0,
+            "specular":3,
+			      "center":[0,-120,0]
+        }
+      }
+    ]
+  }
+  

@@ -43,9 +43,9 @@ t_dstpst	hit_sphere(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	if (det < 0)
 		return (*(nani(&t)));
 	t.dst = (-abc.y - sqrt(det)) / (2 * abc.x);
-	if (t.dst <= 0.000001 && (t.pst = 1))
+	if (t.dst <= 0.001 && (t.pst = 1))
 		t.dst = (-abc.y + sqrt(det)) / (2 * abc.x);
-	if (t.dst <= 0.000001)
+	if (t.dst <= 0.001)
 		return (*nani(&t));
 	t.obj = *obj;
 	hello(end);
@@ -70,9 +70,9 @@ t_dstpst	hit_cylinder(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	if (d.z < 0)
 		return (*nani(&t));
 	t.dst = (-po[2].y - sqrt(d.z)) / (2 * po[2].x);
-	if (t.dst < 0.000001 && (t.pst = 1))
+	if (t.dst < 0.001 && (t.pst = 1))
 		t.dst = (-po[2].y + sqrt(d.z)) / (2 * po[2].x);
-	if (t.dst < 0.0000001)
+	if (t.dst < 0.001)
 		return (*(nani(&t)));
 	t.obj = *obj;
 	hello(end);
@@ -85,7 +85,7 @@ t_dstpst	hit_tri(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	t_vector hit;
 
 	t.dst = -dot(diff(st, obj->bd1), obj->base[1]) / dot(ray, obj->base[1]);
-	if (t.dst < 0.000001)
+	if (t.dst < 0.001)
 		return (*nani(&t));
 	hit = sum(scale(t.dst, ray), st);
 	if (!pinside(sum(scale(t.dst, ray), st), *obj, obj->base[1]))
@@ -100,7 +100,7 @@ t_dstpst	hit_plane(t_vector st, t_vector end, t_vector ray, t_object *obj)
 	t_dstpst t;
 
 	t.dst = -dot(diff(st, *obj->ctr), obj->base[1]) / dot(ray, obj->base[1]);
-	if (t.dst < 0.0000001)
+	if (t.dst < 0.001)
 		return (*nani(&t));
 	hello(end);
 	t.obj = *obj;
