@@ -34,8 +34,8 @@
         "center":[300,0,300],
         "angle":[0,0,0],
         "radius":100,
-        "reflection":50,
-        "transparency":50,
+        "reflection":30,
+        "transparency":30,
         "specular":3,
         "soft":0
       },
@@ -46,7 +46,7 @@
         "center":[60,-100,300],
         "angle":[0,0,0],
         "radius":1,
-        "reflection":30,
+        "reflection":50,
         "transparency":0,
         "specular":3,
         "soft": 0
