@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_colbri		simple_bright_tri(t_vector st, t_vector hit,
 	t_object *obj, t_global *g)

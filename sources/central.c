@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   central.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/03 20:10:51 by tpokalch          #+#    #+#             */
-/*   Updated: 2019/10/10 19:22:55 by nnovikov         ###   ########.fr       */
+/*   Created: 2019/10/11 20:39:46 by vkarpova          #+#    #+#             */
+/*   Updated: 2019/10/11 20:39:46 by vkarpova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 void	if_obj_spec(t_global *g, t_object *obj, t_hunia hu, int *obss)
 {

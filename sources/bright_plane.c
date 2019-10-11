@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bright_plane.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/03 20:37:08 by tpokalch          #+#    #+#             */
-/*   Updated: 2019/10/10 19:22:10 by nnovikov         ###   ########.fr       */
+/*   Created: 2019/10/11 20:38:38 by vkarpova          #+#    #+#             */
+/*   Updated: 2019/10/11 20:38:39 by vkarpova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_colbri		simple_bright_plane(t_vector st, t_vector hit,
 	t_object *obj, t_global *g)

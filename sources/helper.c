@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_do_spec	cr_spec(t_colbri *ret, t_vector *hitli, t_vector reflrayv,
 															t_object obj)

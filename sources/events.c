@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/03 16:10:51 by tpokalch          #+#    #+#             */
-/*   Updated: 2019/07/17 21:25:14 by tpokalch         ###   ########.fr       */
+/*   Created: 2019/10/11 20:40:12 by vkarpova          #+#    #+#             */
+/*   Updated: 2019/10/11 20:40:12 by vkarpova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 int		move_phys_1(int keycode, t_global *g)
 {

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_dstpst	hit_cone(t_vector st, t_vector end, t_vector ray, t_object *obj)
 {

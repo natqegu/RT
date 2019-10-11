@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_colbri		refl(t_vector refl, t_vector hit, t_global *g)
 {

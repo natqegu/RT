@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bright_sphere.c                                    :+:      :+:    :+:   */
+/*   ta_du_zaebal.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpokalch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: vkarpova <vkarpova@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/03 20:37:08 by tpokalch          #+#    #+#             */
-/*   Updated: 2019/07/03 20:49:07 by tpokalch         ###   ########.fr       */
+/*   Created: 2019/10/11 20:42:40 by vkarpova          #+#    #+#             */
+/*   Updated: 2019/10/11 20:42:41 by vkarpova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 void			buttons6(int x, int y, t_global *g)
 {
