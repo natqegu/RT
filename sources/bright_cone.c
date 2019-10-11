@@ -108,7 +108,7 @@ t_colbri	bright_cone(t_vector st, t_vector hit, t_object *obj, t_global *g)
 	t_vector	saveobjcol;
 
 	g->recursion[obj->id]++;
-	if (obj->re > 0 & obj->trans > 0)
+	if (obj->re > 0 && obj->trans > 0)
 		obj->re = 0;
 	hit0 = diff(hit, *obj->ctr);
 	bri_cone_obj(cr_spec(&ret, hitli, hit, *obj), g, obj);
