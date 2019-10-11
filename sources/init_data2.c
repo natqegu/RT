@@ -19,7 +19,7 @@ void		ginit(t_global *g)
 
 	g->ray->z = round(WIDTH / (double)2000 * 1600);
 	g->mip_map = 0;
-	init_vector(&g->_0015, 0, 0, 15);
+	init_vector(&g->fifteen, 0, 0, 15);
 	init_vector(&g->base[0], 1, 0, 0);
 	init_vector(&g->base[1], 0, 1, 0);
 	init_vector(&g->base[2], 0, 0, 1);

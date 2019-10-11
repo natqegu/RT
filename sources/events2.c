@@ -34,7 +34,7 @@ int		mouse_move(int x, int y, void *param)
 		p.x = (0.0045 * (y - HEIGHT_2));
 		p.z = 0;
 		*g->angle = p;
-		*g->normal = rotate(g->_0015, p);
+		*g->normal = rotate(g->fifteen, p);
 		start_threads(recalc, g);
 	}
 	return (1);

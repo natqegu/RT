@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../includes/rt.h"
 
 t_3_vecs	create_3_vecs(t_vector one, t_vector *two, t_vector three)
 {
